@@ -123,7 +123,7 @@ server.post('/file', async function (req, reply) {
 });
 
 server.get('/file', function (req, reply) {
-  reply.sendFile('captcha-RJwy7N.png');
+  reply.sendFile('captcha.png');
 });
 
 export default server;
