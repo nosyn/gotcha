@@ -5,11 +5,12 @@ import { pipeline } from 'node:stream';
 import path from 'node:path';
 
 // Packages
-import { FastifyInstance, FastifyServerOptions } from 'fastify';
-import { StatusCodes } from 'http-status-codes';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 // Files
 import { staticFilesPath } from '../server.js';
+import { generateErrorResponse } from '../utils.js';
 
 const SUPPORTED_MIME_TYPES = ['image/png'];
 
@@ -18,20 +19,84 @@ const pump = util.promisify(pipeline);
 /**
  * Encapsulates the routes
  * @param {FastifyInstance} fastify  Encapsulated Fastify Instance
- * @param {Object} options plugin options, refer to https://www.fastify.io/docs/latest/Reference/Plugins/#plugin-options
+ * @param {Object} _options plugin options, refer to https://www.fastify.io/docs/latest/Reference/Plugins/#plugin-options
  */
 export default async function routes(
   fastify: FastifyInstance,
-  options: Object
+  _options: Object
 ) {
-  fastify.get('/', async (request, reply) => {
-    return { hello: 'world' };
+  /**
+   * GET
+   */
+  const getOpts: RouteShorthandOptions = {
+    schema: {
+      params: {
+        name: {
+          type: 'string',
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            message: {
+              type: 'string',
+            },
+            timeStamp: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  };
+  fastify.get('/image/:name', getOpts, function (req, reply) {
+    const { name } = req.params as any;
+
+    console.log('name: ', name);
+
+    if (!name) {
+      reply.status(StatusCodes.NOT_FOUND).send({
+        message: 'Not found',
+        error: getReasonPhrase(StatusCodes.NOT_FOUND),
+        statusCode: StatusCodes.NOT_FOUND,
+      });
+      return;
+    }
+
+    reply.sendFile(`${name}.png`);
   });
 
-  fastify.post('/file', async function (req, reply) {
+  /**
+   * POST
+   */
+  const postOpts: RouteShorthandOptions = {
+    schema: {
+      params: {
+        name: {
+          type: 'string',
+        },
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            message: {
+              type: 'string',
+            },
+            name: {
+              type: 'string',
+            },
+            timeStamp: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
+  };
+  fastify.post('/image', postOpts, async function (req, reply) {
     // process a single file
-    // also, consider that if you allow to upload multiple files
-    // you must consume all files otherwise the promise will never fulfill
     const data = await req.file();
 
     if (!data) {
@@ -42,9 +107,12 @@ export default async function routes(
     }
 
     if (!SUPPORTED_MIME_TYPES.includes(data.mimetype)) {
-      reply.code(StatusCodes.UNSUPPORTED_MEDIA_TYPE).send({
-        error: `${data.mimetype} is not supported`,
-      });
+      reply.code(StatusCodes.UNSUPPORTED_MEDIA_TYPE).send(
+        generateErrorResponse({
+          message: `${data.mimetype} is not supported`,
+          statusCode: StatusCodes.UNSUPPORTED_MEDIA_TYPE,
+        })
+      );
       return;
     }
 
@@ -55,13 +123,8 @@ export default async function routes(
 
     await reply.status(200).send({
       message: 'OK',
-      payload: {
-        name: data.filename,
-      },
+      name: data.filename,
+      timeStamp: new Date().toUTCString(),
     });
-  });
-
-  fastify.get('/file', function (req, reply) {
-    reply.sendFile('captcha.png');
   });
 }

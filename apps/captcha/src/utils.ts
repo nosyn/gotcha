@@ -1,4 +1,4 @@
-import got from 'got';
+import got, { HTTPError } from 'got';
 import { FormData, Blob } from 'formdata-node';
 
 export type FileInput = {
@@ -22,15 +22,16 @@ export const uploadFile = async ({
     form.set(name, blob, fileNameWithExtension);
 
     const data = await got
-      .post('http://localhost:8080/file', {
+      .post('http://localhost:8080/image', {
         body: form,
       })
       .json();
 
     console.info(
-      `Successfully uploaded ${fileNameWithExtension} to file server.`
+      `✅ Successfully uploaded ${fileNameWithExtension} to file server. Got response:\n`,
+      data
     );
-  } catch (err) {
-    console.log('Error while uploading to file server: ', err);
+  } catch (err: any) {
+    console.log('❌ Error while uploading to file server:\n', err.message);
   }
 };
