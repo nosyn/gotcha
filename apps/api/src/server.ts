@@ -114,12 +114,12 @@ server.post('/file', async function (req, reply) {
     fs.createWriteStream(path.join(staticFilesPath, data.filename))
   );
 
-  // be careful of permission issues on disk and not overwrite
-  // sensitive files that could cause security risks
-
-  // also, consider that if the file stream is not consumed, the promise will never fulfill
-
-  reply.send({ hello: 'word' });
+  await reply.status(200).send({
+    message: 'OK',
+    payload: {
+      name: data.filename,
+    },
+  });
 });
 
 server.get('/file', function (req, reply) {

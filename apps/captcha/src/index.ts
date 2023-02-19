@@ -14,7 +14,6 @@ const main = async () => {
     .parse(process.argv);
 
   const captcha = generateCaptcha(program.opts().strike);
-  // fs.writeFileSync(path.join(process.cwd(), program.opts().output));
 
   await uploadFile({
     type: captcha.type,
@@ -22,9 +21,6 @@ const main = async () => {
     extension: captcha.extension,
     name: `captcha-${captcha.text}`,
   });
-
-  console.log(`Captcha text: ${captcha.text}`);
-  console.log(`Captcha image saved to ${program.opts().output}`);
 };
 
 main();

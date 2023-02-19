@@ -18,7 +18,8 @@ export const uploadFile = async ({
     const form = new FormData();
     const blob = new Blob([buffer], { type });
 
-    form.set(name, blob, `${name}.${extension}`);
+    const fileNameWithExtension = `${name}.${extension}`;
+    form.set(name, blob, fileNameWithExtension);
 
     const data = await got
       .post('http://localhost:8080/file', {
@@ -26,8 +27,10 @@ export const uploadFile = async ({
       })
       .json();
 
-    console.log('ok: ', data);
+    console.info(
+      `Successfully uploaded ${fileNameWithExtension} to file server.`
+    );
   } catch (err) {
-    console.log('hello: ', err.message);
+    console.log('Error while uploading to file server: ', err);
   }
 };
