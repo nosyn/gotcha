@@ -5,7 +5,7 @@ import Document, {
   Head,
   Main,
   NextScript,
-} from "next/document";
+} from 'next/document';
 
 class MyDocument extends Document {
   static async getInitialProps(
