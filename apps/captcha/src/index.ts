@@ -15,12 +15,16 @@ const main = async () => {
 
   const captcha = generateCaptcha(program.opts().strike);
 
-  await uploadFile({
-    type: captcha.type,
-    buffer: captcha.buffer,
-    extension: captcha.extension,
-    name: `captcha-${captcha.text}`,
-  });
+  setTimeout(
+    async () =>
+      await uploadFile({
+        type: captcha.type,
+        buffer: captcha.buffer,
+        extension: captcha.extension,
+        name: `captcha-${captcha.text}`,
+      }),
+    1000
+  );
 };
 
 main();
