@@ -1,9 +1,10 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { Command } from "commander";
-import generateCaptcha from "./generateCaptcha";
+import generateCaptcha from "./generateCaptcha.js";
+import { uploadFile } from "./utils.js";
 
-const main = () => {
+const main = async () => {
   const program = new Command();
 
   program
@@ -17,6 +18,9 @@ const main = () => {
     path.join(process.cwd(), program.opts().output),
     Buffer.from(captcha.image, "base64")
   );
+
+  await uploadFile();
+
   console.log(`Captcha text: ${captcha.text}`);
   console.log(`Captcha image saved to ${program.opts().output}`);
 };

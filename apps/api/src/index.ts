@@ -2,7 +2,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import server from "./server";
+import server from "./server.js";
 
 // eslint-disable-next-line turbo/no-undeclared-env-vars
 const port = !isNaN(Number(process.env.PORT)) ? Number(process.env.PORT) : 5001;
