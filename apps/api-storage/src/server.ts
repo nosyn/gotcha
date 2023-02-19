@@ -1,24 +1,21 @@
 // Standard libs imports
 import fs from 'node:fs';
-import { dirname } from 'node:path';
+import path, { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import path from 'node:path';
 
 // Packages
-import fastify from 'fastify';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
-import type { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import type { FastifyInstance } from 'fastify';
+import fastify from 'fastify';
 
 // Routes
 import health from './routes/health.js';
-import ping from './routes/ping.js';
 import image from './routes/image.js';
+import ping from './routes/ping.js';
 
-import { __node_env__ } from './configs.js';
+import { staticFilesPath, __node_env__ } from './configs.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-export const staticFilesPath = path.join(__dirname, 'files');
 if (!fs.existsSync(staticFilesPath)) {
   fs.mkdirSync(staticFilesPath);
 }

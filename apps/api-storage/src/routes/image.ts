@@ -9,7 +9,7 @@ import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 // Files
-import { staticFilesPath } from '../server.js';
+import { staticFilesPath } from '../configs.js';
 import { generateErrorResponse } from '../utils.js';
 
 const SUPPORTED_MIME_TYPES = ['image/png'];
@@ -52,8 +52,6 @@ export default async function routes(
   };
   fastify.get('/image/:name', getOpts, function (req, reply) {
     const { name } = req.params as any;
-
-    console.log('name: ', name);
 
     if (!name) {
       reply.status(StatusCodes.NOT_FOUND).send({
