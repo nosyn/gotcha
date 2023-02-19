@@ -1,25 +1,26 @@
 // Standard libs imports
 import fs from 'node:fs';
-import util from 'node:util';
-import { pipeline } from 'node:stream';
-import { StatusCodes } from 'http-status-codes';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
+// Packages
 import fastify from 'fastify';
 import fastifyMultipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
 import type { FastifyInstance, RouteShorthandOptions } from 'fastify';
+
+// Routes
+import health from './routes/health.js';
+import ping from './routes/ping.js';
+
 import { __node_env__ } from './configs.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const staticFilesPath = path.join(__dirname, 'files');
+export const staticFilesPath = path.join(__dirname, 'files');
 if (!fs.existsSync(staticFilesPath)) {
   fs.mkdirSync(staticFilesPath);
 }
-
-const pump = util.promisify(pipeline);
 
 const envToLogger = {
   development: {
@@ -50,6 +51,7 @@ const server: FastifyInstance = fastify({
   logger: envToLogger[__node_env__] ?? true,
 });
 
+// Fastify plugins
 server.register(fastifyMultipart, {
   limits: {
     fieldNameSize: 100, // Max field name size in bytes
@@ -60,70 +62,12 @@ server.register(fastifyMultipart, {
     headerPairs: 2000, // Max number of header key=>value pairs
   },
 });
-
 server.register(fastifyStatic, {
   root: staticFilesPath,
 });
 
-const opts: RouteShorthandOptions = {
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          pong: {
-            type: 'string',
-          },
-        },
-      },
-    },
-  },
-};
-
-server.get('/health', opts, async (request, reply) => {
-  return true;
-});
-
-server.get('/ping', opts, async (request, reply) => {
-  return { pong: 'it worked!' };
-});
-
-const SUPPORTED_MIME_TYPES = ['image/png'];
-server.post('/file', async function (req, reply) {
-  // process a single file
-  // also, consider that if you allow to upload multiple files
-  // you must consume all files otherwise the promise will never fulfill
-  const data = await req.file();
-
-  if (!data) {
-    reply.code(StatusCodes.BAD_REQUEST).send({
-      error: 'Missing input',
-    });
-    return;
-  }
-
-  if (!SUPPORTED_MIME_TYPES.includes(data.mimetype)) {
-    reply.code(StatusCodes.UNSUPPORTED_MEDIA_TYPE).send({
-      error: `${data.mimetype} is not supported`,
-    });
-    return;
-  }
-
-  await pump(
-    data.file,
-    fs.createWriteStream(path.join(staticFilesPath, data.filename))
-  );
-
-  await reply.status(200).send({
-    message: 'OK',
-    payload: {
-      name: data.filename,
-    },
-  });
-});
-
-server.get('/file', function (req, reply) {
-  reply.sendFile('captcha.png');
-});
+// Register routes
+server.register(health);
+server.register(ping);
 
 export default server;
