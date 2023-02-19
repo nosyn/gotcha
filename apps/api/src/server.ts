@@ -1,26 +1,55 @@
 // Standard libs imports
-import fs from "node:fs";
-import util from "node:util";
-import { pipeline } from "node:stream";
-import { StatusCodes } from "http-status-codes";
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
+import fs from 'node:fs';
+import util from 'node:util';
+import { pipeline } from 'node:stream';
+import { StatusCodes } from 'http-status-codes';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-import fastify from "fastify";
-import fastifyMultipart from "@fastify/multipart";
-import fastifyStatic from "@fastify/static";
-import type { FastifyInstance, RouteShorthandOptions } from "fastify";
+import fastify from 'fastify';
+import fastifyMultipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import type { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import { __node_env__ } from './configs.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const staticFilesPath = path.join(__dirname, 'files');
+if (!fs.existsSync(staticFilesPath)) {
+  fs.mkdirSync(staticFilesPath);
+}
 
 const pump = util.promisify(pipeline);
 
-const server: FastifyInstance = fastify({
-  logger: {
-    level: "trace",
+const envToLogger = {
+  development: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+        colorize: true,
+        hideObject: true,
+      },
+    },
   },
+  production: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+        colorize: true,
+      },
+    },
+  },
+  test: false,
+};
+
+const server: FastifyInstance = fastify({
+  logger: envToLogger[__node_env__] ?? true,
 });
+
 server.register(fastifyMultipart, {
   limits: {
     fieldNameSize: 100, // Max field name size in bytes
@@ -33,17 +62,17 @@ server.register(fastifyMultipart, {
 });
 
 server.register(fastifyStatic, {
-  root: __dirname,
+  root: staticFilesPath,
 });
 
 const opts: RouteShorthandOptions = {
   schema: {
     response: {
       200: {
-        type: "object",
+        type: 'object',
         properties: {
           pong: {
-            type: "string",
+            type: 'string',
           },
         },
       },
@@ -51,16 +80,16 @@ const opts: RouteShorthandOptions = {
   },
 };
 
-server.get("/health", opts, async (request, reply) => {
+server.get('/health', opts, async (request, reply) => {
   return true;
 });
 
-server.get("/ping", opts, async (request, reply) => {
-  return { pong: "it worked!" };
+server.get('/ping', opts, async (request, reply) => {
+  return { pong: 'it worked!' };
 });
 
-const SUPPORTED_MIME_TYPES = ["image/png"];
-server.post("/file", async function (req, reply) {
+const SUPPORTED_MIME_TYPES = ['image/png'];
+server.post('/file', async function (req, reply) {
   // process a single file
   // also, consider that if you allow to upload multiple files
   // you must consume all files otherwise the promise will never fulfill
@@ -68,7 +97,7 @@ server.post("/file", async function (req, reply) {
 
   if (!data) {
     reply.code(StatusCodes.BAD_REQUEST).send({
-      error: "Missing input",
+      error: 'Missing input',
     });
     return;
   }
@@ -82,7 +111,7 @@ server.post("/file", async function (req, reply) {
 
   await pump(
     data.file,
-    fs.createWriteStream(path.join(__dirname, data.filename))
+    fs.createWriteStream(path.join(staticFilesPath, data.filename))
   );
 
   // be careful of permission issues on disk and not overwrite
@@ -90,11 +119,11 @@ server.post("/file", async function (req, reply) {
 
   // also, consider that if the file stream is not consumed, the promise will never fulfill
 
-  reply.send({ hello: "word" });
+  reply.send({ hello: 'word' });
 });
 
-server.get("/file", function (req, reply) {
-  reply.sendFile("captcha.png");
+server.get('/file', function (req, reply) {
+  reply.sendFile('captcha-RJwy7N.png');
 });
 
 export default server;

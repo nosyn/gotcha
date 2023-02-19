@@ -1,26 +1,33 @@
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import got from "got";
-import { FormData, Blob } from "formdata-node";
+import got from 'got';
+import { FormData, Blob } from 'formdata-node';
 
-export const uploadFile = async () => {
+export type FileInput = {
+  name: string;
+  buffer: Buffer;
+  extension: string;
+  type: string;
+};
+
+export const uploadFile = async ({
+  name,
+  buffer,
+  extension,
+  type,
+}: FileInput) => {
   try {
     const form = new FormData();
-    const captcha = await fs.readFile(path.join(".", "captcha.png"));
-    const blob = new Blob([captcha], { type: "image/png" });
+    const blob = new Blob([buffer], { type });
 
-    form.set("captcha", blob, "captcha.png");
+    form.set(name, blob, `${name}.${extension}`);
 
     const data = await got
-      .post("http://localhost:8080/file", {
+      .post('http://localhost:8080/file', {
         body: form,
       })
       .json();
 
-    // const { data } = await got.post("http://localhost:8080/upload", {}).json();
-
-    console.log("ok: ", data);
+    console.log('ok: ', data);
   } catch (err) {
-    console.log("hello: ", err.message);
+    console.log('hello: ', err.message);
   }
 };

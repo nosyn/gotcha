@@ -1,16 +1,22 @@
-import { createCanvas, CanvasRenderingContext2D } from "canvas";
+import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 
 const WIDTH = 300;
 const HEIGHT = 100;
 const CHARACTERS =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const IMAGE_TYPE = 'image/png';
+const IMAGE_EXTENSION = 'png';
 
-function generateCaptcha(useStrikeThrough: boolean): {
+export type CaptchaImage = {
   text: string;
-  image: string;
-} {
+  buffer: Buffer;
+  extension: string;
+  type: string;
+};
+
+function generateCaptcha(useStrikeThrough: boolean): CaptchaImage {
   const canvas = createCanvas(WIDTH, HEIGHT);
-  const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+  const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
   // Create background gradient
   const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
@@ -20,7 +26,7 @@ function generateCaptcha(useStrikeThrough: boolean): {
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
   // Add random characters to captcha
-  let captchaText = "";
+  let captchaText = '';
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * CHARACTERS.length);
     const randomChar = CHARACTERS.charAt(randomIndex);
@@ -45,10 +51,14 @@ function generateCaptcha(useStrikeThrough: boolean): {
     }
   }
 
-  const image = canvas
-    .toDataURL("image/png")
-    .replace(/^data:image\/png;base64,/, "");
-  return { text: captchaText, image };
+  const imageBuffer = canvas.toBuffer(IMAGE_TYPE);
+
+  return {
+    text: captchaText,
+    buffer: imageBuffer,
+    type: IMAGE_TYPE,
+    extension: IMAGE_EXTENSION,
+  };
 }
 
 function randomColor(): string {

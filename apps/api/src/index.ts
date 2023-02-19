@@ -1,21 +1,16 @@
-// Load envs from ".env"
-import * as dotenv from "dotenv";
-dotenv.config();
+import { PORT } from './configs.js';
 
-import server from "./server.js";
-
-// eslint-disable-next-line turbo/no-undeclared-env-vars
-const port = !isNaN(Number(process.env.PORT)) ? Number(process.env.PORT) : 5001;
+import server from './server.js';
 
 const start = async () => {
   try {
-    await server.listen({ port });
+    await server.listen({ port: PORT });
 
     const address = server.server.address();
 
-    console.info(
+    server.log.info(
       `Server is listening at port:  ${
-        typeof address === "string" ? address : address?.port
+        typeof address === 'string' ? address : address?.port
       }`
     );
   } catch (err) {
