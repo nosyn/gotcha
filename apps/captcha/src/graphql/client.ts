@@ -1,37 +1,73 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client/core/index.js';
+import {
+  ApolloClient,
+  InMemoryCache,
+  gql,
+  HttpLink,
+} from '@apollo/client/core/index.js';
+//
+import fetch from 'got-fetch';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
+  link: new HttpLink({ fetch, uri: 'http://localhost:5000/graphql' }),
+
   cache: new InMemoryCache({
     resultCaching: false,
   }),
+  defaultOptions: {
+    mutate: {
+      fetchPolicy: 'network-only',
+    },
+    query: {
+      fetchPolicy: 'network-only',
+    },
+    watchQuery: {
+      fetchPolicy: 'network-only',
+    },
+  },
 });
 
-enum CaptchaStatus {
-  CREATED = 'CREATED',
-  RESOLVING = 'RESOLVING',
-  RESOLVED = 'RESOLVED',
-}
+export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
 
-type Captcha = {
+type CaptchaInput = {
   id: string;
   name: string;
   status: CaptchaStatus;
 };
 
-export const createCaptcha = (input: Captcha) =>
+export const createCaptcha = (input: CaptchaInput) =>
   client
-    .query({
-      query: gql`
-        query CreateCaptcha {
-          createCaptcha {
-                id: ID!
-    name: ID!
-    status: Status!
-    createdAt: String!
-    updatedAt: String!
+    .mutate({
+      mutation: gql`
+        mutation CreateCaptcha($input: CaptchaInput!) {
+          createCaptcha(input: $input) {
+            id
+            name
+            status
+            createdAt
+            updatedAt
           }
         }
       `,
+      variables: {
+        input,
+      },
     })
-    .then((result) => console.log(result));
+    .then((result) => {
+      if (result.errors?.length) {
+        for (const error in result.errors) {
+          console.error(
+            'Error occurred while creating captcha request: ',
+            error
+          );
+        }
+      }
+      if (result.data) {
+        console.info(
+          `✅ Successfully create captcha ${result.data.id} request to server.`
+        );
+        return;
+      }
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+    });

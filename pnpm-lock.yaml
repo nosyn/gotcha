@@ -143,6 +143,7 @@ importers:
       file-type: ^18.2.1
       formdata-node: ^5.0.0
       got: ^12.5.3
+      got-fetch: ^5.1.4
       jest: ^26.6.3
       jest-presets: workspace:*
       tsconfig: workspace:*
@@ -155,6 +156,7 @@ importers:
       file-type: 18.2.1
       formdata-node: 5.0.0
       got: 12.5.3
+      got-fetch: 5.1.4_got@12.5.3
     devDependencies:
       '@types/jest': 26.0.24
       '@types/node': 18.14.0
@@ -4436,6 +4438,15 @@ packages:
 
   /globrex/0.1.2:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
+    dev: false
+
+  /got-fetch/5.1.4_got@12.5.3:
+    resolution: {integrity: sha512-Pdv+SSgtTCDZbNuGkOf0c0FZy5Syqf225JEgG/vKt13HAe8r2vNJ11DxKKODsmr7L7/6ff3lf+AxpBtD5k/dRQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      got: ^12.0.0
+    dependencies:
+      got: 12.5.3
     dev: false
 
   /got/12.5.3:

@@ -34,7 +34,7 @@ const typeDefs = `#graphql
   ####################################### Query #######################################
   type Query {
     captchas: [Captcha!]!
-    captcha(id: ID!): Captcha!
+    captcha(id: ID!): Captcha
   }
 
   ####################################### Mutation #######################################

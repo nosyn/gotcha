@@ -62,7 +62,7 @@ export default async function routes(
       return;
     }
 
-    reply.sendFile(`${name}.png`);
+    reply.sendFile(name);
   });
 
   /**

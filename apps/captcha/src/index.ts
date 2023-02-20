@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { createCaptcha } from './graphql/client.js';
 import generateCaptcha from './generateCaptcha.js';
 import { uploadFile } from './utils.js';
+import crypto from 'node:crypto';
 
 const main = async () => {
   const program = new Command();
@@ -14,18 +15,21 @@ const main = async () => {
 
   const captcha = generateCaptcha(program.opts().strike);
 
-  setTimeout(
-    async () =>
-      await uploadFile({
-        type: captcha.type,
-        buffer: captcha.buffer,
-        extension: captcha.extension,
-        name: `captcha-${captcha.text}`,
-      }),
-    1000
-  );
+  const id = `captcha_${crypto.randomUUID()}`;
+  const fileNameWithExtension = `${id}.${captcha.extension}`;
 
-  // await queryBooks();
+  await uploadFile({
+    id,
+    name: fileNameWithExtension,
+    type: captcha.type,
+    buffer: captcha.buffer,
+  });
+
+  await createCaptcha({
+    id: id,
+    name: fileNameWithExtension,
+    status: 'CREATED',
+  });
 };
 
 main();

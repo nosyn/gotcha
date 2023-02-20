@@ -1,8 +1,4 @@
-enum CaptchaStatus {
-  CREATED = 'CREATED',
-  RESOLVING = 'RESOLVING',
-  RESOLVED = 'RESOLVED',
-}
+export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
 
 type Captcha = {
   id: string;
@@ -23,7 +19,9 @@ const captchas: Map<string, Captcha> = new Map();
 const resolvers = {
   Query: {
     captchas: () => captchas.values(),
-    captcha: (id: string) => {
+    captcha: (_: string, args: any) => {
+      const id = args.id as string;
+
       const captcha = captchas.get(id);
 
       if (!captcha) {
@@ -34,8 +32,9 @@ const resolvers = {
     },
   },
   Mutation: {
-    createCaptcha: (input: CaptchaInput) => {
-      const captcha = captchas.get(input.id);
+    createCaptcha: (_: any, args: any) => {
+      const input = args.input as CaptchaInput;
+      const captcha = captchas.get(args.input.id);
 
       if (captcha) {
         throw new Error(`Captcha already exists with ${input.id} id.`);
@@ -51,7 +50,8 @@ const resolvers = {
 
       return captchas.get(input.id);
     },
-    updateCaptcha: (input: CaptchaInput) => {
+    updateCaptcha: (_: any, args: any) => {
+      const input = args.input as CaptchaInput;
       const captcha = captchas.get(input.id);
 
       if (!captcha) {
