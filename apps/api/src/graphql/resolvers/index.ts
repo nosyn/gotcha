@@ -1,3 +1,5 @@
+import { pubsub, TRIGGERS_ENUM } from './pubusb.js';
+
 export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
 
 type Captcha = {
@@ -48,7 +50,12 @@ const resolvers = {
         updatedAt: new Date().toISOString(),
       });
 
-      return captchas.get(input.id);
+      const captchaCreated = captchas.get(input.id);
+
+      // Publish to client
+      pubsub.publish(TRIGGERS_ENUM['CAPTCHA_CREATED'], { captchaCreated });
+
+      return captchaCreated;
     },
     updateCaptcha: (_: any, args: any) => {
       const input = args.input as CaptchaInput;
@@ -67,6 +74,20 @@ const resolvers = {
       });
 
       return captchas.get(input.id);
+    },
+  },
+  Subscription: {
+    hello: {
+      // Example using an async generator
+      subscribe: async function* () {
+        for await (const word of ['Hello', 'Bonjour', 'Ciao']) {
+          yield { hello: word };
+        }
+      },
+    },
+    captchaCreated: {
+      // More on pubsub below
+      subscribe: () => pubsub.asyncIterator([TRIGGERS_ENUM['CAPTCHA_CREATED']]),
     },
   },
 };

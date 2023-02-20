@@ -63,7 +63,7 @@ export const createCaptcha = (input: CaptchaInput) =>
       }
       if (result.data) {
         console.info(
-          `✅ Successfully create captcha ${result.data.id} request to server.`
+          `✅ Successfully create captcha ${result.data.createCaptcha.id} request to server.`
         );
         return;
       }
