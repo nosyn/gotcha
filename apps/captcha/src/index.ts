@@ -1,8 +1,8 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { Command } from 'commander';
+import { createCaptcha } from './graphql/client.js';
 import generateCaptcha from './generateCaptcha.js';
 import { uploadFile } from './utils.js';
+import crypto from 'node:crypto';
 
 const main = async () => {
   const program = new Command();
@@ -15,11 +15,20 @@ const main = async () => {
 
   const captcha = generateCaptcha(program.opts().strike);
 
+  const id = `captcha_${crypto.randomUUID()}`;
+  const fileNameWithExtension = `${id}.${captcha.extension}`;
+
   await uploadFile({
+    id,
+    name: fileNameWithExtension,
     type: captcha.type,
     buffer: captcha.buffer,
-    extension: captcha.extension,
-    name: `captcha-${captcha.text}`,
+  });
+
+  await createCaptcha({
+    id: id,
+    name: fileNameWithExtension,
+    status: 'CREATED',
   });
 };
 

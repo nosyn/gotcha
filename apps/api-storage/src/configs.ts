@@ -2,7 +2,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { dirname } from 'node:path';
+import path, { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
@@ -14,6 +14,8 @@ export const __development__ = __node_env__ === 'development';
 export const __test__ = __node_env__ === 'test';
 export const __port__ = process.env.PORT;
 export const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export const staticFilesPath = path.join(__dirname, 'files');
 
 /**
  * Server configs
