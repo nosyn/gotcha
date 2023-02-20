@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "lib": ["ES2015"],
+    "module": "Node16",
+    "moduleResolution": "node16",
     "outDir": "dist",
     "rootDir": "src"
   },

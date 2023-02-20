@@ -1,6 +1,5 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { Command } from 'commander';
+import { createCaptcha } from './graphql/client.js';
 import generateCaptcha from './generateCaptcha.js';
 import { uploadFile } from './utils.js';
 
@@ -25,6 +24,8 @@ const main = async () => {
       }),
     1000
   );
+
+  // await queryBooks();
 };
 
 main();
