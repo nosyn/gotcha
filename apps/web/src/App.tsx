@@ -1,20 +1,15 @@
-import { useState } from 'react';
-import { Button, Card } from 'ui';
+import { ApolloProvider } from '@apollo/client';
+import client from './graphql/client';
+import Layout from './layouts/Layout';
+import CaptchaPage from './pages/CaptchaPage';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <main className="mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8">
-        <div>
-          <img src="http://localhost:8080/image" />
-        </div>
-        <div className="mt-2">
-          <Button>Refetch</Button>
-        </div>
-      </main>
-    </div>
+    <ApolloProvider client={client}>
+      <Layout>
+        <CaptchaPage />
+      </Layout>
+    </ApolloProvider>
   );
 }
 
