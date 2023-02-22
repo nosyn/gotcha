@@ -7,8 +7,8 @@ interface CaptchaCardProps {
 
 const CaptchaCard = ({ captcha }: CaptchaCardProps) => {
   return (
-    <div className="card glass">
-      <div className="my-auto">
+    <div className="card glass self-start">
+      <div>
         <figure className="mt-8">
           <img
             src={`http://localhost:8080/image/${captcha.name}`}

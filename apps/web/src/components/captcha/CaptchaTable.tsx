@@ -6,18 +6,18 @@ interface CaptchaTableProps {
 }
 
 const TableColumns = [
-  { header: '' },
+  { header: 'index' },
   { header: 'id' },
   { header: 'status' },
-  { header: 'updatedAt' },
-  { header: 'createdAt' },
+  { header: 'updated at' },
+  { header: 'Created at' },
   { header: 'actions' },
 ];
 
 const CaptchaTable = ({ rows, setCaptcha }: CaptchaTableProps) => {
   return (
-    <div className="overflow-auto max-h-96">
-      <table className="table table-zebra w-full">
+    <div className="overflow-x-auto max-h-128">
+      <table className="table table-zebra table-compact w-full">
         <thead>
           <tr>
             {TableColumns.map((tb) => (
@@ -28,11 +28,11 @@ const CaptchaTable = ({ rows, setCaptcha }: CaptchaTableProps) => {
         <tbody>
           {rows.map((r, index) => (
             <tr key={r.id}>
-              <th>{index}</th>
-              <td>{r.id}</td>
+              <th className="text-center">{index}</th>
+              <td>{r.id.split('-')[0]}</td>
               <td>{r.status}</td>
-              <td>{r.createdAt}</td>
-              <td>{r.updatedAt}</td>
+              <td>{new Date(r.createdAt).toLocaleTimeString()}</td>
+              <td>{new Date(r.updatedAt).toLocaleTimeString()}</td>
               <td>
                 <button
                   className="btn btn-outline"

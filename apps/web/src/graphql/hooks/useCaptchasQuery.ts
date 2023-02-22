@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { CaptchasData } from '../../types';
 
-const CaptchasQuery = gql`
+export const CaptchasQuery = gql`
   query Captchas {
     captchas {
       id
@@ -14,5 +14,5 @@ const CaptchasQuery = gql`
 `;
 
 export default function useCaptchasQuery() {
-  return useQuery<CaptchasData>(CaptchasQuery);
+  return useQuery<CaptchasData>(CaptchasQuery, {});
 }

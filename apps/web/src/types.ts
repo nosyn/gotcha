@@ -6,6 +6,10 @@ export type Captcha = {
   updatedAt: string;
 };
 
+export type CaptchaCreatedData = {
+  captchaCreated: Captcha;
+};
+
 export type CaptchaData = {
   captcha: Captcha;
 };
