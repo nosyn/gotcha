@@ -14,6 +14,9 @@ module.exports = {
         brandblue: colors.blue[500],
         brandred: colors.red[500],
       },
+      spacing: {
+        128: '32rem',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

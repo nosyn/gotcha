@@ -44,7 +44,10 @@ const typeDefs = `#graphql
   }
 
   ####################################### Subscription #######################################
- 
+  type Subscription {
+    captchaCreated: Captcha
+    hello: String!
+  }
 `;
 
 export default typeDefs;
