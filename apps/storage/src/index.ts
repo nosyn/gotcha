@@ -4,7 +4,7 @@ import server from './server.js';
 
 const start = async () => {
   try {
-    await server.listen({ port: PORT });
+    await server.listen({ port: PORT,host: "0.0.0.0", });
 
     const address = server.server.address();
 

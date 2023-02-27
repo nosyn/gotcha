@@ -9,7 +9,7 @@
     - port: 5000
   - `api`: Auth server
     - port: 5100
-  - `api-storage`: a [Fastify](https://www.fastify.io/) that serves static assets
+  - `storage`: a [Fastify](https://www.fastify.io/) that serves static assets
     - port: 8080
   - `web`: An User App to resolve captcha
     - port: 3000

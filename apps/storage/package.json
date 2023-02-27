@@ -1,7 +1,7 @@
 {
-  "name": "api-storage",
+  "name": "storage",
   "version": "0.0.1",
-  "description": "API server",
+  "description": "Storage server",
   "author": {
     "name": "Son Nguyen",
     "email": "nyenson1997@gmail.com",

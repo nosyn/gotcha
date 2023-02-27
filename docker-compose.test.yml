@@ -41,16 +41,16 @@ services:
   #   networks:
   #     - app_network
 
-  # api-storage:
-  #   container_name: api-storage
+  # storage:
+  #   container_name: storage
   #   build:
   #     context: .
   #     dockerfile: ./apps/api/Dockerfile
   #   restart: always
   #   volumes:
-  #     - ./apps/api-storage:/app/apps/api-storage
+  #     - ./apps/storage:/app/apps/storage
   #     - ./packages:/app/apps/packages
-  #     - /app/apps/api-storage/node_modules
+  #     - /app/apps/storage/node_modules
   #   ports:
   #     - 8080:8080
   #   networks:
