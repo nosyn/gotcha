@@ -5,7 +5,7 @@ FROM node:alpine AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 RUN apk update
-
+RUN echo helooooooooooooooooooooooooo
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="${PATH}:${PNPM_HOME}"
 
@@ -15,7 +15,7 @@ RUN npm install --global pnpm
 WORKDIR /app
 RUN pnpm install --global turbo
 COPY . .
-RUN turbo prune --scope=api --docker
+RUN turbo prune --scope=api-auth --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:alpine AS installer
@@ -47,7 +47,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN pnpm turbo run build --filter=api...
+RUN pnpm turbo run build --filter=api-auth...
 
 FROM node:alpine AS runner
 
@@ -59,4 +59,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD node apps/api/dist/index.js
+CMD node apps/api-auth/dist/index.js

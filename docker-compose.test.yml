@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/web/Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - app_network
+  api-auth:
+    container_name: api-auth
+    build:
+      context: .
+      dockerfile: ./apps/api-auth/Dockerfile
+    restart: always
+    # volumes:
+      # - ./apps/api-auth:/app/apps/api-auth
+      # - ./packages:/app/apps/packages
+      # - /app/apps/api-auth/node_modules
+    ports:
+      - 5000:5000
+    networks:
+      - app_network
+
+  # api-auth:
+  #   container_name: api-auth
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/api-auth/Dockerfile
+  #   restart: always
+  #   volumes:
+  #     - ./apps/api-auth:/app/apps/api-auth
+  #     - ./packages:/app/apps/packages
+  #     - /app/apps/api-auth/node_modules
+  #   ports:
+  #     - 5100:5100
+  #   networks:
+  #     - app_network
+
+  # api-storage:
+  #   container_name: api-storage
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/api/Dockerfile
+  #   restart: always
+  #   volumes:
+  #     - ./apps/api-storage:/app/apps/api-storage
+  #     - ./packages:/app/apps/packages
+  #     - /app/apps/api-storage/node_modules
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - app_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true

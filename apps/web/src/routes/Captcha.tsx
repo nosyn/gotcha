@@ -5,7 +5,7 @@ import useCaptchasQuery from '../graphql/hooks/useCaptchasQuery';
 import { CaptchaCreated } from '../graphql/hooks/useCaptchaCreatedSubscription';
 import { Captcha, CaptchaCreatedData } from '../types';
 
-const CaptchaPage = () => {
+export default function CaptchaPage() {
   const { data, error, loading, subscribeToMore } = useCaptchasQuery();
   const [selectedCaptcha, setSelectedCaptcha] = useState<Captcha | null>(null);
   const [captchas, setCaptchas] = useState<Captcha[]>([]);
@@ -77,6 +77,4 @@ const CaptchaPage = () => {
       {selectedCaptcha && <CaptchaCard captcha={selectedCaptcha} />}
     </div>
   );
-};
-
-export default CaptchaPage;
+}

@@ -1,14 +1,29 @@
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
 import Layout from './layouts/Layout';
-import CaptchaPage from './pages/CaptchaPage';
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
+
+// Routes
+import Home from './routes/Home';
+import NoMatch from './routes/NoMatch';
+import CaptchaPage from './routes/Captcha';
+import Login from './routes/Login';
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Layout>
-        <CaptchaPage />
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="dashboard" element={<CaptchaPage />} />
+
+          {/* Using path="*"" means "match anything", so this route
+                acts like a catch-all for URLs that we don't have explicit
+                routes for. */}
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes>
     </ApolloProvider>
   );
 }
