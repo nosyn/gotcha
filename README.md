@@ -19,3 +19,24 @@
 - Packages:
   - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
   - `tsconfig`: `tsconfig.json`s used throughout the monorepo
+
+
+### docker-compose
+
+```
+# Clean node_modules because of weird pnpm workspace with Docker
+pnpm clean
+
+# Create a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+docker network create app_network
+
+# Build prod using new BuildKit engine
+COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
+
+# Install dependencies
+pnpm clean
+
+# Start prod in detached mode
+docker-compose -f docker-compose.dev.yml up -d
+```
