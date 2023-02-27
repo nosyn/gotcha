@@ -8,7 +8,7 @@ import {
 import fetch from 'got-fetch';
 
 const client = new ApolloClient({
-  link: new HttpLink({ fetch, uri: 'http://localhost:5000/graphql' }),
+  link: new HttpLink({ fetch, uri: 'http://localhost:8080/api/graphql' }),
 
   cache: new InMemoryCache({
     resultCaching: false,

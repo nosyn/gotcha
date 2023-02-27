@@ -10,6 +10,7 @@ import { createGraphQLServer } from './graphql/server.js';
 
 import { __node_env__ } from './configs.js';
 import morgan from './middlewares/morgan.js';
+import health from './handlers/health.js';
 
 const start = async () => {
   // Required logic for integrating with Express
@@ -23,6 +24,9 @@ const start = async () => {
   const graphQLServer = await createGraphQLServer(httpServer);
 
   app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan);
+
+  // Handlers
+  app.use("/health", health)
 
   app.use(
     '/graphql',

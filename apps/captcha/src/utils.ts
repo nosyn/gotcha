@@ -16,7 +16,7 @@ export const uploadFile = async ({ name, id, buffer, type }: FileInput) => {
     form.set(id, blob, name);
 
     const data = await got
-      .post('http://localhost:8080/image', {
+      .post('http://localhost:8080/storage/image', {
         body: form,
       })
       .json();
