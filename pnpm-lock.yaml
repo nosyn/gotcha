@@ -49,7 +49,7 @@ importers:
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
-  apps/api:
+  apps/apollo:
     specifiers:
       '@apollo/server': ^4.4.0
       '@graphql-tools/schema': ^9.0.16

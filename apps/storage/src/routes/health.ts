@@ -29,7 +29,7 @@ export default async function routes(
 ) {
   fastify.get('/health', opts, async (request, reply) => {
     return {
-      message: 'Server is up and healthy',
+      message: 'Storage Server is up and healthy',
       timeStamp: new Date().toUTCString(),
     };
   });

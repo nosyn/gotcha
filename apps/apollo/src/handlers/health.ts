@@ -5,8 +5,9 @@ export default async function health(
   _req: Request,
   res: Response
 ): Promise<Response> {
-
-  return res.status(StatusCodes.OK).json({ message: `Server is up and health at ${new Date().toISOString()}` });
+  return res
+    .status(StatusCodes.OK)
+    .json({
+      message: `GraphQL Server is up and health at ${new Date().toISOString()}`,
+    });
 }
-
-

@@ -19,6 +19,6 @@ export const staticFilesPath = path.join(__dirname, 'files');
 /**
  * Server configs
  */
-export const PORT = !isNaN(Number(process.env.STORAGE_SERVER_PORT))
-  ? Number(process.env.STORAGE_SERVER_PORT)
-  : 5000;
+export const PORT = !isNaN(Number(process.env.PORT))
+  ? Number(process.env.PORT)
+  : 6000;

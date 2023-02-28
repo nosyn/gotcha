@@ -29,7 +29,8 @@ const start = async () => {
   app.use('/health', health);
 
   app.use(
-    '/graphql',
+    // Set /graphql path in NGINX
+    '/',
     expressMiddleware(graphQLServer, {
       context: async ({ req }) => ({ token: req.headers.token }),
     })

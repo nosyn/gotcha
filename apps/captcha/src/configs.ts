@@ -24,6 +24,7 @@ export const PORT = !isNaN(Number(process.env.PORT))
   : 8080;
 export const PROTOCOL = process.env.PROTOCOL ?? 'http';
 export const HOST = process.env.HOST ?? 'localhost';
+export const API_PATH = process.env.API_PATH ?? 'api';
 export const GRAPHQL_PATH = process.env.GRAPHQL_PATH ?? 'graphql';
 export const STORAGE_PATH = process.env.STORAGE_PATH ?? 'storage';
 export const AUTH_PATH = process.env.AUTH_PATH ?? 'auth';
@@ -31,7 +32,7 @@ export const AUTH_PATH = process.env.AUTH_PATH ?? 'auth';
 /**
  * Gateway
  */
-export const GATEWAY_API = `${PROTOCOL}://${HOST}:${PORT}`;
+export const GATEWAY_API = `${PROTOCOL}://${HOST}:${PORT}/${API_PATH}`;
 
 /**
  * Apollo GraphQL server
