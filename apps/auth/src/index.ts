@@ -14,6 +14,9 @@ import health from './handlers/health.js';
 import login from './handlers/login.js';
 import logout from './handlers/logout.js';
 
+// Services
+import { prisma } from './services/database/index.js';
+
 const start = async () => {
   const app = express();
 
@@ -25,6 +28,7 @@ const start = async () => {
   app.use('/login', login);
   app.use('/logout', logout);
 
+  console.log('prisma: ');
   // Modified server startup
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: PORT }, resolve)

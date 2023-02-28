@@ -2,6 +2,32 @@
 version: '3.6'
 
 services:
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    # volumes:
+    #   - redis-volume:/bitnami/redis/data
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: redispassword
+
+  postgres:
+    image: postgres:10.5
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=gotcha
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    # volumes:
+    #   - postgres-volume:/var/lib/postgresql/data
+
   nginx:
     restart: always
     build:
@@ -10,3 +36,6 @@ services:
     network_mode: 'host'
     ports:
       - 8080:8080
+# volumes:
+#   postgres-volume:
+#   redis-volume:
