@@ -26,7 +26,7 @@ const start = async () => {
   app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan);
 
   // Handlers
-  app.use('/health', health);
+  app.get('/health', health);
 
   app.use(
     '/',

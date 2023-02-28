@@ -1,25 +1,45 @@
 import { Request, Response } from 'express';
-import { z } from 'zod';
-import { StatusCodes } from 'http-status-codes';
+import { ZodError, z } from 'zod';
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { ErrorMessages } from '../common/enums/index.js';
+import { ResponseError } from '../common/errors/index.js';
 
-export default async function login(
-  req: Request,
-  res: Response
-): Promise<Response> {
-  const { username, email } = await loginSchema.parseAsync(req.body);
+export default function login(req: Request, res: Response): Response {
+  try {
+    const { username, password } = loginSchema.parse(req.body);
 
-  return res.status(StatusCodes.OK).json({ username, email });
+    if (username === 'admin' && password === 'password') {
+      return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
+    }
+
+    throw new ResponseError({
+      message: ErrorMessages.INVALID_CREDENTIALS,
+      statusCode: StatusCodes.UNAUTHORIZED,
+    });
+  } catch (err) {
+    if (err instanceof ZodError) {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ message: err.message });
+    }
+
+    if (err instanceof ResponseError) {
+      return res.status(err.statusCode).send(err.response);
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send(ReasonPhrases.INTERNAL_SERVER_ERROR);
+  }
 }
 
 const loginSchema = z.object({
   username: z.string({
-    required_error: 'Username is required',
+    required_error: ErrorMessages.MISSING_USERNAME,
+    invalid_type_error: ErrorMessages.MISSING_USERNAME,
   }),
-  email: z
-    .string({
-      required_error: 'Email is required',
-    })
-    .email({
-      message: 'Not a valid email',
-    }),
+  password: z.string({
+    required_error: ErrorMessages.MISSING_PASSWORD,
+    invalid_type_error: ErrorMessages.MISSING_PASSWORD,
+  }),
 });
