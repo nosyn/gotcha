@@ -1,5 +1,6 @@
-import got, { HTTPError } from 'got';
+import got from 'got';
 import { FormData, Blob } from 'formdata-node';
+import { STORAGE_API } from './configs.js';
 
 export type FileInput = {
   id: string;
@@ -16,7 +17,7 @@ export const uploadFile = async ({ name, id, buffer, type }: FileInput) => {
     form.set(id, blob, name);
 
     const data = await got
-      .post('http://localhost:8080/storage/image', {
+      .post(`${STORAGE_API}/image`, {
         body: form,
       })
       .json();

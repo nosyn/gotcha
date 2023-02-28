@@ -1,7 +1,7 @@
 {
-  "name": "api",
+  "name": "apollo",
   "version": "0.0.1",
-  "description": "API server",
+  "description": "Apollo GraphQL Server",
   "author": {
     "name": "Son Nguyen",
     "email": "nyenson1997@gmail.com",

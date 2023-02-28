@@ -1,0 +1,72 @@
+# docker-compose version
+version: '3.6'
+
+volumes:
+  postgres-volume:
+  redis-volume:
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.dev
+    restart: always
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+      # - ./packages:/app/apps/packages
+      # - /app/apps/api/node_modules
+    # ports:
+    #   - 5000:5000
+    networks:
+      - app_network
+
+  storage:
+    container_name: storage
+    build:
+      context: .
+      dockerfile: ./apps/storage/Dockerfile.dev
+    restart: always
+    volumes:
+      - ./apps/storage/src:/app/apps/storage/src
+      # - ./packages:/app/apps/packages
+      # - /app/apps/storage/node_modules
+    # ports:
+    #   - 8080:8080
+    networks:
+      - app_network
+
+  captcha:
+    container_name: captcha
+    build:
+      context: .
+      dockerfile: ./apps/captcha/Dockerfile.dev
+    restart: always
+    volumes:
+      - ./apps/captcha/src:/app/apps/captcha/src
+      # - ./packages:/app/apps/packages
+      # - /app/apps/captcha/node_modules
+    # Use network bind with host network
+    network_mode: 'host'
+    depends_on:
+      - api
+      - storage
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    networks:
+      - app_network
+    ports:
+      - 8080:8080
+    depends_on:
+      - api
+      - storage
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true
