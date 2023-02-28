@@ -15,7 +15,7 @@ RUN npm install --global pnpm
 WORKDIR /app
 RUN pnpm install --global turbo
 COPY . .
-RUN turbo prune --scope=api-auth --docker
+RUN turbo prune --scope=auth --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:alpine AS installer
@@ -47,7 +47,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN pnpm turbo run build --filter=api-auth...
+RUN pnpm turbo run build --filter=auth...
 
 FROM node:alpine AS runner
 
@@ -59,4 +59,4 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
-CMD node apps/api-auth/dist/index.js
+CMD node apps/auth/dist/index.js
