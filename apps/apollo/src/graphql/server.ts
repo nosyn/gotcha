@@ -21,8 +21,6 @@ export async function createGraphQLServer(httpServer: http.Server) {
   const wsServer = new WebSocketServer({
     // This is the `httpServer` we created in a previous step.
     server: httpServer,
-    // Set /graphql path in NGINX
-    path: '/',
   });
 
   // Hand in the schema we just created and have the

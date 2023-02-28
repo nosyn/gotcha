@@ -29,7 +29,6 @@ const start = async () => {
   app.use('/health', health);
 
   app.use(
-    // Set /graphql path in NGINX
     '/',
     expressMiddleware(graphQLServer, {
       context: async ({ req }) => ({ token: req.headers.token }),
@@ -43,6 +42,9 @@ const start = async () => {
 
   console.log(`🔥 Server ready at http://localhost:${PORT}/`);
   console.log(`🚀 GraphQL Server ready at http://localhost:${PORT}/graphql`);
+  console.log(
+    `🚀 GraphQL Subscription Server ready at ws://localhost:${PORT}/graphql`
+  );
 };
 
 start().catch((error) => {

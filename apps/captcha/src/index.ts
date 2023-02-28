@@ -13,25 +13,25 @@ const main = async () => {
     .option('-s, --strike', 'add strikethrough to text', false)
     .parse(process.argv);
 
-  // setInterval(async () => {
-  const captcha = generateCaptcha(program.opts().strike);
+  setInterval(async () => {
+    const captcha = generateCaptcha(program.opts().strike);
 
-  const id = `captcha_${crypto.randomUUID()}`;
-  const fileNameWithExtension = `${id}.${captcha.extension}`;
+    const id = `captcha_${crypto.randomUUID()}`;
+    const fileNameWithExtension = `${id}.${captcha.extension}`;
 
-  await uploadFile({
-    id,
-    name: fileNameWithExtension,
-    type: captcha.type,
-    buffer: captcha.buffer,
-  });
+    await uploadFile({
+      id,
+      name: fileNameWithExtension,
+      type: captcha.type,
+      buffer: captcha.buffer,
+    });
 
-  await createCaptcha({
-    id: id,
-    name: fileNameWithExtension,
-    status: 'CREATED',
-  });
-  // }, 3000);
+    await createCaptcha({
+      id: id,
+      name: fileNameWithExtension,
+      status: 'CREATED',
+    });
+  }, 3000);
 };
 
 main();
