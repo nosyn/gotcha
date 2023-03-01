@@ -3,7 +3,6 @@ import { ZodError, z } from 'zod';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
-import { prisma } from '../prisma/index.js';
 
 export default async function login(
   req: Request,
@@ -13,8 +12,6 @@ export default async function login(
     const { username, password } = loginSchema.parse(req.body);
 
     if (username === 'admin' && password === 'password') {
-      console.log('userss: ', await prisma.user.findMany({}));
-
       // @ts-ignore
       req.session.userId = 'admin';
       return res.status(StatusCodes.OK).send(ReasonPhrases.OK);

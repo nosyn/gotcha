@@ -13,11 +13,13 @@ import { logger, authentication } from './middlewares/index.js';
 import health from './handlers/health.js';
 import login from './handlers/login.js';
 import logout from './handlers/logout.js';
+import { prisma } from './dbClient/index.js';
 
 const start = async () => {
   const app = express();
 
   const httpServer = http.createServer(app);
+  console.log('userss: ', await prisma.user.findMany({}));
 
   // Middleware
   app.use(
