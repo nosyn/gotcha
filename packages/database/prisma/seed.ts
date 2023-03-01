@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { PrismaClient } from '@prisma/client';
-import { users } from './mocks/users';
+import { users } from './mocks/users.js';
 
 const prisma = new PrismaClient();
 
