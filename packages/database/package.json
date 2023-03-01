@@ -4,12 +4,20 @@
   "types": "./index.ts",
   "scripts": {
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate"
+    "db:push": "prisma db push --skip-generate",
+    "db:studio": "prisma studio",
+    "db:migrate:dev": "prisma migrate dev --name init",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "latest"
   },
   "devDependencies": {
+    "ts-node": "^10.9.1",
+    "@types/node": "^18.14.2",
     "prisma": "4.10.1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

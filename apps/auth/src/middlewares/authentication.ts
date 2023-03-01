@@ -1,16 +1,22 @@
 import session from 'express-session';
 import RedisStore from 'connect-redis';
+import { Redis as IORedis } from 'ioredis';
 
 // Constants
-import { COOKIES_NAME } from '../../constants.js';
+import { COOKIES_NAME } from '../constants.js';
 
-// Services
-import redisClient from 'cache';
+const redisClient = new IORedis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: 6379,
+  password: process.env.REDIS_PASSWORD || 'redispassword',
+});
 
-const authenticationMiddleware = () => {
+export default redisClient;
+
+export const authentication = () => {
   const redisStore = new RedisStore({
     client: redisClient,
-    prefix: 'auth:',
+    // prefix: 'auth:',
     disableTTL: true,
   });
 
@@ -29,5 +35,3 @@ const authenticationMiddleware = () => {
     },
   });
 };
-
-export { authenticationMiddleware };

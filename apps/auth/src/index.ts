@@ -1,5 +1,5 @@
 // Packages
-import express, { Router } from 'express';
+import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import { PORT } from './configs.js';
 
 import { __node_env__ } from './configs.js';
-import morgan from './middlewares/morgan.js';
+import { logger, authentication } from './middlewares/index.js';
 
 // Handlers
 import health from './handlers/health.js';
@@ -19,7 +19,13 @@ const start = async () => {
 
   const httpServer = http.createServer(app);
 
-  app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan);
+  // Middleware
+  app.use(
+    cors<cors.CorsRequest>(),
+    bodyParser.json(),
+    logger(),
+    authentication()
+  );
 
   app.get('/health', health);
   app.post('/login', login);

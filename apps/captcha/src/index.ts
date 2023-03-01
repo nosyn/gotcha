@@ -31,7 +31,7 @@ const main = async () => {
       name: fileNameWithExtension,
       status: 'CREATED',
     });
-  }, 10000);
+  }, 100000);
 };
 
 main();

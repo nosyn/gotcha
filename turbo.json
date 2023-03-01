@@ -11,7 +11,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^db:generate"]
+      "dependsOn": ["^db:generate", "^db:migrate:dev", "^db:seed"]
     },
     "clean": {
       "cache": false
@@ -20,6 +20,15 @@
       "cache": false
     },
     "db:push": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
+    "db:migrate:dev": {
+      "cache": false
+    },
+    "db:seed": {
       "cache": false
     }
   }

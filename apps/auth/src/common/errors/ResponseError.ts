@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { DatabaseErrorMessages, ErrorMessages } from '../enums';
+import { ErrorMessages } from '../enums/index.js';
 
 interface IResponseErrorCtor {
   statusCode: StatusCodes;
-  message: ErrorMessages | DatabaseErrorMessages;
+  message: ErrorMessages;
 }
 
 interface IResponseError {

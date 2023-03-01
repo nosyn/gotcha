@@ -3,12 +3,20 @@ import { ZodError, z } from 'zod';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
+import { prisma } from '../prisma/index.js';
 
-export default function login(req: Request, res: Response): Response {
+export default async function login(
+  req: Request,
+  res: Response
+): Promise<Response> {
   try {
     const { username, password } = loginSchema.parse(req.body);
 
     if (username === 'admin' && password === 'password') {
+      console.log('userss: ', await prisma.user.findMany({}));
+
+      // @ts-ignore
+      req.session.userId = 'admin';
       return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
     }
 
@@ -27,6 +35,7 @@ export default function login(req: Request, res: Response): Response {
       return res.status(err.statusCode).send(err.response);
     }
 
+    console.error('Unhandled error: ', err);
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .send(ReasonPhrases.INTERNAL_SERVER_ERROR);
