@@ -14,7 +14,8 @@
     "db:seed": "prisma db seed"
   },
   "dependencies": {
-    "@prisma/client": "latest"
+    "@prisma/client": "latest",
+    "utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.14.2",

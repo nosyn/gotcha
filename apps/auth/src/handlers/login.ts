@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import { ZodError, z } from 'zod';
+import { hashPassword } from 'utils';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
+import { prisma } from '../dbClient/index.js';
 
 export default async function login(
   req: Request,
@@ -11,15 +13,30 @@ export default async function login(
   try {
     const { username, password } = loginSchema.parse(req.body);
 
-    if (username === 'admin' && password === 'password') {
-      // @ts-ignore
-      req.session.userId = 'admin';
-      return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!user || user.hash !== hashPassword(password, user.salt)) {
+      throw new ResponseError({
+        message: ErrorMessages.INVALID_CREDENTIALS,
+        statusCode: StatusCodes.UNAUTHORIZED,
+      });
     }
 
-    throw new ResponseError({
-      message: ErrorMessages.INVALID_CREDENTIALS,
-      statusCode: StatusCodes.UNAUTHORIZED,
+    // Set user session
+    req.session.userId = user.id.toString();
+
+    return res.status(StatusCodes.OK).send({
+      payload: {
+        user: {
+          id: user.id,
+          username: user.username,
+        },
+      },
+      errors: [],
     });
   } catch (err) {
     if (err instanceof ZodError) {

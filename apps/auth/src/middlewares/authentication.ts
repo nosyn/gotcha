@@ -28,7 +28,7 @@ export const authentication = () => {
     secret: 'keyboard cat',
     resave: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
       httpOnly: true, // cookie won't be accessible by Javascript on the front end
       // secure: true, // cookie only works in https, if you're using http for dev. This line should be disable
       sameSite: 'lax', // csrf

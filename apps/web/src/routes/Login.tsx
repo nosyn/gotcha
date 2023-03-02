@@ -1,19 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUserStore } from '../store/user';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const handleLogin = () => {
-    console.log('username: ', username);
-    console.log('password: ', password);
-    fetch('/api/auth/login', {
+  const [user, setUser] = useUserStore(({ user, setUser }) => [user, setUser]);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || '/';
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Send user back to the page they tried to visit when they were
+    // redirected to the login page. Use { replace: true } so we don't create
+    // another entry in the history stack for the login page.  This means that
+    // when they get to the protected page and click the back button, they
+    // won't end up back on the login page, which is also really nice for the
+    // user experience.
+    navigate(from, { replace: true });
+  }, [user]);
+
+  const handleLogin = async () => {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
-    }).then(async (res) => {
-      console.log('res: ', res.status);
-      console.log('payload: ', await res.json());
     });
+    const { payload, errors } = await response.json();
+
+    if (errors.length) {
+      throw new Error(errors);
+    }
+
+    const { user } = payload;
+
+    setUser(user);
   };
 
   return (

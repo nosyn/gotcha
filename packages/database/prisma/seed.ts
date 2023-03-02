@@ -1,22 +1,8 @@
-import crypto from 'crypto';
+import { generateSalt, hashPassword } from 'utils';
 import { PrismaClient } from '@prisma/client';
 import { users } from './mocks/users.js';
 
 const prisma = new PrismaClient();
-
-const SIZE = 16;
-const ITERATIONS = 1000;
-const KEY_LENGTH = 64;
-
-// Creating a unique salt for a particular user
-const generateSalt = (): string => crypto.randomBytes(SIZE).toString('hex');
-
-// Hashing user's salt and password with 1000 iterations,
-const hashPassword = (password: string, salt: string): string => {
-  return crypto
-    .pbkdf2Sync(password, salt, ITERATIONS, KEY_LENGTH, `sha512`)
-    .toString(`hex`);
-};
 
 const seedingUsers = async () => {
   await prisma.user.deleteMany({});
@@ -53,6 +39,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error(e);
+    //@ts-ignore
     process.exit(1);
   })
   .finally(async () => {

@@ -1,0 +1,17 @@
+{
+  "name": "utils",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup  --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.2",
+    "typescript": "^4.9.5",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.1.3"
+  }
+}
