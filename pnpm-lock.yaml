@@ -257,6 +257,7 @@ importers:
       postcss: ^8.4.20
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-hot-toast: ^2.4.0
       react-router-dom: ^6.8.1
       tailwind-config: workspace:*
       tailwindcss: ^3.2.4
@@ -271,6 +272,7 @@ importers:
       ky: 0.33.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
       react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
       ui: link:../../packages/ui
       zustand: 4.3.5_react@18.2.0
@@ -3088,7 +3090,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: true
 
   /daisyui/2.50.1_r4gnkvssmvyxmi2wmat5xbx36a:
     resolution: {integrity: sha512-Z4GuU/ZknYoHt7qfDQSC5rrxMJ6ffNV9baQfCSbo5J/clC1DBppfrqLJXS8A3NPBRo2GbbpKwdA1ZdThWdpBtQ==}
@@ -4673,6 +4674,14 @@ packages:
 
   /globrex/0.1.2:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
+    dev: false
+
+  /goober/2.1.12_csstype@3.1.1:
+    resolution: {integrity: sha512-yXHAvO08FU1JgTXX6Zn6sYCUFfB/OJSX8HHjDSgerZHZmFKAb08cykp5LBw5QnmyMcZyPRMqkdyHUSSzge788Q==}
+    peerDependencies:
+      csstype: ^3.0.10
+    dependencies:
+      csstype: 3.1.1
     dev: false
 
   /got-fetch/5.1.4_got@12.5.3:
@@ -7183,6 +7192,20 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-hot-toast/2.4.0_owo25xnefcwdq3zjgtohz6dbju:
+    resolution: {integrity: sha512-qnnVbXropKuwUpriVVosgo8QrB+IaPJCpL8oBI6Ov84uvHZ5QQcTp2qg6ku2wNfgJl6rlQXJIQU5q+5lmPOutA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      goober: 2.1.12_csstype@3.1.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - csstype
     dev: false
 
   /react-is/16.13.1:

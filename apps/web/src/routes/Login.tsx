@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useUserStore } from '../store/user';
 import { useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function Login() {
   const [username, setUsername] = useState<string>('');
@@ -29,11 +30,16 @@ export default function Login() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
-    const { payload, errors } = await response.json();
 
-    if (errors.length) {
-      throw new Error(errors);
+    const { payload, error } = await response.json();
+
+    console.log('payload: ', payload);
+    if (!response.ok) {
+      toast.error(error.message);
+      return;
     }
+
+    console.log('error: ', error);
 
     const { user } = payload;
 

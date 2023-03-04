@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
@@ -8,6 +9,14 @@ export default function Layout() {
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
         <Outlet />
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            error: {
+              className: 'bg-indigo-500',
+            },
+          }}
+        />
       </main>
     </div>
   );

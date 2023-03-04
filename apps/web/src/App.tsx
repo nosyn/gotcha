@@ -1,13 +1,12 @@
 import { ApolloProvider } from '@apollo/client';
+import { Route, Routes } from 'react-router-dom';
 import client from './graphql/client';
 import Layout from './layouts/Layout';
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
 
 // Routes
-import Home from './routes/Home';
-import NoMatch from './routes/NoMatch';
 import CaptchaPage from './routes/Captcha';
 import Login from './routes/Login';
+import NoMatch from './routes/NoMatch';
 import RequireAuth from './routes/RequiredAuth';
 
 function App() {

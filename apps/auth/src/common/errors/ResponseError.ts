@@ -7,6 +7,10 @@ interface IResponseErrorCtor {
 }
 
 interface IResponseError {
+  error: IError;
+}
+
+interface IError {
   message: string;
 }
 
@@ -23,7 +27,7 @@ export class ResponseError extends Error {
 
   get response(): IResponseError {
     return {
-      message: this.message,
+      error: { message: this.message },
     };
   }
 }
