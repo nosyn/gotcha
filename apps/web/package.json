@@ -13,9 +13,13 @@
   "dependencies": {
     "@apollo/client": "^3.7.8",
     "graphql-ws": "^5.11.3",
+    "ky": "^0.33.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "ui": "workspace:*"
+    "react-hot-toast": "^2.4.0",
+    "react-router-dom": "^6.8.1",
+    "ui": "workspace:*",
+    "zustand": "^4.3.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

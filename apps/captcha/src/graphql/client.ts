@@ -1,14 +1,12 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  gql,
-  HttpLink,
-} from '@apollo/client/core/index.js';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client/core/index.js';
+import { HttpLink } from '@apollo/client/link/http/index.js';
+
 //
 import fetch from 'got-fetch';
+import { GRAPHQL_API } from '../configs.js';
 
 const client = new ApolloClient({
-  link: new HttpLink({ fetch, uri: 'http://localhost:5000/graphql' }),
+  link: new HttpLink({ fetch, uri: GRAPHQL_API }),
 
   cache: new InMemoryCache({
     resultCaching: false,
