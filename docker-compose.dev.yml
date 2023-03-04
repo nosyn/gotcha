@@ -1,0 +1,60 @@
+# docker-compose version
+version: '3.6'
+
+services:
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    # volumes:
+    #   - redis-volume:/bitnami/redis/data
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: redispassword
+
+  postgres:
+    image: postgres:10.5
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=gotcha
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    # volumes:
+    #   - postgres-volume:/var/lib/postgresql/data
+
+  # zookeeper:
+  #   image: wurstmeister/zookeeper:latest
+  #   ports:
+  #     - '2181:2181'
+  # kafka:
+  #   image: wurstmeister/kafka:2.11-1.1.1
+  #   ports:
+  #     - '9092:9092'
+  #   links:
+  #     - zookeeper
+  #   environment:
+  #     KAFKA_ADVERTISED_HOST_NAME: ${HOST_IP}
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+  #     KAFKA_DELETE_TOPIC_ENABLE: 'true'
+  #     KAFKA_CREATE_TOPICS: 'topic-test:1:1'
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    network_mode: 'host'
+    ports:
+      - 8080:8080
+# volumes:
+#   postgres-volume:
+#   redis-volume:
