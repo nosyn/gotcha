@@ -4,12 +4,12 @@ type User = {
   username: string;
 };
 
-interface UserState {
+interface UserStore {
   user: User | null;
   setUser: (user: User) => void;
 }
 
-export const useUserStore = create<UserState>()((set) => ({
+export const useUserStore = create<UserStore>()((set) => ({
   user: null,
   setUser: (user) => set({ user }),
 }));
