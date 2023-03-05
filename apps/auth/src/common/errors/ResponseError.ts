@@ -1,9 +1,9 @@
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 import { ErrorMessages } from '../enums/index.js';
 
 interface IResponseErrorCtor {
   statusCode: StatusCodes;
-  message: ErrorMessages;
+  message: ErrorMessages | ReasonPhrases;
 }
 
 interface IResponseError {

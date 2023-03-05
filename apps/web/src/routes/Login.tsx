@@ -31,18 +31,13 @@ export default function Login() {
       body: JSON.stringify({ username, password }),
     });
 
-    const { payload, error } = await response.json();
-
-    console.log('payload: ', payload);
     if (!response.ok) {
+      const { error } = await response.json();
       toast.error(error.message);
       return;
     }
 
-    console.log('error: ', error);
-
-    const { user } = payload;
-
+    const { user } = await response.json();
     setUser(user);
   };
 

@@ -1,9 +1,10 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useUserStore } from '../store/user';
+import { useSettingStore } from '../store/settings';
 
 const RequireAuth = () => {
-  const user = useUserStore((state) => state.user);
+  const [user] = useUserStore(({ user }) => [user]);
   const location = useLocation();
 
   if (!user) {
