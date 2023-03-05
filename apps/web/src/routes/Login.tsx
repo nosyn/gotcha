@@ -1,11 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useUserStore } from '../store/user';
 import { useLocation, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { notifications } from '@mantine/notifications';
+import {
+  TextInput,
+  PasswordInput,
+  Checkbox,
+  Anchor,
+  Paper,
+  Title,
+  Text,
+  Container,
+  Group,
+  Button,
+  MantineTheme,
+} from '@mantine/core';
+import { useForm, zodResolver } from '@mantine/form';
+import { z } from 'zod';
+
+const schema = z.object({
+  username: z
+    .string()
+    .min(4, { message: 'Username should have at least 4 letters' }),
+  password: z
+    .string()
+    .min(4, { message: 'Password must should have at least 4 characters' }),
+});
 
 export default function Login() {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+
+    validate: zodResolver(schema),
+  });
   const [user, setUser] = useUserStore(({ user, setUser }) => [user, setUser]);
 
   const location = useLocation();
@@ -24,47 +54,70 @@ export default function Login() {
     navigate(from, { replace: true });
   }, [user]);
 
-  const handleLogin = async () => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+  const handleOnSubmit = () =>
+    form.onSubmit(async (values) => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        notifications.show({
+          message: error.message,
+          title: 'Login error',
+          color: 'red',
+        });
+        return;
+      }
+
+      const { user } = await response.json();
+      setUser(user);
     });
 
-    if (!response.ok) {
-      const { error } = await response.json();
-      toast.error(error.message);
-      return;
-    }
-
-    const { user } = await response.json();
-    setUser(user);
-  };
-
   return (
-    <>
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">Welcome</h2>
-          <input
-            type="text"
-            placeholder="Username"
-            className="input input-bordered input-primary w-full max-w-xs"
-            onChange={(e) => setUsername(e.target.value)}
+    <Container size={420} my={40}>
+      <form onSubmit={handleOnSubmit()}>
+        <Title
+          align="center"
+          sx={(theme: MantineTheme) => ({
+            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+            fontWeight: 900,
+          })}
+        >
+          Welcome back!
+        </Title>
+        <Text color="dimmed" size="sm" align="center" mt={5}>
+          Do not have an account yet?{' '}
+          <Anchor size="sm" component="button">
+            Create account
+          </Anchor>
+        </Text>
+
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <TextInput
+            label="Email"
+            placeholder="you@mantine.dev"
+            {...form.getInputProps('username')}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input input-bordered input-primary w-full max-w-xs"
-            onChange={(e) => setPassword(e.target.value)}
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            mt="md"
+            {...form.getInputProps('password')}
           />
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary" onClick={handleLogin}>
-              Login
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+          <Group position="apart" mt="lg">
+            <Checkbox label="Remember me" />
+            <Anchor component="button" size="sm">
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button fullWidth mt="xl" type="submit">
+            Sign in
+          </Button>
+        </Paper>
+      </form>
+    </Container>
   );
 }
