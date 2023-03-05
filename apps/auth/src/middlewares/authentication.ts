@@ -2,8 +2,7 @@ import session from 'express-session';
 import RedisStore from 'connect-redis';
 import { Redis as IORedis } from 'ioredis';
 
-// Constants
-import { COOKIES_NAME } from '../constants.js';
+import { COOKIES_NAME } from '../configs.js';
 
 const redisClient = new IORedis({
   host: process.env.REDIS_HOST || 'localhost',

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import CaptchaCard from '../components/captcha/captcha-card/CaptchaCard';
 import CaptchaTable from '../components/captcha/CaptchaTable';
 import useCaptchasQuery from '../graphql/hooks/useCaptchasQuery';
 import { CaptchaCreated } from '../graphql/hooks/useCaptchaCreatedSubscription';
 import { Captcha, CaptchaCreatedData } from '../types';
-import { Container, Flex, Loader } from '@mantine/core';
+import { Container, Loader } from '@mantine/core';
+import type { MantineTheme } from '@mantine/core';
 
 export default function CaptchaPage() {
   const { data, error, loading, subscribeToMore } = useCaptchasQuery();
@@ -52,10 +52,13 @@ export default function CaptchaPage() {
   }
 
   return (
-    <Container>
-      <Flex justify="flex-start" align="flex-start">
-        <CaptchaTable rows={captchas} />
-      </Flex>
+    <Container
+      sx={(theme: MantineTheme) => ({
+        backgroundColor: theme.colors.gray[2],
+        marginTop: '3rem',
+      })}
+    >
+      <CaptchaTable rows={captchas} />
     </Container>
   );
 }

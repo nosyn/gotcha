@@ -32,7 +32,7 @@ const start = async () => {
   app.get('/health', health);
   app.get('/me', handlerFuncWrapper(me));
   app.post('/login', handlerFuncWrapper(login));
-  app.post('/logout', logout);
+  app.post('/logout', handlerFuncWrapper(logout));
 
   // Modified server startup
   await new Promise<void>((resolve) =>

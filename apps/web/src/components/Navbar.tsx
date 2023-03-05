@@ -20,6 +20,8 @@ import {
   IconSwitchHorizontal,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
+import { notifications } from '@mantine/notifications';
+import { useUserStore } from '../store/user';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -63,6 +65,7 @@ interface NavbarLinkProps {
 
 function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
+
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
@@ -86,6 +89,7 @@ const navLinks = [
 ];
 
 export function NavbarMinimal() {
+  const [setUser] = useUserStore(({ setUser }) => [setUser]);
   const [active, setActive] = useState(2);
 
   const links = navLinks.map((link, index) => (
@@ -110,7 +114,28 @@ export function NavbarMinimal() {
       <Navbar.Section>
         <Stack justify="center" spacing={0}>
           {/* <NavbarLink icon={IconSwitchHorizontal} label="Change account" /> */}
-          <NavbarLink icon={IconLogout} label="Logout" />
+          <NavbarLink
+            icon={IconLogout}
+            label="Logout"
+            onClick={async () => {
+              const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+              });
+
+              if (!response.ok) {
+                const { error } = await response.json();
+                notifications.show({
+                  message: error.message,
+                  title: 'Fail to logout',
+                  color: 'red',
+                });
+                return;
+              }
+
+              const { user } = await response.json();
+              setUser(null);
+            }}
+          />
         </Stack>
       </Navbar.Section>
     </Navbar>

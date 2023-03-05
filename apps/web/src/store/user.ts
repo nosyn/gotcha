@@ -6,7 +6,7 @@ type User = {
 
 interface UserStore {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
 }
 
 export const useUserStore = create<UserStore>()((set) => ({

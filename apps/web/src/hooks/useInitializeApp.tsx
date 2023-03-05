@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useUserStore } from '../store/user';
 import { useSettingStore } from '../store/settings';
 

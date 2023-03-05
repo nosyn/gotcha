@@ -1,40 +1,39 @@
-import { Button, Table } from '@mantine/core';
+import { Button, Container, Table } from '@mantine/core';
 import { Captcha } from '../../types';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import CaptchaCard from './captcha-card/CaptchaCard';
 
 interface CaptchaTableProps {
   rows: Captcha[];
 }
 
-const TableColumns = [
-  { header: 'index' },
-  { header: 'id' },
-  { header: 'status' },
-  { header: 'updated at' },
-  { header: 'Created at' },
-  { header: 'actions' },
-];
-
 const CaptchaTable = ({ rows }: CaptchaTableProps) => {
   const [selectedCaptcha, setSelectedCaptcha] = useState<Captcha | null>(null);
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          {TableColumns.map((tb) => (
-            <th key={tb.header}>{tb.header}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
+    <Table striped highlightOnHover withBorder withColumnBorders>
+      <TableHead />
+      <tbody
+        style={{
+          display: 'block',
+          overflow: 'auto',
+          maxHeight: '80vh',
+          tableLayout: 'fixed',
+          width: '100%',
+        }}
+      >
         {rows.map((r, index) => {
           const isSelectedCaptcha = selectedCaptcha?.name === r.name;
 
           return (
-            <>
-              <tr key={r.id}>
+            <Fragment key={r.id}>
+              <tr
+                style={{
+                  display: 'table',
+                  tableLayout: 'fixed',
+                  width: '100%',
+                }}
+              >
                 <th className="text-center">{index}</th>
                 <td>{r.id.split('-')[0]}</td>
                 <td>{r.status}</td>
@@ -56,19 +55,49 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
                 </td>
               </tr>
               {selectedCaptcha?.name === r.name && (
-                <tr>
-                  <td colSpan={2} />
-                  <td colSpan={2}>
+                <tr
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <td>
                     <CaptchaCard captcha={selectedCaptcha} />
                   </td>
-                  <td colSpan={2} />
                 </tr>
               )}
-            </>
+            </Fragment>
           );
         })}
       </tbody>
     </Table>
+  );
+};
+
+const TableColumns = [
+  { header: 'index' },
+  { header: 'id' },
+  { header: 'status' },
+  { header: 'updated at' },
+  { header: 'created at' },
+  { header: 'actions' },
+];
+
+const TableHead = () => {
+  return (
+    <thead
+      style={{
+        display: 'table',
+        tableLayout: 'fixed',
+        width: '100%',
+      }}
+    >
+      <tr>
+        {TableColumns.map((tb) => (
+          <th key={tb.header}>{tb.header}</th>
+        ))}
+      </tr>
+    </thead>
   );
 };
 

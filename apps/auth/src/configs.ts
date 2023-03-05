@@ -20,3 +20,4 @@ export const __dirname = dirname(fileURLToPath(import.meta.url));
 export const PORT = !isNaN(Number(process.env.PORT))
   ? Number(process.env.PORT)
   : 5100;
+export const COOKIES_NAME = process.env.COOKIES_NAME || 'qid';
