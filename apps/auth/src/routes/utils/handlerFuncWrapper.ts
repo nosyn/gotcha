@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { StatusCodes } from 'http-status-codes';
-import { ResponseError, internalServerError } from '../common/errors/index.js';
+import {
+  ResponseError,
+  internalServerError,
+} from '../../common/errors/index.js';
 
 export type HandlerFunc = (
   req: Request,
@@ -25,8 +28,8 @@ export const handlerFuncWrapper =
         return res.status(err.statusCode).send(err.response);
       }
 
-      const handlerName = handler.prototype?.handlerName || 'undefined';
-      console.error(`Unhandled error at ${handlerName} handler:\n${err}`);
+      const handlerName = handler.prototype?.handlerName || 'undefined handler';
+      console.error(`Unhandled error at ${handlerName}:\n${err}`);
 
       return res
         .status(internalServerError.statusCode)

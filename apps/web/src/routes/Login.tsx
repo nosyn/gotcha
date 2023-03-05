@@ -1,22 +1,24 @@
-import { useEffect } from 'react';
-import { useUserStore } from '../store/user';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { notifications } from '@mantine/notifications';
 import {
-  TextInput,
-  PasswordInput,
-  Checkbox,
   Anchor,
-  Paper,
-  Title,
-  Text,
+  Button,
+  Checkbox,
   Container,
   Group,
-  Button,
   MantineTheme,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { useStore } from 'zustand';
+import { jwtStore } from '../store/jwt';
+import { useUserStore } from '../store/user';
 
 const schema = z.object({
   username: z
@@ -37,6 +39,7 @@ export default function Login() {
     validate: zodResolver(schema),
   });
   const [user, setUser] = useUserStore(({ user, setUser }) => [user, setUser]);
+  const [setJwt] = useStore(jwtStore, ({ setJwt }) => [setJwt]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,7 +75,9 @@ export default function Login() {
         return;
       }
 
-      const { user } = await response.json();
+      const { user, jwt } = await response.json();
+
+      setJwt(jwt);
       setUser(user);
     });
 

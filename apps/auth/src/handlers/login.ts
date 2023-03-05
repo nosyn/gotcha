@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from 'utils';
+import { hashPassword, signJWT } from 'utils';
 import { z } from 'zod';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
@@ -33,6 +33,7 @@ export default async function login(
       id: user.id,
       username: user.username,
     },
+    jwt: signJWT(user),
   });
 }
 

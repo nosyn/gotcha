@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { ResponseError } from '../common/errors/index.js';
 import { prisma } from '../dbClient/index.js';
+import { signJWT } from 'utils';
 
 export default async function me(
   req: Request,
@@ -35,5 +36,8 @@ export default async function me(
       id: user.id,
       username: user.username,
     },
+    jwt: signJWT(user),
   });
 }
+
+me.prototype = { handlerName: 'me' };

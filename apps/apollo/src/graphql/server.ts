@@ -1,5 +1,6 @@
 import http from 'node:http';
 import { ApolloServer } from '@apollo/server';
+import { ApolloServerErrorCode } from '@apollo/server/errors';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { loggers } from './plugins/logger.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -25,7 +26,26 @@ export async function createGraphQLServer(httpServer: http.Server) {
 
   // Hand in the schema we just created and have the
   // WebSocketServer start listening.
-  const serverCleanup = useServer({ schema }, wsServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+
+      onConnect: async (ctx) => {
+        console.log('onConnect: ', ctx.connectionParams);
+
+        if (!ctx.connectionParams?.authToken) {
+          throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
+        }
+      },
+      onDisconnect: async (ctx, code, reason) => {
+        console.log('onDisconnect:', code, reason);
+      },
+      onComplete: async (ctx) => {
+        console.log('onComplete: ');
+      },
+    },
+    wsServer
+  );
 
   // Same ApolloServer initialization as before, plus the drain plugin
   // for our httpServer.

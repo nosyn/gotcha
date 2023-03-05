@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useUserStore } from '../store/user';
 import { useSettingStore } from '../store/settings';
+import { useStore } from 'zustand';
+import { jwtStore } from '../store/jwt';
 
 export const useInitializeApp = () => {
   const [appInitialized, setAppInitialized] = useSettingStore(
@@ -10,6 +12,7 @@ export const useInitializeApp = () => {
     ]
   );
   const [setUser] = useUserStore(({ setUser }) => [setUser]);
+  const [setJwt] = useStore(jwtStore, ({ setJwt }) => [setJwt]);
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -19,12 +22,10 @@ export const useInitializeApp = () => {
         console.log('Not authenticated. Navigate to login page ');
       }
 
-      const { user } = await response.json();
+      const { user, jwt } = await response.json();
 
-      if (user) {
-        setUser(user);
-      }
-
+      setUser(user);
+      setJwt(jwt);
       setAppInitialized(true);
     };
 
