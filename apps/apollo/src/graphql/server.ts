@@ -6,6 +6,7 @@ import { loggers } from './plugins/logger.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
+import got from 'got';
 
 // Others
 import resolvers from './resolvers/index.js';
@@ -31,10 +32,21 @@ export async function createGraphQLServer(httpServer: http.Server) {
       schema,
 
       onConnect: async (ctx) => {
-        console.log('onConnect: ', ctx.connectionParams);
-
         if (!ctx.connectionParams?.authToken) {
           throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
+        }
+
+        try {
+          await got
+            .post('http://localhost:8080/api/auth/jwt/verify', {
+              json: {
+                jwt: ctx.connectionParams?.authToken,
+              },
+            })
+            .json();
+        } catch (err) {
+          console.error('err: ', err);
+          return false;
         }
       },
       onDisconnect: async (ctx, code, reason) => {

@@ -10,6 +10,7 @@ import { __node_env__ } from './configs.js';
 import { logger, authentication } from './middlewares/index.js';
 
 // Handler functions
+import jwtRoute from './routes/jwt/index.js';
 import health from './handlers/health.js';
 import login from './handlers/login.js';
 import logout from './handlers/logout.js';
@@ -33,6 +34,7 @@ const start = async () => {
   app.get('/me', handlerFuncWrapper(me));
   app.post('/login', handlerFuncWrapper(login));
   app.post('/logout', handlerFuncWrapper(logout));
+  app.use('/jwt', jwtRoute);
 
   // Modified server startup
   await new Promise<void>((resolve) =>

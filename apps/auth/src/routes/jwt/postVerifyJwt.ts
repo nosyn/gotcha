@@ -4,12 +4,17 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 // Utils
 import { z } from 'zod';
 import { ErrorMessages } from '../../common/enums/ErrorMessages.js';
-import { verifyJWT as verifyJWTUtil } from 'utils';
+import { verifyJWT } from 'utils';
 
-const verifyJWT = async (req: Request, res: Response) => {
-  const { accessToken } = verifyJWTSchema.parse(req.body);
+const postVerifyJwt = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { jwt } = verifyJWTSchema.parse(req.body);
 
-  const payload = verifyJWTUtil(accessToken);
+  console.log('jwt: ', jwt);
+
+  const payload = verifyJWT(jwt);
 
   console.log('payload: ', payload);
 
@@ -18,15 +23,15 @@ const verifyJWT = async (req: Request, res: Response) => {
   //     message: ReasonPhrases.UNAUTHORIZED,
   //   });
 
-  res.status(StatusCodes.OK).send({ message: ReasonPhrases.OK });
+  return res.status(StatusCodes.OK).send({ message: ReasonPhrases.OK });
 };
 
-verifyJWT.prototype = { handlerName: 'verifyJWT' };
+postVerifyJwt.prototype = { handlerName: 'postVerifyJwt' };
 
-export default verifyJWT;
+export default postVerifyJwt;
 
 const verifyJWTSchema = z.object({
-  accessToken: z.string({
+  jwt: z.string({
     required_error: ErrorMessages.MISSING_ACCESS_TOKEN,
     invalid_type_error: ErrorMessages.MISSING_ACCESS_TOKEN,
   }),

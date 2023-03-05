@@ -66,6 +66,7 @@ importers:
       eslint: ^7.32.0
       eslint-config-custom-server: workspace:*
       express: ^4.18.2
+      got: ^12.5.3
       graphql: ^16.6.0
       graphql-subscriptions: ^2.0.0
       graphql-ws: ^5.11.3
@@ -84,6 +85,7 @@ importers:
       cors: 2.8.5
       dotenv: 16.0.3
       express: 4.18.2
+      got: 12.5.3
       graphql: 16.6.0
       graphql-subscriptions: 2.0.0_graphql@16.6.0
       graphql-ws: 5.11.3_graphql@16.6.0
