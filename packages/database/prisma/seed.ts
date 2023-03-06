@@ -4,8 +4,8 @@ import { users } from './mocks/users.js';
 
 const prisma = new PrismaClient();
 
-const seedingUsers = async () => {
-  await prisma.user.deleteMany({});
+const seedingUsersAndPasswords = async () => {
+  // await prisma.user.deleteMany({});
 
   console.log(`Seeding users`);
   for (const user of users) {
@@ -19,10 +19,20 @@ const seedingUsers = async () => {
       data: {
         id: user.id,
         username: user.username,
-        hash: hashedPassword,
-        salt,
+        role: user.role,
       },
     });
+
+    await prisma.password.create({
+      data: {
+        salt,
+        hash: hashedPassword,
+        userId: user.id,
+      },
+    });
+
+    // await prisma.password.create({});s
+
     console.log(`Created user ${user.username} with id: ${user.id}`);
   }
 };
@@ -31,7 +41,7 @@ async function main() {
   console.log(`Start seeding ...`);
 
   // Seeding Users
-  await seedingUsers();
+  await seedingUsersAndPasswords();
 
   console.log(`Seeding finished.`);
 }
