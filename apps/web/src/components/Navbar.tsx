@@ -80,8 +80,13 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const navLinks = [
-  { icon: IconHome2, label: 'Home', path: '/' },
-  { icon: IconGauge, label: 'Dashboard', path: '/dashboard' },
+  { icon: IconHome2, label: 'Home', path: '/', requireAdmin: false },
+  {
+    icon: IconGauge,
+    label: 'Dashboard',
+    path: '/dashboard',
+    requireAdmin: true,
+  },
   //   { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
   //   { icon: IconCalendarStats, label: 'Releases' },
   //   { icon: IconUser, label: 'Account' },
@@ -90,19 +95,24 @@ const navLinks = [
 ];
 
 export function NavbarMinimal() {
-  const [setUser] = useUserStore(({ setUser }) => [setUser]);
-  const [active, setActive] = useState(2);
+  const [user, setUser] = useUserStore(({ user, setUser }) => [user, setUser]);
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const links = navLinks.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={link.path === pathname}
-      onClick={() => navigate(link.path)}
-    />
-  ));
+  const links = navLinks.map((link) => {
+    if (user?.role === 'USER' && link.requireAdmin) {
+      return null;
+    }
+
+    return (
+      <NavbarLink
+        {...link}
+        key={link.label}
+        active={link.path === pathname}
+        onClick={() => navigate(link.path)}
+      />
+    );
+  });
 
   return (
     <Navbar width={{ base: 80 }} p="md">

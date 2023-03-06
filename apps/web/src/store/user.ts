@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 
+type Role = 'ADMIN' | 'USER';
+
 type User = {
   username: string;
+  role: Role;
 };
 
 interface UserStore {
