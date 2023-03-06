@@ -28,6 +28,7 @@ export default async function me(
     select: {
       id: true,
       username: true,
+      role: true,
     },
   });
 

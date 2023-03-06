@@ -31,6 +31,7 @@ export default async function login(
   const sanitizedUser = {
     id: user.id,
     username: user.username,
+    role: user.role,
   };
 
   return res.status(StatusCodes.OK).send({
