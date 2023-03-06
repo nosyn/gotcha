@@ -3,7 +3,7 @@ import { defineConfig, Options } from 'tsup';
 export default defineConfig((options: Options) => ({
   treeshake: true,
   splitting: true,
-  entry: ['index.ts'],
+  entry: ['./index.ts', './prisma/seed.ts'],
   format: ['esm'],
   dts: true,
   minify: true,
