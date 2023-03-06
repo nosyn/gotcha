@@ -1,16 +1,8 @@
 import session from 'express-session';
 import RedisStore from 'connect-redis';
-import { Redis as IORedis } from 'ioredis';
+import { redisClient } from 'cache';
 
 import { COOKIES_NAME } from '../configs.js';
-
-const redisClient = new IORedis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: 6379,
-  password: process.env.REDIS_PASSWORD || 'redispassword',
-});
-
-export default redisClient;
 
 export const authentication = () => {
   const redisStore = new RedisStore({
