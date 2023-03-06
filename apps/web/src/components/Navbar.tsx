@@ -22,6 +22,7 @@ import {
 import { MantineLogo } from '@mantine/ds';
 import { notifications } from '@mantine/notifications';
 import { useUserStore } from '../store/user';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -79,8 +80,8 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const navLinks = [
-  { icon: IconHome2, label: 'Home' },
-  //   { icon: IconGauge, label: 'Dashboard' },
+  { icon: IconHome2, label: 'Home', path: '/' },
+  { icon: IconGauge, label: 'Dashboard', path: '/dashboard' },
   //   { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
   //   { icon: IconCalendarStats, label: 'Releases' },
   //   { icon: IconUser, label: 'Account' },
@@ -91,13 +92,15 @@ const navLinks = [
 export function NavbarMinimal() {
   const [setUser] = useUserStore(({ setUser }) => [setUser]);
   const [active, setActive] = useState(2);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const links = navLinks.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.path === pathname}
+      onClick={() => navigate(link.path)}
     />
   ));
 

@@ -52,9 +52,6 @@ export async function createGraphQLServer(httpServer: http.Server) {
       onDisconnect: async (ctx, code, reason) => {
         console.log('onDisconnect:', code, reason);
       },
-      onComplete: async (ctx) => {
-        console.log('onComplete: ');
-      },
     },
     wsServer
   );

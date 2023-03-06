@@ -3,15 +3,18 @@ import { Route, Routes } from 'react-router-dom';
 import client from './graphql/client';
 import Layout from './layouts/Layout';
 
-// Routes
-import CaptchaPage from './routes/Captcha';
-import Login from './routes/Login';
-import { NotFoundPage } from './routes/NoMatch';
-import RequireAuth from './routes/RequiredAuth';
+// Hooks
 import { useInitializeApp } from './hooks/useInitializeApp';
+
+// Routes
+import { NotFoundPage } from './pages/NoMatch';
+import Login from './pages/Login';
+import RequireAuth from './pages/RequiredAuth';
+import DashboardPage from './pages/DashboardPage';
 
 // Mantine UI Theme
 import ThemeWrapper from './theme';
+import HomePage from './pages/HomePage';
 
 export default function App() {
   const { appInitialized } = useInitializeApp();
@@ -26,7 +29,8 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route element={<Layout />}>
               <Route element={<RequireAuth />}>
-                <Route index path="/" element={<CaptchaPage />} />
+                <Route index path="/" element={<HomePage />} />
+                <Route index path="/dashboard" element={<DashboardPage />} />
               </Route>
               {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
