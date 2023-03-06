@@ -82,7 +82,15 @@ export default function Login() {
     });
 
   return (
-    <Container size={420} my={40}>
+    <Container
+      size={420}
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flex: '1 1 auto',
+        alignItems: 'center',
+      }}
+    >
       <form onSubmit={handleOnSubmit()}>
         <Title
           align="center"
@@ -102,13 +110,13 @@ export default function Login() {
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
-            label="Email"
-            placeholder="you@mantine.dev"
+            label="Username"
+            placeholder="john_doe"
             {...form.getInputProps('username')}
           />
           <PasswordInput
             label="Password"
-            placeholder="Your password"
+            placeholder="super_password"
             mt="md"
             {...form.getInputProps('password')}
           />
