@@ -1,6 +1,9 @@
-import { PubSub } from 'graphql-subscriptions';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { redisOptions } from 'cache';
 
-export const pubsub = new PubSub();
+export const pubsub = new RedisPubSub({
+  connection: redisOptions,
+});
 
 export enum TRIGGERS_ENUM {
   CAPTCHA_CREATED = 'CAPTCHA_CREATED',

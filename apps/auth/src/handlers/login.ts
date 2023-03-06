@@ -28,12 +28,14 @@ export default async function login(
   // Set user session
   req.session.userId = user.id.toString();
 
+  const sanitizedUser = {
+    id: user.id,
+    username: user.username,
+  };
+
   return res.status(StatusCodes.OK).send({
-    user: {
-      id: user.id,
-      username: user.username,
-    },
-    jwt: signJWT(user),
+    user: sanitizedUser,
+    jwt: signJWT(sanitizedUser),
   });
 }
 

@@ -56,6 +56,7 @@ export default function CaptchaPage() {
       sx={(theme: MantineTheme) => ({
         backgroundColor: theme.colors.gray[2],
         marginTop: '3rem',
+        padding: '1rem',
       })}
     >
       <CaptchaTable rows={captchas} />

@@ -18,14 +18,12 @@ export const useInitializeApp = () => {
     const initializeApp = async () => {
       const response = await fetch('/api/auth/me');
 
-      if (!response.ok) {
-        console.log('Not authenticated. Navigate to login page ');
+      if (response.ok) {
+        const { user = null, jwt = '' } = await response.json();
+        setUser(user);
+        setJwt(jwt);
       }
 
-      const { user, jwt } = await response.json();
-
-      setUser(user);
-      setJwt(jwt);
       setAppInitialized(true);
     };
 

@@ -37,7 +37,7 @@ export async function createGraphQLServer(httpServer: http.Server) {
         }
 
         try {
-          await got
+          const response = await got
             .post('http://localhost:8080/api/auth/jwt/verify', {
               json: {
                 jwt: ctx.connectionParams?.authToken,
@@ -45,7 +45,7 @@ export async function createGraphQLServer(httpServer: http.Server) {
             })
             .json();
         } catch (err) {
-          console.error('err: ', err);
+          console.error('Can not open websocket: ', err);
           return false;
         }
       },

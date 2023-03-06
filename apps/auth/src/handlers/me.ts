@@ -25,6 +25,10 @@ export default async function me(
     where: {
       id: Number(userId),
     },
+    select: {
+      id: true,
+      username: true,
+    },
   });
 
   if (!user) {
@@ -32,10 +36,7 @@ export default async function me(
   }
 
   return res.status(StatusCodes.OK).send({
-    user: {
-      id: user.id,
-      username: user.username,
-    },
+    user,
     jwt: signJWT(user),
   });
 }

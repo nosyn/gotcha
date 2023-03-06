@@ -5,6 +5,8 @@ import {
   ResponseError,
   internalServerError,
 } from '../../common/errors/index.js';
+import { JsonWebTokenError, TokenExpiredError } from 'utils';
+import { ErrorMessages } from '../../common/enums/ErrorMessages.js';
 
 export type HandlerFunc = (
   req: Request,
@@ -17,19 +19,30 @@ export const handlerFuncWrapper =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await handler(req, res, next);
-    } catch (err) {
-      if (err instanceof ZodError) {
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .send({ message: err.message });
+    } catch (error) {
+      // Access token expired
+      if (
+        error instanceof TokenExpiredError ||
+        error instanceof JsonWebTokenError
+      ) {
+        res
+          .status(StatusCodes.UNAUTHORIZED)
+          .send({ message: ErrorMessages.INVALID_ACCESS_TOKEN });
+        return;
       }
 
-      if (err instanceof ResponseError) {
-        return res.status(err.statusCode).send(err.response);
+      if (error instanceof ZodError) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .send({ message: error.message });
+      }
+
+      if (error instanceof ResponseError) {
+        return res.status(error.statusCode).send(error.response);
       }
 
       const handlerName = handler.prototype?.handlerName || 'undefined handler';
-      console.error(`Unhandled error at ${handlerName}:\n${err}`);
+      console.error(`Unhandled error at ${handlerName}:\n${error}`);
 
       return res
         .status(internalServerError.statusCode)

@@ -12,16 +12,7 @@ const postVerifyJwt = async (
 ): Promise<Response> => {
   const { jwt } = verifyJWTSchema.parse(req.body);
 
-  console.log('jwt: ', jwt);
-
-  const payload = verifyJWT(jwt);
-
-  console.log('payload: ', payload);
-
-  //   throw new ResponseError({
-  //     statusCode: StatusCodes.UNAUTHORIZED,
-  //     message: ReasonPhrases.UNAUTHORIZED,
-  //   });
+  verifyJWT(jwt);
 
   return res.status(StatusCodes.OK).send({ message: ReasonPhrases.OK });
 };
