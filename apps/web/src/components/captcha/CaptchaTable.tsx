@@ -1,7 +1,7 @@
 import { Button, Container, Table } from '@mantine/core';
 import { Captcha } from '../../types';
 import { Fragment, useState } from 'react';
-import CaptchaCard from './captcha-card/CaptchaCard';
+import CaptchaCard from './captcha_card/CaptchaCard';
 
 interface CaptchaTableProps {
   rows: Captcha[];
@@ -34,7 +34,13 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
                   width: '100%',
                 }}
               >
-                <th className="text-center">{index}</th>
+                <th
+                  style={{
+                    width: '5rem',
+                  }}
+                >
+                  {index}
+                </th>
                 <td>{r.id.split('-')[0]}</td>
                 <td>{r.status}</td>
                 <td>{new Date(r.createdAt).toLocaleTimeString()}</td>
@@ -75,7 +81,12 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
 };
 
 const TableColumns = [
-  { header: 'index' },
+  {
+    header: 'index',
+    style: {
+      width: '5rem',
+    },
+  },
   { header: 'id' },
   { header: 'status' },
   { header: 'updated at' },
@@ -94,7 +105,9 @@ const TableHead = () => {
     >
       <tr>
         {TableColumns.map((tb) => (
-          <th key={tb.header}>{tb.header}</th>
+          <th key={tb.header} style={tb.style}>
+            {tb.header}
+          </th>
         ))}
       </tr>
     </thead>

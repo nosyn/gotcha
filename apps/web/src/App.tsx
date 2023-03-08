@@ -16,6 +16,7 @@ import RequireAuth from './routes/RequiredAuth';
 import HomePage from './pages/HomePage';
 import RequireAdmin from './routes/RequireAdmin';
 import ThemeWrapper from './theme';
+import { Container } from '@mantine/core';
 
 export default function App() {
   const { appInitialized } = useInitializeApp();

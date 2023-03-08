@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
 // Utils
 import { z } from 'zod';
@@ -12,9 +12,9 @@ const postVerifyJwt = async (
 ): Promise<Response> => {
   const { jwt } = verifyJWTSchema.parse(req.body);
 
-  verifyJWT(jwt);
+  const user = verifyJWT(jwt);
 
-  return res.status(StatusCodes.OK).send({ message: ReasonPhrases.OK });
+  return res.status(StatusCodes.OK).send({ user });
 };
 
 postVerifyJwt.prototype = { handlerName: 'postVerifyJwt' };

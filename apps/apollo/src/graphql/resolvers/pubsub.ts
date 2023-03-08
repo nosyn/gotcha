@@ -7,6 +7,5 @@ export const pubsub = new RedisPubSub({
 
 export enum TRIGGERS_ENUM {
   CAPTCHA_CREATED = 'CAPTCHA_CREATED',
+  CAPTCHA_ASSIGNED = 'CAPTCHA_ASSIGNED',
 }
-export const TRIGGERS_MAP = new Map();
-TRIGGERS_MAP.set('CAPTCHA_CREATED', 'CAPTCHA_CREATED');

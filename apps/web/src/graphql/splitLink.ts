@@ -8,14 +8,15 @@ export const httpLink = new HttpLink({
   uri: 'http://localhost:5000/graphql',
 });
 
-let activeSocket: any, timedOut: any;
+let activeSocket: WebSocket;
+let timedOut: number;
 
 export const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://localhost:5000/graphql',
-    keepAlive: 2_000,
+    keepAlive: 5_000,
     on: {
-      connected: (socket) => (activeSocket = socket),
+      connected: (socket) => (activeSocket = socket as WebSocket),
       ping: (received) => {
         if (!received)
           // sent

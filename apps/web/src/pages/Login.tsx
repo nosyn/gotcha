@@ -77,18 +77,19 @@ export default function Login() {
 
       const { user, jwt } = await response.json();
 
+      console.log('user: ', user);
       setJwt(jwt);
       setUser(user);
     });
 
   return (
     <Container
-      size={420}
       sx={{
         height: '100vh',
         display: 'flex',
         flex: '1 1 auto',
         alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <form onSubmit={handleOnSubmit()}>

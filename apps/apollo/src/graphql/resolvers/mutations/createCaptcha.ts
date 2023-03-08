@@ -66,7 +66,10 @@ export default (_: any, args: any) => {
   const captchaCreated = captchasData.get(input.id);
 
   // Publish to client
-  pubsub.publish(TRIGGERS_ENUM['CAPTCHA_CREATED'], { captchaCreated });
+  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_CREATED, { captchaCreated });
+  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
+    captchaAssigned: captchaCreated,
+  });
 
   return captchaCreated;
 };

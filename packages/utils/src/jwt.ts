@@ -20,5 +20,7 @@ export const signJWT = (payload: Object) =>
 export const verifyJWT = (token: string) =>
   jwt.verify(token, secret, verifyOptions);
 
+export const decodeJWT = (token: string) => jwt.decode(token);
+
 const { JsonWebTokenError, TokenExpiredError } = jwt;
 export { JsonWebTokenError, TokenExpiredError };

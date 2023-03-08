@@ -20,4 +20,16 @@ export const users: User[] = [
     role: 'USER',
     password: 'password',
   },
+  {
+    id: 3,
+    username: 'user_2',
+    role: 'USER',
+    password: 'password',
+  },
+  {
+    id: 4,
+    username: 'user_3',
+    role: 'USER',
+    password: 'password',
+  },
 ];
