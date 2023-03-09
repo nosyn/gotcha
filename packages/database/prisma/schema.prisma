@@ -8,9 +8,11 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  role     Role   @default(USER)
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  role     Role    @default(USER)
+  online   Boolean @default(false)
+  // Salt and hash are for password
   salt     String
   hash     String
 }
