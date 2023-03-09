@@ -7,6 +7,10 @@ const resolvers = {
   Query,
   Mutation,
   Subscription,
+  Captcha: {
+    updatedAt: (parent: any) => parent.updatedAt.toUTCString(),
+    createdAt: (parent: any) => parent.updatedAt.toUTCString(),
+  },
 };
 
 export default resolvers;

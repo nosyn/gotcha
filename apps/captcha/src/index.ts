@@ -27,11 +27,11 @@ const main = async () => {
     });
 
     await createCaptcha({
-      id: id,
+      captchaId: id,
       name: fileNameWithExtension,
       status: 'CREATED',
     });
-  }, 5000);
+  }, 10000000);
 };
 
 main();

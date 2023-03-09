@@ -64,6 +64,7 @@ importers:
       bullmq: ^3.10.1
       cache: workspace:*
       cors: ^2.8.5
+      database: workspace:*
       dotenv: ^16.0.3
       eslint: ^7.32.0
       eslint-config-custom-server: workspace:*
@@ -88,6 +89,7 @@ importers:
       bullmq: 3.10.1
       cache: link:../../packages/cache
       cors: 2.8.5
+      database: link:../../packages/database
       dotenv: 16.0.3
       express: 4.18.2
       got: 12.5.3

@@ -16,27 +16,9 @@ export default async function login(
     where: {
       username,
     },
-    select: {
-      id: true,
-      role: true,
-      username: true,
-      Password: {
-        select: {
-          hash: true,
-          salt: true,
-        },
-      },
-    },
   });
 
-  if (!user?.Password?.hash || !user?.Password?.salt) {
-    throw new Error(`user ${username} does not have password in the database`);
-  }
-
-  if (
-    !user ||
-    user.Password.hash !== hashPassword(password, user.Password.salt)
-  ) {
+  if (!user || user.hash !== hashPassword(password, user.salt)) {
     throw new ResponseError({
       message: ErrorMessages.INVALID_CREDENTIALS,
       statusCode: StatusCodes.UNAUTHORIZED,
@@ -46,7 +28,6 @@ export default async function login(
   // Set user session
   req.session.userId = user.id.toString();
 
-  // Remove Password from the user object
   const sanitizedUser = {
     id: user.id,
     username: user.username,

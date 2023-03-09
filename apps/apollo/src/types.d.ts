@@ -2,6 +2,7 @@ export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
 
 export type Captcha = {
   id: string;
+  captchaId: string;
   name: string;
   status: CaptchaStatus;
   createdAt: string;
@@ -9,7 +10,7 @@ export type Captcha = {
 };
 
 export type CaptchaInput = {
-  id: string;
+  captchaId: string;
   name: string;
   status: CaptchaStatus;
 };

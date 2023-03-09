@@ -25,6 +25,11 @@ export default async function me(
     where: {
       id: Number(userId),
     },
+    select: {
+      id: true,
+      role: true,
+      username: true,
+    },
   });
 
   if (!user) {

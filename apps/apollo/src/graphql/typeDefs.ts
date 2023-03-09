@@ -18,7 +18,8 @@ const typeDefs = `#graphql
 
   type Captcha {
     id: ID!
-    name: ID!
+    captchaId: ID!
+    name: String!
     status: Status!
     createdAt: String!
     updatedAt: String!
@@ -26,7 +27,7 @@ const typeDefs = `#graphql
 
   ####################################### Inputs #######################################
   input CaptchaInput {
-    id: ID!
+    captchaId: ID!
     name: String!
     status: Status!
   }
@@ -34,7 +35,7 @@ const typeDefs = `#graphql
   ####################################### Query #######################################
   type Query {
     captchas: [Captcha!]!
-    captcha(id: ID!): Captcha
+    captcha(captchaId: ID!): Captcha
   }
 
   ####################################### Mutation #######################################
@@ -46,7 +47,7 @@ const typeDefs = `#graphql
   ####################################### Subscription #######################################
   type Subscription {
     captchaCreated: Captcha!
-    captchaAssigned(id: ID!): Captcha!
+    captchaAssigned(userID: ID!): Captcha!
     hello: String!
   }
 `;
