@@ -1,13 +1,14 @@
 import { gql } from '@apollo/client';
 
 export const CaptchaAssigned = gql`
-  subscription CaptchaAssigned($id: ID!) {
-    captchaAssigned(id: $id) {
-      createdAt
+  subscription CaptchaAssigned($userId: ID!) {
+    captchaAssigned(userId: $userId) {
       id
+      captchaId
       name
       status
       updatedAt
+      createdAt
     }
   }
 `;

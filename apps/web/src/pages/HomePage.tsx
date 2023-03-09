@@ -3,17 +3,17 @@ import { Container, Loader } from '@mantine/core';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
 import { useUserStore } from '../store/user';
-import { CaptchaAssignedData, IDInput } from '../types';
+import { CaptchaAssignedData, UserIdInput } from '../types';
 
 export default function HomePage() {
   const [user] = useUserStore(({ user }) => [user]);
 
   const { data, error, loading } = useSubscription<
     CaptchaAssignedData,
-    IDInput
+    UserIdInput
   >(CaptchaAssigned, {
     variables: {
-      id: !user?.id ? -1 : +user.id,
+      userId: !user?.id ? -1 : +user.id,
     },
     skip: !user?.id,
   });

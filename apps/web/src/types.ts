@@ -32,6 +32,6 @@ export type CaptchaInput = {
   };
 };
 
-export type IDInput = {
-  id: number;
+export type UserIdInput = {
+  userId: number;
 };

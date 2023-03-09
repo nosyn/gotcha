@@ -20,7 +20,6 @@ export default function CaptchaPage() {
 
     const unsubscribe = subscribeToMore<CaptchaCreatedData>({
       document: CaptchaCreated,
-      // variables: { postID: params.postID },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const newFeedItem = subscriptionData.data.captchaCreated;

@@ -4,10 +4,11 @@ import { CaptchasData } from '../../types';
 export const CaptchaCreated = gql`
   subscription CaptchaCreated {
     captchaCreated {
-      createdAt
       id
+      captchaId
       name
       status
+      createdAt
       updatedAt
     }
   }
