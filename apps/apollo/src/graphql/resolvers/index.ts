@@ -8,8 +8,20 @@ const resolvers = {
   Mutation,
   Subscription,
   Captcha: {
-    updatedAt: (parent: any) => parent.updatedAt.toUTCString(),
-    createdAt: (parent: any) => parent.updatedAt.toUTCString(),
+    createdAt: (parent: any) => {
+      if (parent.createdAt instanceof Date) {
+        return parent.createdAt.toUTCString();
+      }
+
+      return parent.createdAt;
+    },
+    updatedAt: (parent: any) => {
+      if (parent.updatedAt instanceof Date) {
+        return parent.updatedAt.toUTCString();
+      }
+
+      return parent.updatedAt;
+    },
   },
 };
 

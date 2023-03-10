@@ -5,8 +5,6 @@ import { pubsub, TRIGGERS_ENUM } from '../pubsub.js';
 export default async (_: any, args: any) => {
   const input = args.input as CaptchaInput;
 
-  console.log('input: ', input);
-
   const createdCaptcha = await prisma.captcha.create({
     data: {
       ...input,
