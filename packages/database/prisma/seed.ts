@@ -19,6 +19,7 @@ const seedingUsers = async () => {
       data: {
         id: user.id,
         username: user.username,
+        role: user.role,
         hash: hashedPassword,
         salt,
       },

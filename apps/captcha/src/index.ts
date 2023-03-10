@@ -27,7 +27,7 @@ const main = async () => {
     });
 
     await createCaptcha({
-      id: id,
+      captchaId: id,
       name: fileNameWithExtension,
       status: 'CREATED',
     });

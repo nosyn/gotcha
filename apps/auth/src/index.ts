@@ -7,12 +7,15 @@ import bodyParser from 'body-parser';
 import { PORT } from './configs.js';
 
 import { __node_env__ } from './configs.js';
-import { logger, authentication } from './middlewares/index.js';
+import { morgan, authentication } from './middlewares/index.js';
 
-// Handlers
+// Handler functions
+import jwtRoute from './routes/jwt/index.js';
 import health from './handlers/health.js';
 import login from './handlers/login.js';
 import logout from './handlers/logout.js';
+import me from './handlers/me.js';
+import { handlerFuncWrapper } from './handlers/handlerFuncWrapper.js';
 
 const start = async () => {
   const app = express();
@@ -20,16 +23,13 @@ const start = async () => {
   const httpServer = http.createServer(app);
 
   // Middleware
-  app.use(
-    cors<cors.CorsRequest>(),
-    bodyParser.json(),
-    logger(),
-    authentication()
-  );
+  app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan, authentication);
 
   app.get('/health', health);
-  app.post('/login', login);
-  app.post('/logout', logout);
+  app.get('/me', handlerFuncWrapper(me));
+  app.post('/login', handlerFuncWrapper(login));
+  app.post('/logout', handlerFuncWrapper(logout));
+  app.use('/jwt', jwtRoute);
 
   // Modified server startup
   await new Promise<void>((resolve) =>

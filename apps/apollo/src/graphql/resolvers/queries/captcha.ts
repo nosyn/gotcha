@@ -1,13 +1,24 @@
-import { captchasData } from '../../../data.js';
+import { prisma } from '../../../prisma/index.js';
 
-export default (_: string, args: any) => {
+export default async (_: string, args: any) => {
   const id = args.id as string;
 
-  const captcha = captchasData.get(id);
+  const captchaCreated = await prisma.captcha.findUnique({
+    where: {
+      captchaId: id,
+    },
+    select: {
+      captchaId: true,
+      name: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 
-  if (!captcha) {
+  if (!captchaCreated) {
     return null;
   }
 
-  return captcha;
+  return captchaCreated;
 };

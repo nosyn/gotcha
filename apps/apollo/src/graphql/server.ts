@@ -1,13 +1,12 @@
-import http from 'node:http';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { loggers } from './plugins/logger.js';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { WebSocketServer } from 'ws';
-import { useServer } from 'graphql-ws/lib/use/ws';
+import http from 'node:http';
+import { loggers } from './plugins/logger.js';
 
 // Others
 import resolvers from './resolvers/index.js';
+import { createGraphQLWebSocketServer } from './subscriptionServer.js';
 import typeDefs from './typeDefs.js';
 
 export interface MyContext {
@@ -17,15 +16,7 @@ export interface MyContext {
 export async function createGraphQLServer(httpServer: http.Server) {
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-  // Creating the WebSocket server
-  const wsServer = new WebSocketServer({
-    // This is the `httpServer` we created in a previous step.
-    server: httpServer,
-  });
-
-  // Hand in the schema we just created and have the
-  // WebSocketServer start listening.
-  const serverCleanup = useServer({ schema }, wsServer);
+  const serverCleanup = createGraphQLWebSocketServer(httpServer, schema);
 
   // Same ApolloServer initialization as before, plus the drain plugin
   // for our httpServer.

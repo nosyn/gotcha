@@ -1,27 +1,33 @@
-import { captchasData } from '../../../data.js';
+import { prisma } from '../../../prisma/index.js';
 import { CaptchaInput } from '../../../types.js';
 import { pubsub, TRIGGERS_ENUM } from '../pubsub.js';
 
-export default (_: any, args: any) => {
+export default async (_: any, args: any) => {
   const input = args.input as CaptchaInput;
-  const captcha = captchasData.get(args.input.id);
 
-  if (captcha) {
-    throw new Error(`Captcha already exists with ${input.id} id.`);
-  }
-
-  captchasData.set(input.id, {
-    id: input.id,
-    name: input.name,
-    status: input.status,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+  const createdCaptcha = await prisma.captcha.create({
+    data: {
+      ...input,
+      answer: '',
+    },
+    select: {
+      id: true,
+      name: true,
+      captchaId: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
 
-  const captchaCreated = captchasData.get(input.id);
-
   // Publish to client
-  pubsub.publish(TRIGGERS_ENUM['CAPTCHA_CREATED'], { captchaCreated });
+  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_CREATED, {
+    captchaCreated: createdCaptcha,
+  });
 
-  return captchaCreated;
+  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
+    captchaAssigned: createdCaptcha,
+  });
+
+  return createdCaptcha;
 };

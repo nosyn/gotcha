@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/user';
 
 const RequireAuth = () => {
-  const user = useUserStore((state) => state.user);
+  const [user] = useUserStore(({ user }) => [user]);
   const location = useLocation();
 
   if (!user) {

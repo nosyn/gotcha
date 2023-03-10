@@ -8,8 +8,31 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  hash     String
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  role     Role    @default(USER)
+  online   Boolean @default(false)
   salt     String
+  hash     String
+}
+
+model Captcha {
+  id        Int           @id @default(autoincrement())
+  captchaId String        @unique
+  name      String
+  answer    String
+  status    CaptchaStatus
+  createdAt DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime      @updatedAt @db.Timestamptz(3)
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum CaptchaStatus {
+  CREATED
+  RESOLVING
+  RESOLVED
 }

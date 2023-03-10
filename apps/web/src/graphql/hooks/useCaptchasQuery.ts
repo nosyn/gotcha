@@ -5,6 +5,7 @@ export const CaptchasQuery = gql`
   query Captchas {
     captchas {
       id
+      captchaId
       name
       status
       createdAt
