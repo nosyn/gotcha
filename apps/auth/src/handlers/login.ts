@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
 import { prisma } from '../dbClient/index.js';
+import { SanitizedUser } from '../types.js';
 
 export default async function login(
   req: Request,
@@ -25,14 +26,15 @@ export default async function login(
     });
   }
 
-  // Set user session
-  req.session.userId = user.id.toString();
-
-  const sanitizedUser = {
+  const sanitizedUser: SanitizedUser = {
     id: user.id,
     username: user.username,
     role: user.role,
+    online: user.online,
   };
+
+  // Set user session
+  req.session.user = sanitizedUser;
 
   return res.status(StatusCodes.OK).send({
     user: sanitizedUser,

@@ -33,43 +33,42 @@ export function createGraphQLWebSocketServer(
         // console.log('ctx', ctx);
       },
       onConnect: async (ctx) => {
-        if (!ctx.connectionParams?.authToken) {
-          throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
-        }
+        // if (!ctx.connectionParams?.authToken) {
+        //   throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
+        // }
 
-        try {
-          const response = await got
-            .post('http://localhost:8080/api/auth/jwt/verify', {
-              json: {
-                jwt: ctx.connectionParams?.authToken,
-              },
-            })
-            .json();
+        // try {
+        //   const response = await got
+        //     .post('http://localhost:8080/api/auth/jwt/verify', {
+        //       json: {
+        //         jwt: ctx.connectionParams?.authToken,
+        //       },
+        //     })
+        //     .json();
 
-          await redisClient.set(
-            `${ctx.extra.request.headers['sec-websocket-key']}`,
-            response.user.id
-          );
+        //   await redisClient.set(
+        //     `${ctx.extra.request.headers['sec-websocket-key']}`,
+        //     response.user.id
+        //   );
 
-          await userOnline({
-            userId: response?.user?.id,
-          });
+        //   await userOnline({
+        //     userId: response?.user?.id,
+        //   });
 
-          return true;
-        } catch (err) {
-          console.error('Can not open websocket: ', err);
+        return true;
+        // } catch (err) {
+        //   console.error('Can not open websocket: ', err);
 
-          return false;
-        }
+        //   return false;
+        // }
       },
       onDisconnect: async (ctx, code, reason) => {
-        const userId = await redisClient.get(
-          `${ctx.extra.request.headers['sec-websocket-key']}`
-        );
-
-        await userOffline({
-          userId,
-        });
+        // const userId = await redisClient.get(
+        //   `${ctx.extra.request.headers['sec-websocket-key']}`
+        // );
+        // await userOffline({
+        //   userId,
+        // });
       },
     },
     wsServer

@@ -1,5 +1,4 @@
 import session from 'express-session';
-import RedisStore from 'connect-redis';
 import { redisSessionStore } from 'cache';
 
 import { COOKIES_NAME } from '../configs.js';

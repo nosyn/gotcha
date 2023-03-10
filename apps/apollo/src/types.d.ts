@@ -1,3 +1,5 @@
+import { Session } from 'express-session';
+
 export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
 
 export type Captcha = {
@@ -14,3 +16,16 @@ export type CaptchaInput = {
   name: string;
   status: CaptchaStatus;
 };
+
+export type User = {
+  id: number;
+  username: string;
+  role: Role;
+  online: boolean;
+};
+
+declare module 'express-session' {
+  interface SessionData {
+    user: User;
+  }
+}

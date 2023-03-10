@@ -12,7 +12,6 @@ model User {
   username String  @unique
   role     Role    @default(USER)
   online   Boolean @default(false)
-  // Salt and hash are for password
   salt     String
   hash     String
 }

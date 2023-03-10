@@ -1,4 +1,5 @@
-/************************* Datas *************************/
+/************************* Types *************************/
+
 export type Captcha = {
   id: string;
   name: string;
@@ -6,6 +7,15 @@ export type Captcha = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type User = {
+  id: string;
+  username: string;
+  role: 'ADMIN' | 'USER';
+  online: boolean;
+};
+
+/************************* Data *************************/
 
 export type CaptchaCreatedData = {
   captchaCreated: Captcha;
@@ -23,12 +33,23 @@ export type CaptchasData = {
   captchas: Captcha[];
 };
 
+export type LoginData = {
+  login: User;
+};
+
 /************************* Inputs *************************/
 export type CaptchaInput = {
   input: {
     id: string;
     name: string;
     status: 'CREATED' | 'RESOLVING' | 'RESOLVED';
+  };
+};
+
+export type LoginInput = {
+  input: {
+    username: string;
+    password: string;
   };
 };
 

@@ -19,6 +19,9 @@ import { z } from 'zod';
 import { useStore } from 'zustand';
 import { jwtStore } from '../store/jwt';
 import { useUserStore } from '../store/user';
+import { useMutation } from '@apollo/client';
+import { LoginData, LoginInput } from '../types';
+import { LoginMutation } from '../graphql/hooks/useLogin';
 
 const schema = z.object({
   username: z
@@ -40,9 +43,13 @@ export default function Login() {
   });
   const [user, setUser] = useUserStore(({ user, setUser }) => [user, setUser]);
   const [setJwt] = useStore(jwtStore, ({ setJwt }) => [setJwt]);
-
   const location = useLocation();
   const navigate = useNavigate();
+  const [login] = useMutation<LoginData, LoginInput>(LoginMutation, {
+    onCompleted: (data) => {
+      setUser(data.login);
+    },
+  });
   const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
@@ -78,8 +85,17 @@ export default function Login() {
       const { user, jwt } = await response.json();
 
       console.log('user: ', user);
-      setJwt(jwt);
+
+      // await login({
+      //   variables: {
+      //     input: {
+      //       ...values,
+      //     },
+      //   },
+      // });
+
       setUser(user);
+      setJwt(jwt);
     });
 
   return (

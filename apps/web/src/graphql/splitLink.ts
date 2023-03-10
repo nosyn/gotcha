@@ -5,7 +5,7 @@ import { createClient } from 'graphql-ws';
 import { jwtStore } from '../store/jwt';
 
 export const httpLink = new HttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://localhost:8080/api/graphql',
 });
 
 let activeSocket: WebSocket;
@@ -13,7 +13,7 @@ let timedOut: number;
 
 export const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:5000/graphql',
+    url: 'ws://localhost:8080/api/graphql',
     keepAlive: 5_000,
     on: {
       connected: (socket) => (activeSocket = socket as WebSocket),

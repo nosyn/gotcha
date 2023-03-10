@@ -10,10 +10,17 @@ const typeDefs = `#graphql
     RESOLVED
   }
 
+  enum Role {
+    ADMIN
+    USER
+  }
+
   ####################################### Types #######################################
-  type Book {
-    title: String
-    author: String
+  type User {
+    id: String!
+    username: String!
+    role: Role!
+    online: Boolean!
   }
 
   type Captcha {
@@ -32,6 +39,11 @@ const typeDefs = `#graphql
     status: Status!
   }
 
+  input LoginInput {
+    username: String!
+    password: String!
+  }
+
   ####################################### Query #######################################
   type Query {
     captchas: [Captcha!]!
@@ -40,6 +52,8 @@ const typeDefs = `#graphql
 
   ####################################### Mutation #######################################
   type Mutation {
+    login(input: LoginInput!): User!
+    logout: Boolean!
     createCaptcha(input: CaptchaInput!): Captcha!
     updateCaptcha(input: CaptchaInput!): Captcha!
   }

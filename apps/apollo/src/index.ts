@@ -9,8 +9,9 @@ import { PORT } from './configs.js';
 import { createGraphQLServer } from './graphql/server.js';
 
 import { __node_env__ } from './configs.js';
-import morgan from './middlewares/morgan.js';
 import health from './handlers/health.js';
+
+import { authentication, morgan } from './middlewares/index.js';
 
 const start = async () => {
   // Required logic for integrating with Express
@@ -23,7 +24,7 @@ const start = async () => {
 
   const graphQLServer = await createGraphQLServer(httpServer);
 
-  app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan);
+  app.use(cors<cors.CorsRequest>(), bodyParser.json(), morgan, authentication);
 
   // Handlers
   app.get('/health', health);
@@ -31,7 +32,16 @@ const start = async () => {
   app.use(
     '/',
     expressMiddleware(graphQLServer, {
-      context: async ({ req }) => ({ token: req.headers.token }),
+      context: async ({ req }) => {
+        // !TODO: Turn back on when auth is ready
+        // const { user } = req.session;
+
+        // if (!user) {
+        //   throw new Error('Unauthorized');
+        // }
+
+        return { req };
+      },
     })
   );
 

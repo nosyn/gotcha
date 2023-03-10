@@ -1,7 +1,7 @@
-import http from 'node:http';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import http from 'node:http';
 import { loggers } from './plugins/logger.js';
 
 // Others
