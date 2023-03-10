@@ -18,7 +18,7 @@ export type CaptchaInput = {
 };
 
 export type User = {
-  id: number;
+  id: string;
   username: string;
   role: Role;
   online: boolean;
