@@ -30,7 +30,7 @@ export default async function login(
     id: user.id,
     username: user.username,
     role: user.role,
-    online: user.online,
+    status: user.status,
   };
 
   // Set user session

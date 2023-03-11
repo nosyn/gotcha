@@ -1,3 +1,4 @@
+import { Role, UserStatus } from 'database';
 import { Session } from 'express-session';
 
 export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
@@ -21,7 +22,7 @@ export type User = {
   id: string;
   username: string;
   role: Role;
-  online: boolean;
+  status: UserStatus;
 };
 
 declare module 'express-session' {

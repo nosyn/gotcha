@@ -39,7 +39,7 @@ export const UsersTable = ({ rows }: UsersTableProps) => {
                 <td>{r.id.split('-')[0]}</td>
                 <td>{r.username}</td>
                 <td>{r.role}</td>
-                <td>{r.online ? 'ONLINE' : 'OFFLINE'}</td>
+                <td>{r.status}</td>
               </tr>
             </Fragment>
           );
@@ -59,7 +59,7 @@ const TableColumns = [
   { header: 'id' },
   { header: 'username' },
   { header: 'role' },
-  { header: 'online' },
+  { header: 'status' },
 ];
 
 const TableHead = () => {

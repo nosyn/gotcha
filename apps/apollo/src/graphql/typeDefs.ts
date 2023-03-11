@@ -4,30 +4,37 @@ const typeDefs = `#graphql
   ####################################### Interfaces #######################################
  
   ####################################### Enums #######################################
-  enum Status {
+  enum UserStatus {
+    ONLINE
+    OFFLINE
+    WORKING
+  }
+  
+  enum UserRole {
+    ADMIN
+    USER
+  }
+
+  enum CaptchaStatus {
     CREATED
     RESOLVING
     RESOLVED
   }
 
-  enum Role {
-    ADMIN
-    USER
-  }
 
   ####################################### Types #######################################
   type User {
     id: String!
     username: String!
-    role: Role!
-    online: Boolean!
+    role: UserRole!
+    status: UserStatus!
   }
 
   type Captcha {
     id: ID!
     captchaId: ID!
     name: String!
-    status: Status!
+    status: CaptchaStatus!
     createdAt: String!
     updatedAt: String!
   }
@@ -36,7 +43,7 @@ const typeDefs = `#graphql
   input CaptchaInput {
     captchaId: ID!
     name: String!
-    status: Status!
+    status: CaptchaStatus!
   }
 
   input LoginInput {

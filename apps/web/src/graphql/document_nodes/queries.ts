@@ -6,7 +6,7 @@ export const Me = gql(/* GraphQL */ `
       id
       username
       role
-      online
+      status
     }
   }
 `);
@@ -17,7 +17,7 @@ export const Users = gql(/* GraphQL */ `
       id
       username
       role
-      online
+      status
     }
   }
 `);

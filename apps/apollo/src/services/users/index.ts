@@ -1,8 +1,5 @@
 import { pubsub, TRIGGERS_ENUM } from '../../graphql/resolvers/pubsub.js';
 import { prisma } from '../../prisma/index.js';
-import { redisClient } from 'cache';
-
-const PREFIX_KEY = 'online-user:';
 
 export const userOnline = async ({ userId }: { userId: string }) => {
   const user = await prisma.user.update({
@@ -10,13 +7,13 @@ export const userOnline = async ({ userId }: { userId: string }) => {
       id: Number(userId),
     },
     data: {
-      online: true,
+      status: 'ONLINE',
     },
     select: {
       id: true,
       username: true,
       role: true,
-      online: true,
+      status: true,
     },
   });
 
@@ -29,13 +26,13 @@ export const userOffline = async ({ userId }: { userId: string }) => {
       id: Number(userId),
     },
     data: {
-      online: false,
+      status: 'OFFLINE',
     },
     select: {
       id: true,
       username: true,
       role: true,
-      online: true,
+      status: true,
     },
   });
 

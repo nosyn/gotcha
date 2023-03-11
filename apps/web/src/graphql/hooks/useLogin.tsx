@@ -7,7 +7,7 @@ export const LoginMutation = gql`
       id
       username
       role
-      online
+      status
     }
   }
 `;

@@ -19,7 +19,7 @@ export const OnUserUpdated = gql(/* GraphQL */ `
       id
       username
       role
-      online
+      status
     }
   }
 `);

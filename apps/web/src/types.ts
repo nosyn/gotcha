@@ -1,4 +1,7 @@
 /************************* Types *************************/
+type UserStatus = 'CREATED' | 'RESOLVING' | ' RESOLVED';
+
+type UserRole = 'ADMIN' | 'USER';
 
 export type Captcha = {
   id: string;
@@ -11,8 +14,8 @@ export type Captcha = {
 export type User = {
   id: string;
   username: string;
-  role: 'ADMIN' | 'USER';
-  online: boolean;
+  role: UserRole;
+  status: UserStatus;
 };
 
 /************************* Data *************************/

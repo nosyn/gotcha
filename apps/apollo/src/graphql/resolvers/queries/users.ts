@@ -6,6 +6,12 @@ export default async (_: string, args: any, context: any) => {
       id: 'asc',
     },
     distinct: 'id',
+    select: {
+      id: true,
+      username: true,
+      status: true,
+      role: true,
+    },
   });
 
   return users;

@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  role     Role    @default(USER)
-  online   Boolean @default(false)
+  id       Int        @id @default(autoincrement())
+  username String     @unique
+  role     Role       @default(USER)
+  status   UserStatus @default(OFFLINE)
   salt     String
   hash     String
 }
@@ -35,4 +35,10 @@ enum CaptchaStatus {
   CREATED
   RESOLVING
   RESOLVED
+}
+
+enum UserStatus {
+  ONLINE
+  OFFLINE
+  WORKING
 }
