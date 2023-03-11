@@ -33,6 +33,10 @@ export type CaptchasData = {
   captchas: Captcha[];
 };
 
+export type UsersData = {
+  users: User[];
+};
+
 export type LoginData = {
   login: User;
 };

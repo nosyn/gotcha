@@ -5,7 +5,7 @@ import { CaptchaCreated } from '../graphql/hooks/useCaptchaCreatedSubscription';
 import useCaptchasQuery from '../graphql/hooks/useCaptchasQuery';
 import { Captcha, CaptchaCreatedData } from '../types';
 
-export function CaptchasTableContainer() {
+export function CaptchaTableContainer() {
   const { data, error, loading, subscribeToMore } = useCaptchasQuery();
   const [captchas, setCaptchas] = useState<Captcha[]>([]);
 

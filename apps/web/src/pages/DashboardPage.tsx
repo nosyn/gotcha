@@ -1,8 +1,8 @@
 import { Container } from '@mantine/core';
 
 // Containers
-import { CaptchasTableContainer } from '../containers/CaptchasTableContainer';
-import { UsersTableContainer } from '../containers/UsersTableContainer';
+import { CaptchaTableContainer } from '../containers/CaptchaTableContainer';
+import { UserTableContainer } from '../containers/UserTableContainer';
 
 export default function DashboardPage() {
   return (
@@ -16,8 +16,8 @@ export default function DashboardPage() {
       })}
       fluid
     >
-      <CaptchasTableContainer />
-      <UsersTableContainer />
+      <CaptchaTableContainer />
+      <UserTableContainer />
     </Container>
   );
 }

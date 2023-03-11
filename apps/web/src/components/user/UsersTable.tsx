@@ -1,13 +1,12 @@
 import { Table } from '@mantine/core';
 import { Fragment } from 'react';
 import { User } from '../../types';
-// import CaptchaCard from './captcha_card/CaptchaCard';
 
 interface UsersTableProps {
   rows: User[];
 }
 
-const UsersTable = ({ rows }: UsersTableProps) => {
+export const UsersTable = ({ rows }: UsersTableProps) => {
   return (
     <Table striped highlightOnHover withBorder withColumnBorders>
       <TableHead />
@@ -39,6 +38,8 @@ const UsersTable = ({ rows }: UsersTableProps) => {
                 </th>
                 <td>{r.id.split('-')[0]}</td>
                 <td>{r.username}</td>
+                <td>{r.role}</td>
+                <td>{r.online ? 'ONLINE' : 'OFFLINE'}</td>
               </tr>
             </Fragment>
           );
@@ -80,5 +81,3 @@ const TableHead = () => {
     </thead>
   );
 };
-
-export default UsersTable;

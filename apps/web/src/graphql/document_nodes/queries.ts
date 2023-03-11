@@ -10,3 +10,14 @@ export const Me = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const Users = gql(/* GraphQL */ `
+  query Users {
+    users {
+      id
+      username
+      role
+      online
+    }
+  }
+`);
