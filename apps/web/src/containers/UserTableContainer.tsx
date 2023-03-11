@@ -13,8 +13,6 @@ export function UserTableContainer() {
     const unsubscribe = subscribeToMore<any>({
       document: OnUserUpdated,
       updateQuery: (prev, { subscriptionData }) => {
-        console.log('prev: ', prev);
-        console.log('data: ', subscriptionData);
         if (!subscriptionData.data) return prev;
         const updatedUser = subscriptionData.data.onUserUpdated;
 
