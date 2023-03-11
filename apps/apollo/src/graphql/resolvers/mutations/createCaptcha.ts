@@ -9,13 +9,13 @@ export default async (_: any, args: any) => {
   const createdCaptcha = await prisma.captcha.create({
     data: {
       ...input,
-      answer: '',
+      text: '',
     },
     select: {
       id: true,
       name: true,
       captchaId: true,
-      answer: true,
+      text: true,
       status: true,
       createdAt: true,
       updatedAt: true,

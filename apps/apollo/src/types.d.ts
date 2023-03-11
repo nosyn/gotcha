@@ -16,6 +16,7 @@ export type CaptchaInput = {
   captchaId: string;
   name: string;
   status: CaptchaStatus;
+  text: string;
 };
 
 export type User = {
