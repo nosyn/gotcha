@@ -30,7 +30,11 @@ export function createGraphQLWebSocketServer(
   return useServer(
     {
       schema,
-      context: (ctx) => {},
+      context: (ctx) => {
+        console.log('hello inside context');
+
+        return { ...ctx };
+      },
       onConnect: async (ctx) => {
         if (!ctx.connectionParams?.authToken) {
           throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);

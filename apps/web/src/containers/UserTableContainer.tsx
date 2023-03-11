@@ -1,40 +1,46 @@
 import { useQuery } from '@apollo/client';
 import { Loader } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { UsersTable } from '../components/user/UsersTable';
 import { Users } from '../graphql/document_nodes/queries';
-import { Captcha, User, UsersData } from '../types';
+import { OnUserUpdated } from '../graphql/document_nodes/subscriptions';
+import { UsersData } from '../types';
 
 export function UserTableContainer() {
-  const [users, setUsers] = useState<User[]>([]);
   const { data, error, loading, subscribeToMore } = useQuery<UsersData>(Users);
 
-  // useEffect(() => {
-  //   // We only start subscription after we successfully fetched the data
-  //   if (!data) {
-  //     return;
-  //   }
+  useEffect(() => {
+    const unsubscribe = subscribeToMore<any>({
+      document: OnUserUpdated,
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log('prev: ', prev);
+        console.log('data: ', subscriptionData);
+        if (!subscriptionData.data) return prev;
+        const updatedUser = subscriptionData.data.onUserUpdated;
 
-  //   setCaptchas(data.captchas);
+        const newUsers = prev.users.map((u) => {
+          if (u.id === updatedUser?.id) {
+            return updatedUser;
+          }
 
-  //   const unsubscribe = subscribeToMore<CaptchaCreatedData>({
-  //     document: CaptchaCreated,
-  //     updateQuery: (prev, { subscriptionData }) => {
-  //       if (!subscriptionData.data) return prev;
-  //       const newCaptcha = subscriptionData.data.captchaCreated;
+          return u;
+        });
 
-  //       setCaptchas([newCaptcha, ...prev.captchas]);
+        return {
+          users: newUsers,
+        };
+      },
+      variables: {
+        input: {
+          userId: '1',
+        },
+      },
+    });
 
-  //       return Object.assign({}, prev, {
-  //         captchas: [newCaptcha, ...prev.captchas],
-  //       });
-  //     },
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [data]);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   if (error) {
     console.error('Error occurred: ', error);

@@ -77,8 +77,6 @@ export default function Login() {
 
       const { user, jwt } = await response.json();
 
-      console.log('user: ', user);
-
       setUser(user);
       setJwt(jwt);
     });

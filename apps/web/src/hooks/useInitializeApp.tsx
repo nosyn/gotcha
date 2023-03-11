@@ -5,7 +5,6 @@ import { jwtStore } from '../store/jwt';
 import { useQuery } from '@apollo/client';
 
 import { Me } from '../graphql/document_nodes/queries';
-import { OnUserUpdated } from '../graphql/document_nodes/subscriptions';
 
 export const useInitializeApp = () => {
   // App states
@@ -14,7 +13,7 @@ export const useInitializeApp = () => {
   const [setJwt] = useStore(jwtStore, ({ setJwt }) => [setJwt]);
 
   // GraphQL
-  const { data, subscribeToMore } = useQuery(Me, {
+  useQuery(Me, {
     onCompleted: (data) => {
       setUser(data.me);
     },
@@ -41,30 +40,6 @@ export const useInitializeApp = () => {
       initializeApp();
     }
   }, [appInitialized]);
-
-  useEffect(() => {
-    let onUserUpdated;
-
-    if (data?.me) {
-      setTimeout(() => {
-        setUser(data.me);
-        onUserUpdated = subscribeToMore({
-          document: OnUserUpdated,
-          updateQuery: (prev, { subscriptionData }) => {
-            if (!subscriptionData.data) return prev;
-            // const me = subscriptionData.data.onUserUpdated;
-            // setUser(me);
-            // return me;
-          },
-          variables: {
-            input: {
-              userId: '1',
-            },
-          },
-        });
-      }, 5000);
-    }
-  }, [data]);
 
   return {
     appInitialized,

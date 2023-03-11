@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { ErrorMessages } from '../common/enums/index.js';
 import { ResponseError } from '../common/errors/index.js';
 import { prisma } from '../dbClient/index.js';
-import { SanitizedUser } from '../types.js';
+import { User } from '../types.js';
 
 export default async function login(
   req: Request,
@@ -26,7 +26,7 @@ export default async function login(
     });
   }
 
-  const sanitizedUser: SanitizedUser = {
+  const sanitizedUser: User = {
     id: user.id,
     username: user.username,
     role: user.role,
