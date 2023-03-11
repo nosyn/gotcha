@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const CaptchaAssigned = gql`
+export const CaptchaAssigned = gql(/* GraphQL */ `
   subscription CaptchaAssigned($userId: ID!) {
     captchaAssigned(userId: $userId) {
       id
@@ -11,4 +11,15 @@ export const CaptchaAssigned = gql`
       createdAt
     }
   }
-`;
+`);
+
+export const OnUserUpdated = gql(/* GraphQL */ `
+  subscription OnUserUpdated($input: OnUserUpdatedInput!) {
+    onUserUpdated(input: $input) {
+      id
+      username
+      role
+      online
+    }
+  }
+`);

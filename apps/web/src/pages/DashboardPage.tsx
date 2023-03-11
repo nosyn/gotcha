@@ -6,7 +6,7 @@ import { Captcha, CaptchaCreatedData } from '../types';
 import { Container, Loader } from '@mantine/core';
 import type { MantineTheme } from '@mantine/core';
 
-export default function CaptchaPage() {
+export default function DashboardPage() {
   const { data, error, loading, subscribeToMore } = useCaptchasQuery();
   const [captchas, setCaptchas] = useState<Captcha[]>([]);
 
@@ -22,12 +22,12 @@ export default function CaptchaPage() {
       document: CaptchaCreated,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
-        const newFeedItem = subscriptionData.data.captchaCreated;
+        const newCaptcha = subscriptionData.data.captchaCreated;
 
-        setCaptchas([newFeedItem, ...prev.captchas]);
+        setCaptchas([newCaptcha, ...prev.captchas]);
 
         return Object.assign({}, prev, {
-          captchas: [newFeedItem, ...prev.captchas],
+          captchas: [newCaptcha, ...prev.captchas],
         });
       },
     });

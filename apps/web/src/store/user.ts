@@ -8,7 +8,6 @@ type User = {
   role: Role;
   online: boolean;
 };
-
 interface UserStore {
   user: User | null;
   setUser: (user: User | null) => void;

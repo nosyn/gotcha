@@ -34,7 +34,8 @@ const start = async () => {
     expressMiddleware(graphQLServer, {
       context: async ({ req }) => {
         // !TODO: Turn back on when auth is ready
-        // const { user } = req.session;
+        const { user } = req.session;
+        console.log('user: ', user);
 
         // if (!user) {
         //   throw new Error('Unauthorized');

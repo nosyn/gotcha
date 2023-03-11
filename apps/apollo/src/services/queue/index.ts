@@ -8,7 +8,6 @@ type CaptchaQueue = {
 };
 
 const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
-  // job.ad
   // Publish to client
   pubsub.publish(TRIGGERS_ENUM.CAPTCHA_CREATED, {
     captchaCreated: job.data.captcha,
@@ -18,6 +17,7 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
     captchaAssigned: job.data.captcha,
   });
 };
+
 const worker = new Worker('captcha-queuee', publishCaptchaToClients, {
   connection: new Redis({ ...redisOptions, maxRetriesPerRequest: null }),
 });
