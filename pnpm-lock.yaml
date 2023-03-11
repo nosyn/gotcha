@@ -277,7 +277,6 @@ importers:
       '@types/react-dom': ^18.0.10
       '@vitejs/plugin-react': ^3.1.0
       autoprefixer: ^10.4.13
-      configs: workspace:*
       eslint-config-custom: workspace:*
       graphql-ws: ^5.11.3
       ky: ^0.33.2
@@ -298,7 +297,6 @@ importers:
       '@mantine/hooks': 6.0.0_react@18.2.0
       '@mantine/notifications': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
       '@tabler/icons-react': 2.7.0_react@18.2.0
-      configs: link:../../packages/configs
       graphql-ws: 5.11.3_graphql@16.6.0
       ky: 0.33.2
       react: 18.2.0
@@ -327,21 +325,6 @@ importers:
     dependencies:
       connect-redis: 7.0.0
       ioredis: 5.3.1
-    devDependencies:
-      '@types/node': 18.14.2
-      tsconfig: link:../tsconfig
-      tsup: 6.5.0_typescript@4.9.5
-      typescript: 4.9.5
-
-  packages/configs:
-    specifiers:
-      '@types/node': ^18.14.2
-      dotenv: ^16.0.3
-      tsconfig: workspace:*
-      tsup: ^6.1.3
-      typescript: ^4.9.5
-    dependencies:
-      dotenv: 16.0.3
     devDependencies:
       '@types/node': 18.14.2
       tsconfig: link:../tsconfig
