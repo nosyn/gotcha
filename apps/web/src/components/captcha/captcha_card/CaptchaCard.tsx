@@ -1,4 +1,4 @@
-import { Card, Image } from '@mantine/core';
+import { Card, Image, Space, Text } from '@mantine/core';
 import { Captcha } from '../../../types';
 import CaptchaBody from './CaptchaBody';
 
@@ -13,7 +13,17 @@ const CaptchaCard = ({ captcha }: CaptchaCardProps) => {
       <Card.Section component="a" href={imageSrc} target="_blank" p={8}>
         <Image src={imageSrc} alt="captcha" />
       </Card.Section>
-      <CaptchaBody captcha={captcha} />
+      {captcha.status === 'RESOLVED' ? (
+        <div style={{ display: 'flex' }}>
+          <Text size="lg">Captcha was resolved with text:</Text>
+          <Space w="sm" />
+          <Text size="lg" color="green">
+            {captcha.text}
+          </Text>
+        </div>
+      ) : (
+        <CaptchaBody captcha={captcha} />
+      )}
     </Card>
   );
 };

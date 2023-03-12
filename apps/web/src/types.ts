@@ -1,4 +1,6 @@
 /************************* Types *************************/
+export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
+
 export type UserStatus = 'ONLINE' | 'OFFLINE' | 'WORKING';
 
 export type UserRole = 'ADMIN' | 'USER';
@@ -8,7 +10,7 @@ export type Captcha = {
   captchaId: string;
   name: string;
   text: string;
-  status: string;
+  status: CaptchaStatus;
   createdAt: string;
   updatedAt: string;
 };
