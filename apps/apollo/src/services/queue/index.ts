@@ -10,7 +10,7 @@ type CaptchaQueue = {
 
 const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   // Publish to client
-  pubsub.publish(TRIGGERS_ENUM.ON_CAPTCHA_CREATED, {
+  pubsub.publish(TRIGGERS_ENUM.ON_CREATE_CAPTCHA, {
     captchaCreated: job.data.captcha,
   });
 
@@ -45,7 +45,7 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: selectedUser });
 
   pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
-    captchaAssigned: job.data.captcha,
+    onAssignCaptcha: job.data.captcha,
     userId: selectedUser.id,
   });
 };

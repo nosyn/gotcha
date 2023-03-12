@@ -1,12 +1,12 @@
 import hello from './hello.js';
 import onCreateCaptcha from './onCreateCaptcha.js';
-import captchaAssigned from './captchaAssigned.js';
+import onAssignCaptcha from './onAssignCaptcha.js';
 import onUserUpdated from './onUserUpdated.js';
 import onUpsertCaptcha from './onUpsertCaptcha.js';
 
 export default {
   hello,
-  captchaAssigned,
+  onAssignCaptcha,
   onUserUpdated,
   onUpsertCaptcha,
   onCreateCaptcha,

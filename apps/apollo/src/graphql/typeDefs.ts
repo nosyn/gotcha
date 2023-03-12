@@ -86,7 +86,7 @@ const typeDefs = `#graphql
     onUserUpdated(input: OnUserUpdatedInput!): User!
     onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
     onCreateCaptcha: Captcha!
-    captchaAssigned(userId: ID!): Captcha!
+    onAssignCaptcha(userId: ID!): Captcha!
     hello: String!
   }
 `;

@@ -52,8 +52,8 @@ export type OnCreateCaptchaSubscription = {
   onCreateCaptcha: Captcha;
 };
 
-export type OnCaptchaAssignedData = {
-  captchaAssigned: Captcha;
+export type OnAssignCaptchaSubscription = {
+  onAssignCaptcha: Captcha;
 };
 
 /************************* GraphQL Inputs *************************/

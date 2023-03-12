@@ -3,9 +3,9 @@ import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect } from 'react';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { AssignedCaptcha } from '../graphql/document_nodes/queries';
-import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
+import { OnAssignCaptcha } from '../graphql/document_nodes/subscriptions';
 import { useCaptchaStore } from '../store/captcha';
-import { AssignedCaptchaData, OnCaptchaAssignedData, UserIdInput } from '../types';
+import { AssignedCaptchaData, OnAssignCaptchaSubscription, UserIdInput } from '../types';
 import { useUserStore } from '../store/user';
 import { Container } from '@mantine/core';
 
@@ -21,8 +21,8 @@ export function AssignedCaptchaContainer() {
 
   const handleSubscribeToMore = useCallback(
     (userId: number) =>
-      subscribeToMore<OnCaptchaAssignedData, UserIdInput>({
-        document: CaptchaAssigned,
+      subscribeToMore<OnAssignCaptchaSubscription, UserIdInput>({
+        document: OnAssignCaptcha,
         onError: (err) => {
           notifications.show({
             message: err.message,
@@ -30,7 +30,7 @@ export function AssignedCaptchaContainer() {
         },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          const assignedCaptcha = subscriptionData.data.captchaAssigned;
+          const assignedCaptcha = subscriptionData.data.onAssignCaptcha;
 
           return {
             assignedCaptcha,
