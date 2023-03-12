@@ -1,38 +1,21 @@
-import { useQuery, useSubscription } from '@apollo/client';
-import { Container, Loader } from '@mantine/core';
-import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
-import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
-import { useUserStore } from '../store/user';
-import {
-  OnCaptchaAssignedData,
-  AssignedCaptchaData,
-  UserIdInput,
-} from '../types';
-import { useCaptchaStore } from '../store/captcha';
-import { AssignedCaptcha } from '../graphql/document_nodes/queries';
+import { useQuery } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { useEffect } from 'react';
+import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
+import { AssignedCaptcha } from '../graphql/document_nodes/queries';
+import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
+import { useCaptchaStore } from '../store/captcha';
+import {
+  AssignedCaptchaData,
+  OnCaptchaAssignedData,
+  UserIdInput,
+} from '../types';
 
-export function HomePageContainer() {
-  const [user] = useUserStore(({ user }) => [user]);
-
-  return (
-    <Container
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        flex: '1 1 auto',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {user && <AssignedCaptchaSubscriptionContainer userId={+user.id} />}
-      <AssignedCaptchaContainer />
-    </Container>
-  );
-}
-
-function AssignedCaptchaSubscriptionContainer({ userId }: { userId: number }) {
+export function AssignedCaptchaSubscriptionContainer({
+  userId,
+}: {
+  userId: number;
+}) {
   const setAssignedCaptcha = useCaptchaStore(
     ({ setAssignedCaptcha }) => setAssignedCaptcha
   );
@@ -80,7 +63,7 @@ function AssignedCaptchaSubscriptionContainer({ userId }: { userId: number }) {
   return null;
 }
 
-function AssignedCaptchaContainer() {
+export function AssignedCaptchaContainer() {
   const assignedCaptcha = useCaptchaStore(
     ({ assignedCaptcha }) => assignedCaptcha
   );
