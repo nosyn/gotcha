@@ -9,7 +9,11 @@ export default async (_: any, args: any) => {
   });
 
   if (!captcha) {
-    throw new Error(`Captcha does not exist with ${input.captchaId} id.`);
+    throw new Error(`Captcha with id ${input.captchaId} does not exist .`);
+  }
+
+  if (captcha.status === 'RESOLVED') {
+    throw new Error(`Captcha with id ${input.captchaId} has been already resolved.`);
   }
 
   const resolvedCaptcha = await prisma.captcha.update({
