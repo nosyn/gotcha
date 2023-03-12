@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const OnAssignCaptcha = gql(/* GraphQL */ `
-  subscription OnAssignCaptcha($userId: ID!) {
-    onAssignCaptcha(userId: $userId) {
+  subscription OnAssignCaptcha($input: OnAssignCaptchaInput!) {
+    onAssignCaptcha(input: $input) {
       id
       captchaId
       text
