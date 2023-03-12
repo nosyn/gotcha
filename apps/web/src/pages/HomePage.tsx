@@ -1,5 +1,5 @@
 import { Container } from '@mantine/core';
-import { AssignedCaptchaContainer, AssignedCaptchaSubscriptionContainer } from '../containers/CaptchaContainer';
+import { AssignedCaptchaContainer } from '../containers/CaptchaContainer';
 import { useUserStore } from '../store/user';
 
 export default function HomePage() {
@@ -15,7 +15,6 @@ export default function HomePage() {
         justifyContent: 'center',
       }}
     >
-      {user && <AssignedCaptchaSubscriptionContainer userId={+user.id} />}
       <AssignedCaptchaContainer />
     </Container>
   );

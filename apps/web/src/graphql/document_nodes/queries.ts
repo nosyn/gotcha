@@ -28,6 +28,7 @@ export const AssignedCaptcha = gql(/* GraphQL */ `
       id
       captchaId
       name
+      text
       status
       updatedAt
       createdAt

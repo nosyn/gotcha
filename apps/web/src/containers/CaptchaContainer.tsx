@@ -1,32 +1,17 @@
 import { useQuery } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { AssignedCaptcha } from '../graphql/document_nodes/queries';
 import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
 import { useCaptchaStore } from '../store/captcha';
 import { AssignedCaptchaData, OnCaptchaAssignedData, UserIdInput } from '../types';
+import { useUserStore } from '../store/user';
+import { Container } from '@mantine/core';
 
 export function AssignedCaptchaContainer() {
-  const assignedCaptcha = useCaptchaStore(({ assignedCaptcha }) => assignedCaptcha);
-
-  if (!assignedCaptcha) {
-    return <div>No captcha is assigned to you at the moment</div>;
-  }
-
-  return <CaptchaCard captcha={assignedCaptcha} />;
-}
-
-type AssignedCaptchaSubscriptionContainerProps = {
-  userId: number;
-};
-export function AssignedCaptchaSubscriptionContainer({ userId }: AssignedCaptchaSubscriptionContainerProps) {
-  const setAssignedCaptcha = useCaptchaStore(({ setAssignedCaptcha }) => setAssignedCaptcha);
-
-  const { subscribeToMore } = useQuery<AssignedCaptchaData>(AssignedCaptcha, {
-    onCompleted: (data) => {
-      setAssignedCaptcha(data.assignedCaptcha);
-    },
+  const [user] = useUserStore(({ user }) => [user]);
+  const { data, subscribeToMore, loading, error } = useQuery<AssignedCaptchaData>(AssignedCaptcha, {
     onError: (err) => {
       notifications.show({
         message: err.message,
@@ -34,31 +19,74 @@ export function AssignedCaptchaSubscriptionContainer({ userId }: AssignedCaptcha
     },
   });
 
-  useEffect(() => {
-    const subscribeToMoreAssignedCaptcha = subscribeToMore<OnCaptchaAssignedData, UserIdInput>({
-      document: CaptchaAssigned,
-      onError: (err) => {
-        notifications.show({
-          message: err.message,
-        });
-      },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const assignedCaptcha = subscriptionData.data.captchaAssigned;
+  const handleSubscribeToMore = useCallback(
+    (userId: number) =>
+      subscribeToMore<OnCaptchaAssignedData, UserIdInput>({
+        document: CaptchaAssigned,
+        onError: (err) => {
+          notifications.show({
+            message: err.message,
+          });
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const assignedCaptcha = subscriptionData.data.captchaAssigned;
 
-        return {
-          assignedCaptcha,
-        };
-      },
-      variables: {
-        userId,
-      },
-    });
+          return {
+            assignedCaptcha,
+          };
+        },
+        variables: {
+          userId,
+        },
+      }),
+    [subscribeToMore]
+  );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Errr!!!</div>;
+  }
+
+  return (
+    <Container
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flex: '1 1 auto',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {user && <AssignedCaptchaSubscriptionContainer userId={+user.id} handleSubscribeToMore={handleSubscribeToMore} />}
+      {data?.assignedCaptcha ? (
+        <CaptchaCard captcha={data?.assignedCaptcha} />
+      ) : (
+        <div>No captcha is assigned to you at the moment</div>
+      )}
+    </Container>
+  );
+}
+
+type AssignedCaptchaSubscriptionContainerProps = {
+  userId: number;
+  handleSubscribeToMore: (userId: number) => () => void;
+};
+
+export function AssignedCaptchaSubscriptionContainer({
+  userId,
+  handleSubscribeToMore,
+}: AssignedCaptchaSubscriptionContainerProps) {
+  useEffect(() => {
+    const subscribeToMoreAssignedCaptcha = handleSubscribeToMore(userId);
 
     return () => {
       subscribeToMoreAssignedCaptcha();
     };
-  }, []);
+  }, [handleSubscribeToMore, userId]);
 
   return null;
 }
