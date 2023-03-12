@@ -57,20 +57,20 @@ export type OnAssignCaptchaSubscription = {
 };
 
 /************************* GraphQL Inputs *************************/
-export type UpdateCaptchaInput = {
-  input: {
-    captchaId: string;
-    text: string;
-  };
+export type Input<T> = {
+  input: T;
 };
 
-export type LoginInput = {
-  input: {
-    username: string;
-    password: string;
-  };
-};
+export type UpdateCaptchaInput = Input<{
+  captchaId: string;
+  text: string;
+}>;
 
-export type UserIdInput = {
+export type LoginInput = Input<{
+  username: string;
+  password: string;
+}>;
+
+export type OnAssignCaptchaInput = Input<{
   userId: number;
-};
+}>;

@@ -46,15 +46,11 @@ const start = async () => {
   );
 
   // Modified server startup
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: PORT }, resolve)
-  );
+  await new Promise<void>((resolve) => httpServer.listen({ port: PORT }, resolve));
 
   console.log(`🔥 Server ready at http://localhost:${PORT}/`);
   console.log(`🚀 GraphQL Server ready at http://localhost:${PORT}/graphql`);
-  console.log(
-    `🚀 GraphQL Subscription Server ready at ws://localhost:${PORT}/graphql`
-  );
+  console.log(`🚀 GraphQL Subscription Server ready at ws://localhost:${PORT}/graphql`);
 };
 
 start().catch((error) => {

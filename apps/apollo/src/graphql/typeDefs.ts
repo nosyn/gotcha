@@ -64,6 +64,10 @@ const typeDefs = `#graphql
     captchaId: ID!
   }
 
+  input OnAssignCaptchaInput {
+    userId: ID!
+  }
+
   ####################################### Query #######################################
   type Query {
     me: User!
@@ -86,7 +90,7 @@ const typeDefs = `#graphql
     onUpdateUser(input: OnUpdateUserInput!): User!
     onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
     onCreateCaptcha: Captcha!
-    onAssignCaptcha(userId: ID!): Captcha!
+    onAssignCaptcha(input: OnAssignCaptchaInput!): Captcha!
     hello: String!
   }
 `;

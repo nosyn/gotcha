@@ -5,7 +5,7 @@ export default {
   // More on pubsub below
   subscribe: withFilter(
     () => {
-      return pubsub.asyncIterator([TRIGGERS_ENUM.CAPTCHA_ASSIGNED]);
+      return pubsub.asyncIterator([TRIGGERS_ENUM.ON_ASSIGN_CAPTCHA]);
     },
     async (payload, args) => +args.userId === payload?.userId
   ),

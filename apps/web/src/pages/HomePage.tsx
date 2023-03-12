@@ -3,8 +3,6 @@ import { AssignedCaptchaContainer } from '../containers/CaptchaContainer';
 import { useUserStore } from '../store/user';
 
 export default function HomePage() {
-  const [user] = useUserStore(({ user }) => [user]);
-
   return (
     <Container
       sx={{

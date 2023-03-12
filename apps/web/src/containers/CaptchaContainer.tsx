@@ -6,7 +6,7 @@ import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { AssignedCaptcha } from '../graphql/document_nodes/queries';
 import { OnAssignCaptcha } from '../graphql/document_nodes/subscriptions';
 import { useUserStore } from '../store/user';
-import { AssignedCaptchaQuery, OnAssignCaptchaSubscription, UserIdInput } from '../types';
+import { AssignedCaptchaQuery, OnAssignCaptchaSubscription, OnAssignCaptchaInput } from '../types';
 
 export function AssignedCaptchaContainer() {
   const [user] = useUserStore(({ user }) => [user]);
@@ -20,7 +20,7 @@ export function AssignedCaptchaContainer() {
 
   const handleSubscribeToMore = useCallback(
     (userId: number) =>
-      subscribeToMore<OnAssignCaptchaSubscription, UserIdInput>({
+      subscribeToMore<OnAssignCaptchaSubscription, OnAssignCaptchaInput>({
         document: OnAssignCaptcha,
         onError: (err) => {
           notifications.show({
@@ -36,7 +36,9 @@ export function AssignedCaptchaContainer() {
           };
         },
         variables: {
-          userId,
+          input: {
+            userId,
+          },
         },
       }),
     [subscribeToMore]
