@@ -11,7 +11,7 @@ type CaptchaQueue = {
 const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   // Publish to client
   pubsub.publish(TRIGGERS_ENUM.ON_CREATE_CAPTCHA, {
-    captchaCreated: job.data.captcha,
+    onCreateCaptcha: job.data.captcha,
   });
 
   const firstOnlineUser = await prisma.user.findFirst({
