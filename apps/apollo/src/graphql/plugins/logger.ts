@@ -11,8 +11,6 @@ export const loggers = {
       return;
     }
 
-    console.log('Query started: ', requestContext.request.operationName);
-
     return {
       // More info: https://www.apollographql.com/docs/apollo-server/integrations/plugins-event-reference/ && https://www.apollographql.com/docs/apollo-server/integrations/plugins
       // Fires whenever Apollo Server will parse a GraphQL

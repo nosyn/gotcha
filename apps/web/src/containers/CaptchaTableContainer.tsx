@@ -15,7 +15,7 @@ export function CaptchaTableContainer() {
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
           const newCaptcha = subscriptionData.data.onCreateCaptcha;
-          console.log('newCaptcha: ', newCaptcha);
+
           return Object.assign({}, prev, {
             captchas: [newCaptcha, ...prev.captchas],
           });

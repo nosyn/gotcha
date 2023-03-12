@@ -9,11 +9,6 @@ type CaptchaQueue = {
 };
 
 const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
-  // Publish to client
-  pubsub.publish(TRIGGERS_ENUM.ON_CREATE_CAPTCHA, {
-    onCreateCaptcha: job.data.captcha,
-  });
-
   const firstOnlineUser = await prisma.user.findFirst({
     where: {
       role: 'USER',
@@ -48,26 +43,24 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
     onAssignCaptcha: job.data.captcha,
     userId: selectedUser.id,
   });
+
+  // Publish to client
+  pubsub.publish(TRIGGERS_ENUM.ON_CREATE_CAPTCHA, {
+    onCreateCaptcha: job.data.captcha,
+  });
 };
 
 const worker = new Worker('captcha-queuee', publishCaptchaToClients, {
   connection: new Redis({ ...redisOptions, maxRetriesPerRequest: null }),
 });
 
-worker.on('completed', (job, result) => {
-  console.log('completed : ', job.id);
-  console.log('result: ', result);
-});
+worker.on('completed', (job, result) => {});
 
 // Create a new connection in every instance
 export const captchaQueue = new Queue<CaptchaQueue>('captcha-queuee', {
   connection: new Redis({ ...redisOptions, maxRetriesPerRequest: null }),
 });
 
-captchaQueue.on('waiting', (job) => {
-  //   console.log('job waiting: ', job);
-});
+captchaQueue.on('waiting', (job) => {});
 
-captchaQueue.on('progress', (job) => {
-  console.log('job progress: ', job);
-});
+captchaQueue.on('progress', (job) => {});

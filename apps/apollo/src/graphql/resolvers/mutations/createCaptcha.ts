@@ -13,8 +13,6 @@ export default async (_: any, args: any) => {
     },
   });
 
-  console.log('createdCaptcha: ', createdCaptcha);
-
   await captchaQueue.add(createdCaptcha.captchaId, { captcha: createdCaptcha });
 
   console.log(`Added captcha ${createdCaptcha.captchaId} into the queue`);
