@@ -7,10 +7,6 @@ export default {
     () => {
       return pubsub.asyncIterator([TRIGGERS_ENUM.CAPTCHA_ASSIGNED]);
     },
-    async (payload, args) => {
-      console.log('payload: ', payload);
-      console.log('args: ', args);
-      return +args.userId === payload?.userId;
-    }
+    async (payload, args) => +args.userId === payload?.userId
   ),
 };

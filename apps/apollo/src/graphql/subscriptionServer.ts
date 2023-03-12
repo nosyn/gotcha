@@ -15,10 +15,7 @@ export interface MyContext {
   token?: string;
 }
 
-export function createGraphQLWebSocketServer(
-  httpServer: http.Server,
-  schema: GraphQLSchema
-): Disposable {
+export function createGraphQLWebSocketServer(httpServer: http.Server, schema: GraphQLSchema): Disposable {
   // Creating the WebSocket server
   const wsServer = new WebSocketServer({
     // This is the `httpServer` we created in a previous step.
@@ -31,8 +28,6 @@ export function createGraphQLWebSocketServer(
     {
       schema,
       context: (ctx) => {
-        console.log('hello inside context');
-
         return { ...ctx };
       },
       onConnect: async (ctx) => {
@@ -49,10 +44,7 @@ export function createGraphQLWebSocketServer(
             })
             .json<{ user: User }>();
 
-          await redisClient.set(
-            `connection:${ctx.extra.request.headers['sec-websocket-key']}`,
-            user.id
-          );
+          await redisClient.set(`connection:${ctx.extra.request.headers['sec-websocket-key']}`, user.id);
 
           await userOnline({
             userId: user.id,
@@ -66,9 +58,7 @@ export function createGraphQLWebSocketServer(
         }
       },
       onDisconnect: async (ctx, code, reason) => {
-        const userId = await redisClient.get(
-          `connection:${ctx.extra.request.headers['sec-websocket-key']}`
-        );
+        const userId = await redisClient.get(`connection:${ctx.extra.request.headers['sec-websocket-key']}`);
 
         if (userId) {
           await userOffline({

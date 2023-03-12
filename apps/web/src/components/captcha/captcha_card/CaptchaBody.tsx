@@ -1,46 +1,56 @@
+import { useMutation } from '@apollo/client';
+import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
-import useUpdateCaptchaMutation from '../../../graphql/hooks/useUpdateCaptchaMutation';
+import { UpdateCaptcha } from '../../../graphql/document_nodes/mutations';
+import { useCaptchaStore } from '../../../store/captcha';
 import { Captcha } from '../../../types';
+import { FloatingLabelInput } from '../../input/FloatingLabelInput';
+import { Button, Stack } from '@mantine/core';
 
-interface CaptchaBodyProps {
+type CaptchaBodyProps = {
   captcha: Captcha;
-}
+};
 
 const CaptchaBody = ({ captcha }: CaptchaBodyProps) => {
-  const [text, setText] = useState('');
-  const [updateCaptcha, { data, loading, error }] = useUpdateCaptchaMutation();
+  const [text, setText] = useState<string>('');
+  const setAssignedCaptcha = useCaptchaStore(({ setAssignedCaptcha }) => setAssignedCaptcha);
+  const { captchaId } = captcha;
+
+  const [updateCaptcha, { loading }] = useMutation(UpdateCaptcha, {
+    onCompleted: (data) => {
+      console.log('updatedCaptcha: ', data);
+    },
+    onError: (error) => {
+      notifications.show({ message: error.message, color: 'red' });
+    },
+  });
 
   const handleOnClick = () => {
-    console.log('text: ', text);
+    updateCaptcha({
+      variables: {
+        input: {
+          captchaId,
+          text,
+        },
+      },
+    });
   };
 
   return (
-    <div className="card-body">
-      <h2 className="card-title mx-auto">Captcha</h2>
+    <Stack my={6}>
+      <FloatingLabelInput
+        id="captcha-text"
+        placeholder="Enter captcha here"
+        label="Captcha Input"
+        setValue={setText}
+        value={text}
+        maxLength={6}
+      />
 
-      <div className="form-control w-full max-w-xs">
-        <label className="label">
-          <span className="label-text">Enter captcha</span>
-        </label>
-        <input
-          id="captcha-text"
-          type="text"
-          placeholder="Type here"
-          maxLength={6}
-          value={text}
-          onChange={(event) => {
-            console.log('event:', event.target.value);
-            setText(event.target.value);
-          }}
-          className="input input-bordered input-primary w-full max-w-xs"
-        />
-        <div className="card-actions justify-end mt-4">
-          <button className="btn btn-secondary" onClick={handleOnClick}>
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
+      <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} onClick={handleOnClick} disabled={loading}>
+        Resolve Captcha
+      </Button>
+    </Stack>
   );
 };
 

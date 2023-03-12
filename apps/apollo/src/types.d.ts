@@ -8,14 +8,18 @@ export type Captcha = {
   captchaId: string;
   name: string;
   status: CaptchaStatus;
+  text: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type CaptchaInput = {
+export type CreateCaptchaInput = {
   captchaId: string;
   name: string;
-  status: CaptchaStatus;
+};
+
+export type ResolveCaptchaInput = {
+  captchaId: string;
   text: string;
 };
 

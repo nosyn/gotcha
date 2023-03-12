@@ -6,8 +6,9 @@ export const CaptchasQuery = gql`
     captchas {
       id
       captchaId
-      name
+      text
       status
+      name
       createdAt
       updatedAt
     }
@@ -15,5 +16,5 @@ export const CaptchasQuery = gql`
 `;
 
 export default function useCaptchasQuery() {
-  return useQuery<CaptchasData>(CaptchasQuery, {});
+  return useQuery<CaptchasData>(CaptchasQuery);
 }

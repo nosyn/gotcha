@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 
 export const UpdateCaptcha = gql(/* GraphQL */ `
-  mutation UpdateCaptcha($input: UpdateCaptchaInput!) {
-    createCaptcha(input: $input) {
+  mutation UpdateCaptcha($input: ResolveCaptchaInput!) {
+    resolveCaptcha(input: $input) {
       id
       captchaId
+      text
       name
       status
       createdAt

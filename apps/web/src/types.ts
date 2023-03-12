@@ -1,11 +1,13 @@
 /************************* Types *************************/
-type UserStatus = 'ONLINE' | 'OFFLINE' | 'WORKING';
+export type UserStatus = 'ONLINE' | 'OFFLINE' | 'WORKING';
 
-type UserRole = 'ADMIN' | 'USER';
+export type UserRole = 'ADMIN' | 'USER';
 
 export type Captcha = {
   id: string;
+  captchaId: string;
   name: string;
+  text: string;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -18,11 +20,7 @@ export type User = {
   status: UserStatus;
 };
 
-/************************* Data *************************/
-
-export type CaptchaCreatedData = {
-  captchaCreated: Captcha;
-};
+/************************* GraphQL Data *************************/
 
 export type CaptchaData = {
   captcha: Captcha;
@@ -44,16 +42,23 @@ export type LoginData = {
   login: User;
 };
 
+export type UpdateCaptchaData = {
+  updateCaptcha: Captcha;
+};
+
+export type CaptchaCreatedData = {
+  captchaCreated: Captcha;
+};
+
 export type OnCaptchaAssignedData = {
   captchaAssigned: Captcha;
 };
 
-/************************* Inputs *************************/
-export type CaptchaInput = {
+/************************* GraphQL Inputs *************************/
+export type UpdateCaptchaInput = {
   input: {
-    id: string;
-    name: string;
-    status: 'CREATED' | 'RESOLVING' | 'RESOLVED';
+    captchaId: string;
+    text: string;
   };
 };
 
