@@ -40,10 +40,15 @@ const typeDefs = `#graphql
   }
 
   ####################################### Inputs #######################################
-  input CaptchaInput {
+  input CreateCaptchaInput {
     captchaId: ID!
     name: String!
-    status: CaptchaStatus!
+  }
+
+  input UpdateCaptchaInput {
+    captchaId: ID!
+    name: String!
+    text: String!
   }
 
   input LoginInput {
@@ -53,6 +58,10 @@ const typeDefs = `#graphql
 
   input OnUserUpdatedInput {
     userId: ID!
+  }
+
+  input OnUpsertCaptchaInput {
+    captchaId: ID!
   }
 
   ####################################### Query #######################################
@@ -67,13 +76,14 @@ const typeDefs = `#graphql
   type Mutation {
     login(input: LoginInput!): User!
     logout: Boolean!
-    createCaptcha(input: CaptchaInput!): Captcha!
-    updateCaptcha(input: CaptchaInput!): Captcha!
+    createCaptcha(input: CreateCaptchaInput!): Captcha!
+    updateCaptcha(input: UpdateCaptchaInput!): Captcha!
   }
 
   ####################################### Subscription #######################################
   type Subscription {
     onUserUpdated(input: OnUserUpdatedInput!): User!
+    onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
     captchaCreated: Captcha!
     captchaAssigned(userId: ID!): Captcha!
     hello: String!

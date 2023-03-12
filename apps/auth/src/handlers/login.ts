@@ -34,6 +34,10 @@ export default async function login(
   };
 
   // Set user session
+  console.log('req.sessionID ', req.sessionID);
+  console.log('req.session: ', req.session.id);
+  console.log('req.session cookie: ', req.session.cookie);
+  console.log('req.session: ', req.session);
   req.session.user = sanitizedUser;
 
   return res.status(StatusCodes.OK).send({

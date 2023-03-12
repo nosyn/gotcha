@@ -1,7 +1,6 @@
 import { prisma } from '../../../prisma/index.js';
 import { captchaQueue } from '../../../services/queue/index.js';
 import { CaptchaInput } from '../../../types.js';
-import { pubsub, TRIGGERS_ENUM } from '../pubsub.js';
 
 export default async (_: any, args: any) => {
   const input = args.input as CaptchaInput;
@@ -9,6 +8,7 @@ export default async (_: any, args: any) => {
   const createdCaptcha = await prisma.captcha.create({
     data: {
       ...input,
+      status: 'CREATED',
       text: '',
     },
     select: {

@@ -1,9 +1,10 @@
-import { useSubscription } from '@apollo/client';
+import { useMutation, useSubscription } from '@apollo/client';
 import { Container, Loader } from '@mantine/core';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { CaptchaAssigned } from '../graphql/document_nodes/subscriptions';
 import { useUserStore } from '../store/user';
 import { CaptchaAssignedData, UserIdInput } from '../types';
+import { UpdateCaptcha } from '../graphql/document_nodes/mutations';
 
 export default function HomePage() {
   const [user] = useUserStore(({ user }) => [user]);
