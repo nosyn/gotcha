@@ -10,7 +10,7 @@ type CaptchaQueue = {
 
 const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   // Publish to client
-  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_CREATED, {
+  pubsub.publish(TRIGGERS_ENUM.ON_CAPTCHA_CREATED, {
     captchaCreated: job.data.captcha,
   });
 
@@ -22,9 +22,7 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   });
 
   if (!firstOnlineUser) {
-    console.error(
-      'TODO: Need to update logic here when there is no online users'
-    );
+    console.error('TODO: Need to update logic here when there is no online users');
     return;
   }
 
@@ -38,8 +36,13 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
     },
     select: {
       id: true,
+      status: true,
+      username: true,
+      role: true,
     },
   });
+
+  await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: selectedUser });
 
   pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
     captchaAssigned: job.data.captcha,

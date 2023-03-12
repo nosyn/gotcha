@@ -1,43 +1,57 @@
-import { Loader } from '@mantine/core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import CaptchaTable from '../components/captcha/CaptchaTable';
-import { CaptchaCreated } from '../graphql/hooks/useCaptchaCreatedSubscription';
-import useCaptchasQuery from '../graphql/hooks/useCaptchasQuery';
-import { CaptchaCreatedData } from '../types';
+import { OnCreateCaptchaSubscription } from '../types';
+import { OnCreateCaptcha } from '../graphql/document_nodes/subscriptions';
+import { useQuery } from '@apollo/client';
+import { Captchas } from '../graphql/document_nodes/queries';
 
 export function CaptchaTableContainer() {
-  const { data, error, loading, subscribeToMore } = useCaptchasQuery();
+  const { data, error, loading, subscribeToMore } = useQuery(Captchas);
 
-  useEffect(() => {
-    const unsubscribe = subscribeToMore<CaptchaCreatedData>({
-      document: CaptchaCreated,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newCaptcha = subscriptionData.data.captchaCreated;
+  const handleSubscribeToMore = useCallback(
+    () =>
+      subscribeToMore<OnCreateCaptchaSubscription>({
+        document: OnCreateCaptcha,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const newCaptcha = subscriptionData.data.onCreateCaptcha;
+          console.log('newCaptcha: ', newCaptcha);
+          return Object.assign({}, prev, {
+            captchas: [newCaptcha, ...prev.captchas],
+          });
+        },
+      }),
+    [subscribeToMore]
+  );
 
-        return Object.assign({}, prev, {
-          captchas: [newCaptcha, ...prev.captchas],
-        });
-      },
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [data]);
+  if (loading || !data?.captchas.length) {
+    return <div>Loading...</div>;
+  }
 
   if (error) {
-    console.error('Error occurred: ', error);
-    return <div>Error</div>;
+    return <div>Errr!!!</div>;
   }
 
-  if (!data || !data?.captchas.length) {
-    return <div>No data</div>;
-  }
+  return (
+    <>
+      <CaptchaTableSubscriptionContainer handleSubscribeToMore={handleSubscribeToMore} />
+      <CaptchaTable rows={data.captchas || []} />
+    </>
+  );
+}
 
-  if (loading) {
-    return <Loader />;
-  }
+type CaptchaTableSubscriptionContainerProps = {
+  handleSubscribeToMore: () => () => void;
+};
 
-  return <CaptchaTable rows={data.captchas} />;
+export function CaptchaTableSubscriptionContainer({ handleSubscribeToMore }: CaptchaTableSubscriptionContainerProps) {
+  useEffect(() => {
+    const subscribeToMoreAssignedCaptcha = handleSubscribeToMore();
+
+    return () => {
+      subscribeToMoreAssignedCaptcha();
+    };
+  }, [handleSubscribeToMore]);
+
+  return null;
 }

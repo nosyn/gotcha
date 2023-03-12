@@ -35,3 +35,17 @@ export const AssignedCaptcha = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const Captchas = gql`
+  query Captchas {
+    captchas {
+      id
+      captchaId
+      text
+      status
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
