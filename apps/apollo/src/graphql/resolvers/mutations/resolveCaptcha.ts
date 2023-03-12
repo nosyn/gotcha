@@ -38,7 +38,7 @@ export default async (_: any, args: any, context: any) => {
     },
   });
 
-  await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: updatedUser });
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: updatedUser });
 
   return resolvedCaptcha;
 };

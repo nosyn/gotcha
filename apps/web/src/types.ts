@@ -24,11 +24,11 @@ export type User = {
 
 /************************* GraphQL Data *************************/
 
-export type CaptchaData = {
+export type CaptchaQuery = {
   captcha: Captcha;
 };
 
-export type AssignedCaptchaData = {
+export type AssignedCaptchaQuery = {
   assignedCaptcha: Captcha;
 };
 
@@ -36,7 +36,7 @@ export type CaptchasData = {
   captchas: Captcha[];
 };
 
-export type UsersData = {
+export type UsersQuery = {
   users: User[];
 };
 
@@ -44,7 +44,7 @@ export type LoginData = {
   login: User;
 };
 
-export type UpdateCaptchaData = {
+export type UpdateCaptchaQuery = {
   updateCaptcha: Captcha;
 };
 

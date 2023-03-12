@@ -1,17 +1,16 @@
 import { useQuery } from '@apollo/client';
+import { Container } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect } from 'react';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
 import { AssignedCaptcha } from '../graphql/document_nodes/queries';
 import { OnAssignCaptcha } from '../graphql/document_nodes/subscriptions';
-import { useCaptchaStore } from '../store/captcha';
-import { AssignedCaptchaData, OnAssignCaptchaSubscription, UserIdInput } from '../types';
 import { useUserStore } from '../store/user';
-import { Container } from '@mantine/core';
+import { AssignedCaptchaQuery, OnAssignCaptchaSubscription, UserIdInput } from '../types';
 
 export function AssignedCaptchaContainer() {
   const [user] = useUserStore(({ user }) => [user]);
-  const { data, subscribeToMore, loading, error } = useQuery<AssignedCaptchaData>(AssignedCaptcha, {
+  const { data, subscribeToMore, loading, error } = useQuery<AssignedCaptchaQuery>(AssignedCaptcha, {
     onError: (err) => {
       notifications.show({
         message: err.message,

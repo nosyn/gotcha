@@ -17,7 +17,7 @@ export const userOnline = async ({ userId }: { userId: string }) => {
     },
   });
 
-  await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: user });
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: user });
 };
 
 export const userOffline = async ({ userId }: { userId: string }) => {
@@ -36,6 +36,5 @@ export const userOffline = async ({ userId }: { userId: string }) => {
     },
   });
 
-  // console.log('offline user: ', user);
-  await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: user });
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: user });
 };

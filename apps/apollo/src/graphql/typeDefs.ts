@@ -56,7 +56,7 @@ const typeDefs = `#graphql
     password: String!
   }
 
-  input OnUserUpdatedInput {
+  input OnUpdateUserInput {
     userId: ID!
   }
 
@@ -83,7 +83,7 @@ const typeDefs = `#graphql
 
   ####################################### Subscription #######################################
   type Subscription {
-    onUserUpdated(input: OnUserUpdatedInput!): User!
+    onUpdateUser(input: OnUpdateUserInput!): User!
     onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
     onCreateCaptcha: Captcha!
     onAssignCaptcha(userId: ID!): Captcha!

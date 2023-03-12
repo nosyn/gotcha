@@ -42,9 +42,9 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
     },
   });
 
-  await pubsub.publish(TRIGGERS_ENUM.ON_USER_UPDATED, { onUserUpdated: selectedUser });
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: selectedUser });
 
-  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
+  pubsub.publish(TRIGGERS_ENUM.ON_ASSIGN_CAPTCHA, {
     onAssignCaptcha: job.data.captcha,
     userId: selectedUser.id,
   });

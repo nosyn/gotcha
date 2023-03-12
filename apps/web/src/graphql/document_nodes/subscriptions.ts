@@ -14,9 +14,9 @@ export const OnAssignCaptcha = gql(/* GraphQL */ `
   }
 `);
 
-export const OnUserUpdated = gql(/* GraphQL */ `
-  subscription OnUserUpdated($input: OnUserUpdatedInput!) {
-    onUserUpdated(input: $input) {
+export const OnUpdateUser = gql(/* GraphQL */ `
+  subscription OnUpdateUser($input: OnUpdateUserInput!) {
+    onUpdateUser(input: $input) {
       id
       username
       role
