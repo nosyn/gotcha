@@ -2,7 +2,7 @@ import { Container } from '@mantine/core';
 import {
   AssignedCaptchaContainer,
   AssignedCaptchaSubscriptionContainer,
-} from '../containers/HomePageContainer';
+} from '../containers/AssignedCaptchaContainer';
 import { useUserStore } from '../store/user';
 
 export default function HomePage() {
