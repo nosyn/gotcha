@@ -21,3 +21,16 @@ export const Users = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const AssignedCaptcha = gql(/* GraphQL */ `
+  query AssignedCaptcha {
+    assignedCaptcha {
+      id
+      captchaId
+      name
+      status
+      updatedAt
+      createdAt
+    }
+  }
+`);

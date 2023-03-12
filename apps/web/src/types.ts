@@ -1,5 +1,5 @@
 /************************* Types *************************/
-type UserStatus = 'CREATED' | 'RESOLVING' | ' RESOLVED';
+type UserStatus = 'ONLINE' | 'OFFLINE' | 'WORKING';
 
 type UserRole = 'ADMIN' | 'USER';
 
@@ -24,12 +24,12 @@ export type CaptchaCreatedData = {
   captchaCreated: Captcha;
 };
 
-export type CaptchaAssignedData = {
-  captchaAssigned: Captcha;
-};
-
 export type CaptchaData = {
   captcha: Captcha;
+};
+
+export type AssignedCaptchaData = {
+  assignedCaptcha: Captcha;
 };
 
 export type CaptchasData = {
@@ -42,6 +42,10 @@ export type UsersData = {
 
 export type LoginData = {
   login: User;
+};
+
+export type OnCaptchaAssignedData = {
+  captchaAssigned: Captcha;
 };
 
 /************************* Inputs *************************/

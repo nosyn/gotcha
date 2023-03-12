@@ -70,6 +70,7 @@ const typeDefs = `#graphql
     users: [User!]!
     captchas: [Captcha!]!
     captcha(captchaId: ID!): Captcha
+    assignedCaptcha: Captcha
   }
 
   ####################################### Mutation #######################################

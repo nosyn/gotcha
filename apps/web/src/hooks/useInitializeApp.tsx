@@ -15,7 +15,6 @@ export const useInitializeApp = () => {
   // GraphQL
   useQuery(Me, {
     onCompleted: (data) => {
-      console.log('data: ', data.me);
       setUser(data.me);
     },
     onError: (err) => {
