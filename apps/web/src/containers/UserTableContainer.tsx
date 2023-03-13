@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client';
 import { Loader } from '@mantine/core';
 import { useEffect } from 'react';
 import { UsersTable } from '../components/user/UsersTable';
-import { Users } from '../graphql/document_nodes/queries';
-import { OnUpdateUser } from '../graphql/document_nodes/subscriptions';
+import { Users } from '../graphql/documents/queries';
+import { OnUpdateUser } from '../graphql/documents/subscriptions';
 import { UsersQuery } from '../types';
 
 export function UserTableContainer() {

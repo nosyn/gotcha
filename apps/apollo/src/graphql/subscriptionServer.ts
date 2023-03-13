@@ -31,9 +31,9 @@ export function createGraphQLWebSocketServer(httpServer: http.Server, schema: Gr
         return { ...ctx };
       },
       onConnect: async (ctx) => {
-        // if (!ctx.connectionParams?.authToken) {
-        //   throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
-        // }
+        if (!ctx.connectionParams?.authToken) {
+          throw new Error(ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED);
+        }
 
         try {
           const { user } = await got
@@ -52,9 +52,9 @@ export function createGraphQLWebSocketServer(httpServer: http.Server, schema: Gr
 
           return true;
         } catch (err) {
-          // console.error('Can not open websocket: ', err);
+          console.error('Can not open websocket: ', err);
 
-          return true;
+          return false;
         }
       },
       onDisconnect: async (ctx, code, reason) => {

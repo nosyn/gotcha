@@ -3,8 +3,8 @@ import { Container } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect } from 'react';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
-import { AssignedCaptcha } from '../graphql/document_nodes/queries';
-import { OnAssignCaptcha } from '../graphql/document_nodes/subscriptions';
+import { AssignedCaptcha } from '../graphql/documents/queries';
+import { OnAssignCaptcha } from '../graphql/documents/subscriptions';
 import { useUserStore } from '../store/user';
 import { AssignedCaptchaQuery, OnAssignCaptchaSubscription, OnAssignCaptchaInput } from '../types';
 

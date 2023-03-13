@@ -1,4 +1,4 @@
-import { hashPassword } from 'utils';
+import { hashPassword, generateSession } from 'utils';
 import { prisma } from '../../../prisma/index.js';
 
 export default async (_: any, args: any, ctx: any) => {
@@ -24,5 +24,8 @@ export default async (_: any, args: any, ctx: any) => {
     status: user.status,
   };
 
-  return sanitizedUser;
+  return {
+    me: sanitizedUser,
+    session: generateSession(sanitizedUser),
+  };
 };

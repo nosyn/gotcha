@@ -36,21 +36,21 @@ export type CreateCaptchaInput = {
   name: Scalars['String'];
 };
 
+export type Login = {
+  __typename?: 'Login';
+  me: User;
+  session: Session;
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
 
-export type Me = {
-  __typename?: 'Me';
-  me: User;
-  session: Session;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createCaptcha: Captcha;
-  login: Me;
+  login: Login;
   logout: Scalars['Boolean'];
   resolveCaptcha: Captcha;
 };
@@ -85,6 +85,7 @@ export type Query = {
   captcha?: Maybe<Captcha>;
   captchas: Array<Captcha>;
   me: User;
+  session: Session;
   users: Array<User>;
 };
 
@@ -148,7 +149,7 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = {
   __typename?: 'Mutation';
   login: {
-    __typename?: 'Me';
+    __typename?: 'Login';
     me: { __typename?: 'User'; id: string; username: string; role: UserRole; status: UserStatus };
     session: { __typename?: 'Session'; jwt: string };
   };

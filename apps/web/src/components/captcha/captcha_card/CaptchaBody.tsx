@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
-import { UpdateCaptcha } from '../../../graphql/document_nodes/mutations';
+import { UpdateCaptcha } from '../../../graphql/documents/mutations';
 import { Captcha } from '../../../types';
 import { FloatingLabelInput } from '../../input/FloatingLabelInput';
 import { Button, Stack } from '@mantine/core';

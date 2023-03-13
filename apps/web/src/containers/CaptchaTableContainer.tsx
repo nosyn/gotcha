@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { useCallback, useEffect } from 'react';
 import CaptchaTable from '../components/captcha/CaptchaTable';
-import { Captchas } from '../graphql/document_nodes/queries';
-import { OnUpsertCaptcha } from '../graphql/document_nodes/subscriptions';
+import { Captchas } from '../graphql/documents/queries';
+import { OnUpsertCaptcha } from '../graphql/documents/subscriptions';
 import { CaptchasData, OnUpsertCaptchaSubscription } from '../types';
 
 export function CaptchaTableContainer() {

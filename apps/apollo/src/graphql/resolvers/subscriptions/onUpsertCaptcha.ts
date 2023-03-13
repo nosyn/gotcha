@@ -8,9 +8,9 @@ export default {
       return pubsub.asyncIterator([TRIGGERS_ENUM.ON_UPSERT_CAPTCHA]);
     },
     (payload, args) => {
-      // if (args.input.captchaId) {
-      //   return payload.captcha.captchaId === args.captchaId;
-      // }
+      if (args.input?.captchaId) {
+        return payload.onUpsertCaptcha.captchaId === args.input.captchaId;
+      }
 
       return true;
     }
