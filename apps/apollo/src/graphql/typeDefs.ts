@@ -88,9 +88,8 @@ const typeDefs = `#graphql
   ####################################### Subscription #######################################
   type Subscription {
     onUpdateUser(input: OnUpdateUserInput!): User!
-    onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
-    onCreateCaptcha: Captcha!
     onAssignCaptcha(input: OnAssignCaptchaInput!): Captcha!
+    onUpsertCaptcha(input: OnUpsertCaptchaInput): Captcha!
     hello: String!
   }
 `;

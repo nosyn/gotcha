@@ -48,8 +48,8 @@ export type UpdateCaptchaQuery = {
   updateCaptcha: Captcha;
 };
 
-export type OnCreateCaptchaSubscription = {
-  onCreateCaptcha: Captcha;
+export type OnUpsertCaptchaSubscription = {
+  onUpsertCaptcha: Captcha;
 };
 
 export type OnAssignCaptchaSubscription = {

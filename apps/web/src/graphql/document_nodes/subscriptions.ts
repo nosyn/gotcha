@@ -25,9 +25,9 @@ export const OnUpdateUser = gql(/* GraphQL */ `
   }
 `);
 
-export const OnCreateCaptcha = gql`
-  subscription OnCreateCaptcha {
-    onCreateCaptcha {
+export const OnUpsertCaptcha = gql`
+  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {
+    onUpsertCaptcha(input: $input) {
       id
       captchaId
       name

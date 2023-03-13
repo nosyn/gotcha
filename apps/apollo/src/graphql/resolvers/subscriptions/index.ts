@@ -1,5 +1,4 @@
 import hello from './hello.js';
-import onCreateCaptcha from './onCreateCaptcha.js';
 import onAssignCaptcha from './onAssignCaptcha.js';
 import onUpdateUser from './onUpdateUser.js';
 import onUpsertCaptcha from './onUpsertCaptcha.js';
@@ -9,5 +8,4 @@ export default {
   onAssignCaptcha,
   onUpdateUser,
   onUpsertCaptcha,
-  onCreateCaptcha,
 };

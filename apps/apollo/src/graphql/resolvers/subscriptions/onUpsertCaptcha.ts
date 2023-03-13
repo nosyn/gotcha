@@ -8,9 +8,12 @@ export default {
       return pubsub.asyncIterator([TRIGGERS_ENUM.ON_UPSERT_CAPTCHA]);
     },
     (payload, args) => {
-      if (args.captchaId) {
-        return payload.captcha.captchaId === args.captchaId;
-      }
+      // if (args.input.captchaId) {
+      //   return payload.captcha.captchaId === args.captchaId;
+      // }
+
+      console.log('args: ', args);
+      console.log('payload: ', payload);
 
       return true;
     }

@@ -4,6 +4,7 @@ import { TRIGGERS_ENUM, pubsub } from '../pubsub.js';
 
 export default async (_: any, args: any, context: any) => {
   const input = args.input as ResolveCaptchaInput;
+  const { user } = context.req.session;
 
   const captcha = await prisma.captcha.findUnique({
     where: { captchaId: input.captchaId },
@@ -29,16 +30,20 @@ export default async (_: any, args: any, context: any) => {
     },
   });
 
-  const updatedUser = await prisma.user.update({
-    where: {
-      id: context.req.session.user.id,
-    },
-    data: {
-      status: 'ONLINE',
-    },
-  });
+  if (user.role === 'USER') {
+    await pubsub.publish(TRIGGERS_ENUM.ON_UPSERT_CAPTCHA, { onUpsertCaptcha: resolvedCaptcha });
 
-  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: updatedUser });
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: context.req.session.user.id,
+      },
+      data: {
+        status: 'ONLINE',
+      },
+    });
+
+    await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: updatedUser });
+  }
 
   return resolvedCaptcha;
 };

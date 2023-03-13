@@ -7,6 +7,6 @@ export default {
     () => {
       return pubsub.asyncIterator([TRIGGERS_ENUM.ON_ASSIGN_CAPTCHA]);
     },
-    async (payload, args) => +args.userId === payload?.userId
+    async (payload, args) => +args.input.userId === payload?.userId
   ),
 };

@@ -45,8 +45,8 @@ const publishCaptchaToClients = async (job: Job<CaptchaQueue>) => {
   });
 
   // Publish to client
-  pubsub.publish(TRIGGERS_ENUM.ON_CREATE_CAPTCHA, {
-    onCreateCaptcha: job.data.captcha,
+  pubsub.publish(TRIGGERS_ENUM.ON_UPSERT_CAPTCHA, {
+    onUpsertCaptcha: job.data.captcha,
   });
 };
 
