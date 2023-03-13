@@ -10,11 +10,11 @@ export const login = (input: LoginInput) =>
         input,
       },
     })
-    .then((result: LoginMutation) => {
-      console.info(`✅ Successfully logged in as ${result.login.me.username}.`);
+    .then(({ data }: { data: LoginMutation }) => {
+      console.info(`✅ Successfully logged in as ${data.login.me.username}.`);
       const { setState } = jwtStore;
       setState({
-        jwt: result.login.session.jwt,
+        jwt: data.login.session.jwt,
       });
     })
     .catch((error) => {
