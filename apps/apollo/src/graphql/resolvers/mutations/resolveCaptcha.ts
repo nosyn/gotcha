@@ -30,9 +30,9 @@ export default async (_: any, args: any, context: any) => {
     },
   });
 
-  if (user.role === 'USER') {
-    await pubsub.publish(TRIGGERS_ENUM.ON_UPSERT_CAPTCHA, { onUpsertCaptcha: resolvedCaptcha });
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPSERT_CAPTCHA, { onUpsertCaptcha: resolvedCaptcha });
 
+  if (user.role === 'USER') {
     const updatedUser = await prisma.user.update({
       where: {
         id: context.req.session.user.id,

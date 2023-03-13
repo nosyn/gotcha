@@ -7,7 +7,7 @@ export const onUpsertCaptcha = async () => {
       query: OnUpsertCaptchaDocument,
     });
 
-    const subscription = observable.subscribe(({ data }: any) => {
+    const subscription = observable.subscribe(({ data }) => {
       console.log('data: ', data);
     });
 
