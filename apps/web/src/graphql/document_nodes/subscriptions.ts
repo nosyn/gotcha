@@ -25,7 +25,7 @@ export const OnUpdateUser = gql(/* GraphQL */ `
   }
 `);
 
-export const OnUpsertCaptcha = gql`
+export const OnUpsertCaptcha = gql(/* GraphQL */ `
   subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {
     onUpsertCaptcha(input: $input) {
       id
@@ -37,4 +37,4 @@ export const OnUpsertCaptcha = gql`
       updatedAt
     }
   }
-`;
+`);

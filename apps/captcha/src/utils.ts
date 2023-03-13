@@ -22,14 +22,8 @@ export const uploadFile = async ({ name, id, buffer, type }: FileInput) => {
       })
       .json();
 
-    console.info(
-      `✅ Successfully uploaded ${name} to file server. Got response:\n`,
-      data
-    );
+    console.info(`✅ Successfully uploaded ${name} to file server. Got response:\n`, data);
   } catch (err: any) {
-    console.log(
-      `❌ Error while uploading ${name}to file server:\n`,
-      err.message
-    );
+    console.log(`❌ Error while uploading ${name}to file server:\n`, err.message);
   }
 };

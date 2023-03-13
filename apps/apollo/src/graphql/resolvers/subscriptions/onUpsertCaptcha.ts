@@ -12,9 +12,6 @@ export default {
       //   return payload.captcha.captchaId === args.captchaId;
       // }
 
-      console.log('args: ', args);
-      console.log('payload: ', payload);
-
       return true;
     }
   ),

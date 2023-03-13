@@ -2,7 +2,8 @@ import crypto from 'node:crypto';
 
 import generateCaptcha from './generateCaptcha.js';
 import { uploadFile } from './utils.js';
-import { createCaptcha } from './graphql/client.js';
+import { createCaptcha } from './graphql/operations/createCaptcha.js';
+import { onUpsertCaptcha } from './graphql/operations/onUpsertCaptcha.js';
 
 export const handleCaptcha = async (strike: boolean) => {
   const captcha = generateCaptcha(strike);
@@ -21,4 +22,6 @@ export const handleCaptcha = async (strike: boolean) => {
     captchaId: id,
     name: fileNameWithExtension,
   });
+
+  await onUpsertCaptcha();
 };
