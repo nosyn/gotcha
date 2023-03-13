@@ -21,7 +21,7 @@ export default async (_: any, args: any, ctx: any) => {
     id: user.id,
     username: user.username,
     role: user.role,
-    online: user.online,
+    status: user.status,
   };
 
   return sanitizedUser;

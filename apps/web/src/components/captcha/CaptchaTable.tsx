@@ -1,6 +1,6 @@
-import { Button, Container, Table } from '@mantine/core';
-import { Captcha } from '../../types';
+import { Button, Table } from '@mantine/core';
 import { Fragment, useState } from 'react';
+import { Captcha } from '../../types';
 import CaptchaCard from './captcha_card/CaptchaCard';
 
 interface CaptchaTableProps {
@@ -22,7 +22,7 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
           width: '100%',
         }}
       >
-        {rows.map((r, index) => {
+        {rows.map((r) => {
           const isSelectedCaptcha = selectedCaptcha?.name === r.name;
 
           return (
@@ -34,15 +34,9 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
                   width: '100%',
                 }}
               >
-                <th
-                  style={{
-                    width: '5rem',
-                  }}
-                >
-                  {index}
-                </th>
-                <td>{r.id.split('-')[0]}</td>
+                <td>{r.captchaId.split('-')[0]}</td>
                 <td>{r.status}</td>
+                <td>{r.text}</td>
                 <td>{new Date(r.createdAt).toLocaleTimeString()}</td>
                 <td>{new Date(r.updatedAt).toLocaleTimeString()}</td>
                 <td>
@@ -81,14 +75,9 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
 };
 
 const TableColumns = [
-  {
-    header: 'index',
-    style: {
-      width: '5rem',
-    },
-  },
-  { header: 'id' },
+  { header: 'captcha id' },
   { header: 'status' },
+  { header: 'text' },
   { header: 'updated at' },
   { header: 'created at' },
   { header: 'actions' },
@@ -105,9 +94,7 @@ const TableHead = () => {
     >
       <tr>
         {TableColumns.map((tb) => (
-          <th key={tb.header} style={tb.style}>
-            {tb.header}
-          </th>
+          <th key={tb.header}>{tb.header}</th>
         ))}
       </tr>
     </thead>

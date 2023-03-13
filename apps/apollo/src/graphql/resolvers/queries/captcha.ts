@@ -1,24 +1,13 @@
 import { prisma } from '../../../prisma/index.js';
 
 export default async (_: string, args: any) => {
-  const id = args.id as string;
+  const captchaId = args.captchaId as string;
 
-  const captchaCreated = await prisma.captcha.findUnique({
+  const createdCaptcha = await prisma.captcha.findUniqueOrThrow({
     where: {
-      captchaId: id,
-    },
-    select: {
-      captchaId: true,
-      name: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
+      captchaId,
     },
   });
 
-  if (!captchaCreated) {
-    return null;
-  }
-
-  return captchaCreated;
+  return createdCaptcha;
 };

@@ -1,9 +1,16 @@
 /************************* Types *************************/
+export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
+
+export type UserStatus = 'ONLINE' | 'OFFLINE' | 'WORKING';
+
+export type UserRole = 'ADMIN' | 'USER';
 
 export type Captcha = {
   id: string;
+  captchaId: string;
   name: string;
-  status: string;
+  text: string;
+  status: CaptchaStatus;
   createdAt: string;
   updatedAt: string;
 };
@@ -11,48 +18,59 @@ export type Captcha = {
 export type User = {
   id: string;
   username: string;
-  role: 'ADMIN' | 'USER';
-  online: boolean;
+  role: UserRole;
+  status: UserStatus;
 };
 
-/************************* Data *************************/
+/************************* GraphQL Data *************************/
 
-export type CaptchaCreatedData = {
-  captchaCreated: Captcha;
-};
-
-export type CaptchaAssignedData = {
-  captchaAssigned: Captcha;
-};
-
-export type CaptchaData = {
+export type CaptchaQuery = {
   captcha: Captcha;
+};
+
+export type AssignedCaptchaQuery = {
+  assignedCaptcha: Captcha;
 };
 
 export type CaptchasData = {
   captchas: Captcha[];
 };
 
+export type UsersQuery = {
+  users: User[];
+};
+
 export type LoginData = {
   login: User;
 };
 
-/************************* Inputs *************************/
-export type CaptchaInput = {
-  input: {
-    id: string;
-    name: string;
-    status: 'CREATED' | 'RESOLVING' | 'RESOLVED';
-  };
+export type UpdateCaptchaQuery = {
+  updateCaptcha: Captcha;
 };
 
-export type LoginInput = {
-  input: {
-    username: string;
-    password: string;
-  };
+export type OnUpsertCaptchaSubscription = {
+  onUpsertCaptcha: Captcha;
 };
 
-export type UserIdInput = {
+export type OnAssignCaptchaSubscription = {
+  onAssignCaptcha: Captcha;
+};
+
+/************************* GraphQL Inputs *************************/
+export type Input<T> = {
+  input: T;
+};
+
+export type UpdateCaptchaInput = Input<{
+  captchaId: string;
+  text: string;
+}>;
+
+export type LoginInput = Input<{
+  username: string;
+  password: string;
+}>;
+
+export type OnAssignCaptchaInput = Input<{
   userId: number;
-};
+}>;

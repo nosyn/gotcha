@@ -24,19 +24,16 @@ const client = new ApolloClient({
   },
 });
 
-export type CaptchaStatus = 'CREATED' | 'RESOLVING' | 'RESOLVED';
-
 type CaptchaInput = {
   captchaId: string;
   name: string;
-  status: CaptchaStatus;
 };
 
 export const createCaptcha = (input: CaptchaInput) =>
   client
     .mutate({
       mutation: gql`
-        mutation CreateCaptcha($input: CaptchaInput!) {
+        mutation CreateCaptcha($input: CreateCaptchaInput!) {
           createCaptcha(input: $input) {
             id
             captchaId

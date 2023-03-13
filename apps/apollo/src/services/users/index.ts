@@ -1,23 +1,40 @@
+import { pubsub, TRIGGERS_ENUM } from '../../graphql/resolvers/pubsub.js';
 import { prisma } from '../../prisma/index.js';
 
 export const userOnline = async ({ userId }: { userId: string }) => {
-  await prisma.user.update({
+  const user = await prisma.user.update({
     where: {
       id: Number(userId),
     },
     data: {
-      online: true,
+      status: 'ONLINE',
+    },
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      status: true,
     },
   });
+
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: user });
 };
 
 export const userOffline = async ({ userId }: { userId: string }) => {
-  await prisma.user.update({
+  const user = await prisma.user.update({
     where: {
       id: Number(userId),
     },
     data: {
-      online: false,
+      status: 'OFFLINE',
+    },
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      status: true,
     },
   });
+
+  await pubsub.publish(TRIGGERS_ENUM.ON_UPDATE_USER, { onUpdateUser: user });
 };

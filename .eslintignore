@@ -1,0 +1,7 @@
+.cache
+package.json
+pnpm-workspace.yaml
+build
+dist
+node_modules
+public

@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function NotFoundPage() {
+export default function NotFoundPage() {
   const { classes } = useStyles();
 
   return (

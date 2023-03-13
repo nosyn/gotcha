@@ -1,33 +1,21 @@
 import { prisma } from '../../../prisma/index.js';
-import { CaptchaInput } from '../../../types.js';
-import { pubsub, TRIGGERS_ENUM } from '../pubsub.js';
+import { captchaQueue } from '../../../services/queue/index.js';
+import { CreateCaptchaInput } from '../../../types.js';
 
 export default async (_: any, args: any) => {
-  const input = args.input as CaptchaInput;
+  const input = args.input as CreateCaptchaInput;
 
   const createdCaptcha = await prisma.captcha.create({
     data: {
       ...input,
-      answer: '',
-    },
-    select: {
-      id: true,
-      name: true,
-      captchaId: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
+      status: 'CREATED',
+      text: '',
     },
   });
 
-  // Publish to client
-  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_CREATED, {
-    captchaCreated: createdCaptcha,
-  });
+  await captchaQueue.add(createdCaptcha.captchaId, { captcha: createdCaptcha });
 
-  pubsub.publish(TRIGGERS_ENUM.CAPTCHA_ASSIGNED, {
-    captchaAssigned: createdCaptcha,
-  });
+  console.log(`Added captcha ${createdCaptcha.captchaId} into the queue`);
 
   return createdCaptcha;
 };

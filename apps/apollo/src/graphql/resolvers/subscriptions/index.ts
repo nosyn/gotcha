@@ -1,9 +1,11 @@
 import hello from './hello.js';
-import captchaCreated from './captchaCreated.js';
-import captchaAssigned from './captchaAssigned.js';
+import onAssignCaptcha from './onAssignCaptcha.js';
+import onUpdateUser from './onUpdateUser.js';
+import onUpsertCaptcha from './onUpsertCaptcha.js';
 
 export default {
   hello,
-  captchaCreated,
-  captchaAssigned,
+  onAssignCaptcha,
+  onUpdateUser,
+  onUpsertCaptcha,
 };

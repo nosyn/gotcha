@@ -1,13 +1,5 @@
 import { create } from 'zustand';
-
-type Role = 'ADMIN' | 'USER';
-
-type User = {
-  id: string;
-  username: string;
-  role: Role;
-  online: boolean;
-};
+import { User } from '../types';
 
 interface UserStore {
   user: User | null;
@@ -18,3 +10,10 @@ export const useUserStore = create<UserStore>()((set) => ({
   user: null,
   setUser: (user) => set({ user }),
 }));
+
+// const initialUser: User = {
+//   id: '',
+//   username: '',
+//   role: 'USER',
+//   status: 'OFFLINE',
+// };

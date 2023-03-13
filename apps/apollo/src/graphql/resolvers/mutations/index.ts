@@ -1,9 +1,9 @@
 import createCaptcha from './createCaptcha.js';
-import updateCaptcha from './updateCaptcha.js';
+import resolveCaptcha from './resolveCaptcha.js';
 import login from './login.js';
 
 export default {
   createCaptcha,
-  updateCaptcha,
+  resolveCaptcha,
   login,
 };
