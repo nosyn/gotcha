@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-  '\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      id\n      username\n      role\n      status\n    }\n  }\n':
+  '\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      me {\n        id\n        username\n        role\n        status\n      }\n      session {\n        jwt\n      }\n    }\n  }\n':
     types.LoginDocument,
   '\n  mutation CreateCaptcha($input: CreateCaptchaInput!) {\n    createCaptcha(input: $input) {\n      id\n      captchaId\n      name\n      status\n      createdAt\n      updatedAt\n    }\n  }\n':
     types.CreateCaptchaDocument,
@@ -39,8 +39,8 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: '\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      id\n      username\n      role\n      status\n    }\n  }\n'
-): typeof documents['\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      id\n      username\n      role\n      status\n    }\n  }\n'];
+  source: '\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      me {\n        id\n        username\n        role\n        status\n      }\n      session {\n        jwt\n      }\n    }\n  }\n'
+): typeof documents['\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      me {\n        id\n        username\n        role\n        status\n      }\n      session {\n        jwt\n      }\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

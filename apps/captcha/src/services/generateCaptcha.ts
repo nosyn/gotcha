@@ -1,9 +1,9 @@
 import { createCanvas, CanvasRenderingContext2D } from 'canvas';
+import { randomColor } from '../utils.js';
 
 const WIDTH = 300;
 const HEIGHT = 100;
-const CHARACTERS =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const IMAGE_TYPE = 'image/png';
 const IMAGE_EXTENSION = 'png';
 
@@ -14,7 +14,7 @@ export type CaptchaImage = {
   type: string;
 };
 
-function generateCaptcha(useStrikeThrough: boolean): CaptchaImage {
+export function generateCaptcha(useStrikeThrough: boolean): CaptchaImage {
   const canvas = createCanvas(WIDTH, HEIGHT);
   const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
@@ -60,11 +60,3 @@ function generateCaptcha(useStrikeThrough: boolean): CaptchaImage {
     extension: IMAGE_EXTENSION,
   };
 }
-
-function randomColor(): string {
-  return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
-    Math.random() * 256
-  )}, ${Math.floor(Math.random() * 256)})`;
-}
-
-export default generateCaptcha;

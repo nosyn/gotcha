@@ -1,13 +1,14 @@
-import { OnUpsertCaptchaDocument } from '../_generated__/graphql.js';
-import client from '../subscriptionClient.js';
+import { OnUpsertCaptchaDocument, OnUpsertCaptchaInput } from '../_generated__/graphql.js';
+import { client } from '../client.js';
 
-export const onUpsertCaptcha = async () => {
+export const onUpsertCaptcha = async (input: OnUpsertCaptchaInput) => {
   try {
     const observable = await client.subscribe({
       query: OnUpsertCaptchaDocument,
+      variables: { input },
     });
 
-    const subscription = observable.subscribe(({ data }) => {
+    const subscription = observable.subscribe(({ data }: any) => {
       console.log('data: ', data);
     });
 

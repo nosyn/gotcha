@@ -3,10 +3,15 @@ import { gql } from '../_generated__/gql.js';
 gql(/* GraphQL */ `
   mutation Login($input: LoginInput!) {
     login(input: $input) {
-      id
-      username
-      role
-      status
+      me {
+        id
+        username
+        role
+        status
+      }
+      session {
+        jwt
+      }
     }
   }
 `);

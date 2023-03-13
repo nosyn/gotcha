@@ -41,10 +41,16 @@ export type LoginInput = {
   username: Scalars['String'];
 };
 
+export type Me = {
+  __typename?: 'Me';
+  me: User;
+  session: Session;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCaptcha: Captcha;
-  login: User;
+  login: Me;
   logout: Scalars['Boolean'];
   resolveCaptcha: Captcha;
 };
@@ -89,6 +95,11 @@ export type QueryCaptchaArgs = {
 export type ResolveCaptchaInput = {
   captchaId: Scalars['ID'];
   text: Scalars['String'];
+};
+
+export type Session = {
+  __typename?: 'Session';
+  jwt: Scalars['String'];
 };
 
 export type Subscription = {
@@ -136,7 +147,11 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = {
   __typename?: 'Mutation';
-  login: { __typename?: 'User'; id: string; username: string; role: UserRole; status: UserStatus };
+  login: {
+    __typename?: 'Me';
+    me: { __typename?: 'User'; id: string; username: string; role: UserRole; status: UserStatus };
+    session: { __typename?: 'Session'; jwt: string };
+  };
 };
 
 export type CreateCaptchaMutationVariables = Exact<{
@@ -204,10 +219,27 @@ export const LoginDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'me' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'session' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'jwt' } }],
+                  },
+                },
               ],
             },
           },
