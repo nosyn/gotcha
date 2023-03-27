@@ -3,14 +3,40 @@ import { Container } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect } from 'react';
 import CaptchaCard from '../components/captcha/captcha_card/CaptchaCard';
-import { AssignedCaptcha } from '../graphql/documents/queries';
-import { OnAssignCaptcha } from '../graphql/documents/subscriptions';
+import { gql } from '../graphql/__generated__';
 import { useUserStore } from '../store/user';
-import { AssignedCaptchaQuery, OnAssignCaptchaSubscription, OnAssignCaptchaInput } from '../types';
+
+const AssignedCaptcha = gql(/* GraphQL */ `
+  query AssignedCaptcha {
+    assignedCaptcha {
+      id
+      captchaId
+      name
+      text
+      status
+      updatedAt
+      createdAt
+    }
+  }
+`);
+
+const OnAssignCaptcha = gql(/* GraphQL */ `
+  subscription OnAssignCaptcha($input: OnAssignCaptchaInput!) {
+    onAssignCaptcha(input: $input) {
+      id
+      captchaId
+      text
+      name
+      status
+      updatedAt
+      createdAt
+    }
+  }
+`);
 
 export function AssignedCaptchaContainer() {
   const [user] = useUserStore(({ user }) => [user]);
-  const { data, subscribeToMore, loading, error } = useQuery<AssignedCaptchaQuery>(AssignedCaptcha, {
+  const { data, subscribeToMore, loading, error } = useQuery(AssignedCaptcha, {
     onError: (err) => {
       notifications.show({
         message: err.message,
@@ -19,8 +45,8 @@ export function AssignedCaptchaContainer() {
   });
 
   const handleSubscribeToMore = useCallback(
-    (userId: number) =>
-      subscribeToMore<OnAssignCaptchaSubscription, OnAssignCaptchaInput>({
+    (userId: string) =>
+      subscribeToMore({
         document: OnAssignCaptcha,
         onError: (err) => {
           notifications.show({
@@ -37,7 +63,7 @@ export function AssignedCaptchaContainer() {
         },
         variables: {
           input: {
-            userId,
+            userId: userId,
           },
         },
       }),
@@ -62,7 +88,7 @@ export function AssignedCaptchaContainer() {
         justifyContent: 'center',
       }}
     >
-      {user && <AssignedCaptchaSubscriptionContainer userId={+user.id} handleSubscribeToMore={handleSubscribeToMore} />}
+      {user && <AssignedCaptchaSubscriptionContainer userId={user.id} handleSubscribeToMore={handleSubscribeToMore} />}
       {data?.assignedCaptcha ? (
         <CaptchaCard captcha={data?.assignedCaptcha} />
       ) : (
@@ -73,8 +99,8 @@ export function AssignedCaptchaContainer() {
 }
 
 type AssignedCaptchaSubscriptionContainerProps = {
-  userId: number;
-  handleSubscribeToMore: (userId: number) => () => void;
+  userId: string;
+  handleSubscribeToMore: (userId: string) => () => void;
 };
 
 export function AssignedCaptchaSubscriptionContainer({

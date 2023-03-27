@@ -309,6 +309,7 @@ importers:
       '@emotion/react': ^11.10.6
       '@graphql-codegen/cli': 3.2.2
       '@graphql-codegen/client-preset': 2.1.1
+      '@graphql-typed-document-node/core': ^3.2.0
       '@mantine/core': ^6.0.0
       '@mantine/ds': ^6.0.0
       '@mantine/form': ^6.0.0
@@ -319,6 +320,7 @@ importers:
       '@types/react-dom': ^18.0.10
       '@vitejs/plugin-react': ^3.1.0
       eslint-config-custom: workspace:*
+      graphql: ^16.6.0
       graphql-ws: ^5.11.3
       ky: ^0.33.2
       react: ^18.2.0
@@ -332,12 +334,14 @@ importers:
     dependencies:
       '@apollo/client': 3.7.8_t4tky6f5l7oo6purwtjs3qh5di
       '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
+      '@graphql-typed-document-node/core': 3.2.0_graphql@16.6.0
       '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
       '@mantine/ds': 6.0.0_5nwrxdvloh4lghfkkfoxcgqo6q
       '@mantine/form': 6.0.0_react@18.2.0
       '@mantine/hooks': 6.0.0_react@18.2.0
       '@mantine/notifications': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
       '@tabler/icons-react': 2.7.0_react@18.2.0
+      graphql: 16.6.0
       graphql-ws: 5.11.3_graphql@16.6.0
       ky: 0.33.2
       react: 18.2.0
@@ -537,7 +541,7 @@ packages:
       subscriptions-transport-ws:
         optional: true
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
+      '@graphql-typed-document-node/core': 3.2.0_graphql@16.6.0
       '@wry/context': 0.7.0
       '@wry/equality': 0.5.3
       '@wry/trie': 0.3.2
@@ -2720,7 +2724,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.2_graphql@16.6.0
+      '@graphql-typed-document-node/core': 3.2.0_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.5.0
 
@@ -2747,6 +2751,14 @@ packages:
 
   /@graphql-typed-document-node/core/3.1.2_graphql@16.6.0:
     resolution: {integrity: sha512-9anpBMM9mEgZN4wr2v8wHJI2/u5TnnggewRN6OlvXTTnuVyoY19X6rOv9XTqKRw6dcGKwZsBi8n0kDE2I5i4VA==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      graphql: 16.6.0
+    dev: true
+
+  /@graphql-typed-document-node/core/3.2.0_graphql@16.6.0:
+    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
@@ -7280,7 +7292,7 @@ packages:
     peerDependencies:
       graphql: 14 - 16
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.2_graphql@16.6.0
+      '@graphql-typed-document-node/core': 3.2.0_graphql@16.6.0
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1
