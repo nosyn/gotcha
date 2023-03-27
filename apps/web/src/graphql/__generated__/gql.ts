@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  query AssignedCaptcha {\n    assignedCaptcha {\n      id\n      captchaId\n      name\n      text\n      status\n      updatedAt\n      createdAt\n    }\n  }\n": types.AssignedCaptchaDocument,
     "\n  subscription OnAssignCaptcha($input: OnAssignCaptchaInput!) {\n    onAssignCaptcha(input: $input) {\n      id\n      captchaId\n      text\n      name\n      status\n      updatedAt\n      createdAt\n    }\n  }\n": types.OnAssignCaptchaDocument,
+    "\n  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {\n    onUpsertCaptcha(input: $input) {\n      id\n      captchaId\n      name\n      text\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.OnUpsertCaptchaDocument,
+    "\n  query Captchas {\n    captchas {\n      id\n      captchaId\n      text\n      status\n      name\n      createdAt\n      updatedAt\n    }\n  }\n": types.CaptchasDocument,
 };
 
 /**
@@ -39,6 +41,14 @@ export function gql(source: "\n  query AssignedCaptcha {\n    assignedCaptcha {\
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  subscription OnAssignCaptcha($input: OnAssignCaptchaInput!) {\n    onAssignCaptcha(input: $input) {\n      id\n      captchaId\n      text\n      name\n      status\n      updatedAt\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  subscription OnAssignCaptcha($input: OnAssignCaptchaInput!) {\n    onAssignCaptcha(input: $input) {\n      id\n      captchaId\n      text\n      name\n      status\n      updatedAt\n      createdAt\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {\n    onUpsertCaptcha(input: $input) {\n      id\n      captchaId\n      name\n      text\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {\n    onUpsertCaptcha(input: $input) {\n      id\n      captchaId\n      name\n      text\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query Captchas {\n    captchas {\n      id\n      captchaId\n      text\n      status\n      name\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query Captchas {\n    captchas {\n      id\n      captchaId\n      text\n      status\n      name\n      createdAt\n      updatedAt\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

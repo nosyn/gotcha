@@ -1,5 +1,5 @@
 import { Button, Table } from '@mantine/core';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Captcha } from '../../types';
 import CaptchaCard from './captcha_card/CaptchaCard';
 
@@ -9,6 +9,14 @@ interface CaptchaTableProps {
 
 const CaptchaTable = ({ rows }: CaptchaTableProps) => {
   const [selectedCaptcha, setSelectedCaptcha] = useState<Captcha | null>(null);
+
+  useEffect(() => {
+    const currentSelectedCaptcha = rows.find((r) => r.captchaId === selectedCaptcha?.captchaId);
+
+    if (currentSelectedCaptcha) {
+      setSelectedCaptcha(currentSelectedCaptcha);
+    }
+  }, [rows]);
 
   return (
     <Table striped highlightOnHover withBorder withColumnBorders>
@@ -23,7 +31,7 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
         }}
       >
         {rows.map((r) => {
-          const isSelectedCaptcha = selectedCaptcha?.name === r.name;
+          const isSelectedCaptcha = selectedCaptcha?.captchaId === r.captchaId;
 
           return (
             <Fragment key={r.id}>
@@ -50,11 +58,11 @@ const CaptchaTable = ({ rows }: CaptchaTableProps) => {
                     }}
                     color={isSelectedCaptcha ? 'yellow' : 'blue'}
                   >
-                    {selectedCaptcha?.name !== r.name ? 'Select' : 'Deselect'}
+                    {selectedCaptcha?.captchaId !== r.captchaId ? 'Select' : 'Deselect'}
                   </Button>
                 </td>
               </tr>
-              {selectedCaptcha?.name === r.name && (
+              {selectedCaptcha?.captchaId === r.captchaId && (
                 <tr
                   style={{
                     display: 'flex',

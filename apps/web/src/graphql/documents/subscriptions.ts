@@ -24,17 +24,3 @@ export const OnUpdateUser = gql(/* GraphQL */ `
     }
   }
 `);
-
-export const OnUpsertCaptcha = gql(/* GraphQL */ `
-  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {
-    onUpsertCaptcha(input: $input) {
-      id
-      captchaId
-      name
-      text
-      status
-      createdAt
-      updatedAt
-    }
-  }
-`);

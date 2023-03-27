@@ -1,9 +1,36 @@
 import { useQuery } from '@apollo/client';
 import { useCallback, useEffect } from 'react';
 import CaptchaTable from '../components/captcha/CaptchaTable';
-import { Captchas } from '../graphql/documents/queries';
-import { OnUpsertCaptcha } from '../graphql/documents/subscriptions';
 import { CaptchasData, OnUpsertCaptchaSubscription } from '../types';
+import { gql } from '../graphql/__generated__';
+
+const OnUpsertCaptcha = gql(/* GraphQL */ `
+  subscription OnUpsertCaptcha($input: OnUpsertCaptchaInput) {
+    onUpsertCaptcha(input: $input) {
+      id
+      captchaId
+      name
+      text
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
+const Captchas = gql(/* GraphQL */ `
+  query Captchas {
+    captchas {
+      id
+      captchaId
+      text
+      status
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`);
 
 export function CaptchaTableContainer() {
   const { data, error, loading, subscribeToMore } = useQuery<CaptchasData>(Captchas);
@@ -14,13 +41,13 @@ export function CaptchaTableContainer() {
         document: OnUpsertCaptcha,
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
-          const newCaptcha = subscriptionData.data.onUpsertCaptcha;
+          const receivedCaptcha = subscriptionData.data.onUpsertCaptcha;
 
-          const captchaIndex = prev.captchas.findIndex((c) => c.captchaId === newCaptcha.captchaId);
+          const captchaIndex = prev.captchas.findIndex((c) => c.captchaId === receivedCaptcha.captchaId);
 
           if (captchaIndex !== -1) {
             const cloneCaptchas = [...prev.captchas];
-            cloneCaptchas[captchaIndex] = newCaptcha;
+            cloneCaptchas[captchaIndex] = receivedCaptcha;
 
             return Object.assign({}, prev, {
               captchas: cloneCaptchas,
@@ -28,7 +55,7 @@ export function CaptchaTableContainer() {
           }
 
           return Object.assign({}, prev, {
-            captchas: [newCaptcha, ...prev.captchas],
+            captchas: [receivedCaptcha, ...prev.captchas],
           });
         },
       }),

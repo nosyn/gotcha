@@ -8,6 +8,7 @@ interface CaptchaCardProps {
 
 const CaptchaCard = ({ captcha }: CaptchaCardProps) => {
   const imageSrc = `http://localhost:8080/api/storage/image/${captcha.name}`;
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section component="a" href={imageSrc} target="_blank" p={8}>
