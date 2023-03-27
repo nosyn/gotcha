@@ -1,69 +1,38 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client/core/index.js';
-import { HttpLink } from '@apollo/client/link/http/index.js';
-
-//
+import { InMemoryCache } from '@apollo/client/cache/inmemory/inMemoryCache.js';
+import { ApolloClient } from '@apollo/client/core/ApolloClient.js';
+import { ApolloLink } from '@apollo/client/link/core/ApolloLink.js';
+import { HttpLink } from '@apollo/client/link/http/HttpLink.js';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions/index.js';
+import { getMainDefinition } from '@apollo/client/utilities/index.js';
 import fetch from 'got-fetch';
-import { GRAPHQL_API } from '../configs.js';
+import { createClient } from 'graphql-ws';
+import WebSocket from 'ws';
+import { GRAPHQL_API, WS_GRAPHQL_API } from '../configs.js';
+import { jwtStore } from '../stores/jwt.js';
 
-const client = new ApolloClient({
-  link: new HttpLink({ fetch, uri: GRAPHQL_API }),
+export const httpLink = new HttpLink({ fetch, uri: GRAPHQL_API });
 
-  cache: new InMemoryCache({
-    resultCaching: false,
+const wsClient = createClient({
+  url: WS_GRAPHQL_API,
+  keepAlive: 5_000,
+  connectionParams: () => ({
+    authToken: jwtStore.getState().jwt,
   }),
-  defaultOptions: {
-    mutate: {
-      fetchPolicy: 'network-only',
-    },
-    query: {
-      fetchPolicy: 'network-only',
-    },
-    watchQuery: {
-      fetchPolicy: 'network-only',
-    },
-  },
+  webSocketImpl: WebSocket,
 });
 
-type CaptchaInput = {
-  captchaId: string;
-  name: string;
-};
+export const wsLink = new GraphQLWsLink(wsClient);
 
-export const createCaptcha = (input: CaptchaInput) =>
-  client
-    .mutate({
-      mutation: gql`
-        mutation CreateCaptcha($input: CreateCaptchaInput!) {
-          createCaptcha(input: $input) {
-            id
-            captchaId
-            name
-            status
-            createdAt
-            updatedAt
-          }
-        }
-      `,
-      variables: {
-        input,
-      },
-    })
-    .then((result) => {
-      if (result.errors?.length) {
-        for (const error in result.errors) {
-          console.error(
-            'Error occurred while creating captcha request: ',
-            error
-          );
-        }
-      }
-      if (result.data) {
-        console.info(
-          `✅ Successfully create captcha ${result.data.createCaptcha.id} request to server.`
-        );
-        return;
-      }
-    })
-    .catch((err) => {
-      console.log('err: ', err);
-    });
+export const splitLink = ApolloLink.split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+  },
+  wsLink,
+  httpLink
+);
+
+export const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
+});

@@ -4,7 +4,7 @@ import { useUserStore } from '../store/user';
 import { jwtStore } from '../store/jwt';
 import { useQuery } from '@apollo/client';
 
-import { Me } from '../graphql/document_nodes/queries';
+import { Me } from '../graphql/documents/queries';
 
 export const useInitializeApp = () => {
   // App states

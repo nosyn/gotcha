@@ -19,10 +19,9 @@ export const staticFilesPath = path.join(__dirname, 'files');
 /**
  * Server configs
  */
-export const PORT = !isNaN(Number(process.env.PORT))
-  ? Number(process.env.PORT)
-  : 8080;
+export const PORT = !isNaN(Number(process.env.PORT)) ? Number(process.env.PORT) : 8080;
 export const PROTOCOL = process.env.PROTOCOL ?? 'http';
+export const WS_PROTOCOL = process.env.WS_PROTOCOL ?? 'ws';
 export const HOST = process.env.HOST ?? 'localhost';
 export const API_PATH = process.env.API_PATH ?? 'api';
 export const GRAPHQL_PATH = process.env.GRAPHQL_PATH ?? 'graphql';
@@ -33,11 +32,13 @@ export const AUTH_PATH = process.env.AUTH_PATH ?? 'auth';
  * Gateway
  */
 export const GATEWAY_API = `${PROTOCOL}://${HOST}:${PORT}/${API_PATH}`;
+export const WS_GATEWAY_API = `${WS_PROTOCOL}://${HOST}:${PORT}/${API_PATH}`;
 
 /**
  * Apollo GraphQL server
  */
 export const GRAPHQL_API = `${GATEWAY_API}/${GRAPHQL_PATH}`;
+export const WS_GRAPHQL_API = `${WS_GATEWAY_API}/${GRAPHQL_PATH}`;
 
 /**
  * Storage server

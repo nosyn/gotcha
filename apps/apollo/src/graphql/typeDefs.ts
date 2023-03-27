@@ -2,7 +2,7 @@ const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
   ####################################### Interfaces #######################################
- 
+  
   ####################################### Enums #######################################
   enum UserStatus {
     ONLINE
@@ -40,6 +40,15 @@ const typeDefs = `#graphql
     updatedAt: String!
   }
 
+  type Session {
+    jwt: String! 
+  }
+
+  type Login {
+    me: User!
+    session: Session!
+  }
+
   ####################################### Inputs #######################################
   input CreateCaptchaInput {
     captchaId: ID!
@@ -71,6 +80,7 @@ const typeDefs = `#graphql
   ####################################### Query #######################################
   type Query {
     me: User!
+    session: Session!
     users: [User!]!
     captchas: [Captcha!]!
     captcha(captchaId: ID!): Captcha
@@ -79,7 +89,7 @@ const typeDefs = `#graphql
 
   ####################################### Mutation #######################################
   type Mutation {
-    login(input: LoginInput!): User!
+    login(input: LoginInput!): Login!
     logout: Boolean!
     createCaptcha(input: CreateCaptchaInput!): Captcha!
     resolveCaptcha(input: ResolveCaptchaInput!): Captcha!

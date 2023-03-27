@@ -14,11 +14,11 @@ const verifyOptions: SignOptions = {
   audience: 'gotcha-audience',
 };
 
-export const signJWT = (payload: Object) =>
-  jwt.sign(payload, secret, signOptions);
+export const signJWT = (payload: Object) => jwt.sign(payload, secret, signOptions);
 
-export const verifyJWT = (token: string) =>
-  jwt.verify(token, secret, verifyOptions);
+export const generateSession = (payload: Object) => ({ jwt: jwt.sign(payload, secret, signOptions) });
+
+export const verifyJWT = (token: string) => jwt.verify(token, secret, verifyOptions);
 
 export const decodeJWT = (token: string) => jwt.decode(token);
 
