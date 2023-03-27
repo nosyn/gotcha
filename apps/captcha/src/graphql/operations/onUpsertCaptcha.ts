@@ -14,6 +14,6 @@ export const onUpsertCaptcha = async (input: OnUpsertCaptchaInput) => {
 
     return subscription;
   } catch (error) {
-    console.error('onUpsertCaptcha error\n:', JSON.stringify(error, undefined, 2));
+    console.error('onUpsertCaptcha error:\n', JSON.stringify(error, undefined, 2));
   }
 };
