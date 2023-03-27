@@ -3,11 +3,11 @@ import { client } from '../client.js';
 
 export const createCaptcha = (input: CreateCaptchaInput) =>
   client
-    .mutate({
+    .mutate<CreateCaptchaMutation>({
       mutation: CreateCaptchaDocument,
       variables: { input },
     })
-    .then(({ data }: { data: CreateCaptchaMutation }) => {
+    .then(({ data }) => {
       console.info(`✅ Successfully create captcha ${data.createCaptcha.captchaId} request to server.`);
     })
     .catch((error) => {
