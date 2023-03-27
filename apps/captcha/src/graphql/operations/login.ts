@@ -1,11 +1,27 @@
 import { FetchResult } from '@apollo/client/link/core/types.js';
 import { jwtStore } from '../../stores/jwt.js';
-import { LoginDocument, LoginInput, LoginMutation } from '../_generated__/graphql.js';
+import { LoginInput, LoginMutation } from '../_generated__/graphql.js';
 import { client } from '../client.js';
+import { gql } from '../_generated__/gql.js';
 
+const LoginDocument = gql(/* GraphQL */ `
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      me {
+        id
+        username
+        role
+        status
+      }
+      session {
+        jwt
+      }
+    }
+  }
+`);
 export const login = async (input: LoginInput) => {
   try {
-    const response = await client.mutate<LoginMutation>({
+    const response = await client.mutate({
       mutation: LoginDocument,
       variables: {
         input,

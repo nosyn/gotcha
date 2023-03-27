@@ -17,7 +17,8 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node dist/index.js",
     "test": "jest --detectOpenHandles",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen:compile": "graphql-codegen-esm --config codegen.ts",
+    "codegen:watch": "graphql-codegen-esm -w --config codegen.ts"
   },
   "jest": {
     "preset": "jest-presets/jest/node"
@@ -32,6 +33,7 @@
     "formdata-node": "^5.0.0",
     "got": "^12.5.3",
     "got-fetch": "^5.1.4",
+    "graphql": "^16.6.0",
     "graphql-request": "^5.2.0",
     "graphql-ws": "^5.12.0",
     "ws": "^8.12.1",
@@ -40,6 +42,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "3.2.2",
     "@graphql-codegen/client-preset": "2.1.1",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@types/jest": "^26.0.22",
     "@types/node": "^18.14.0",
     "@types/ws": "^8.5.4",
