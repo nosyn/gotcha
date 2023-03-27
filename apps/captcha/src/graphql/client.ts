@@ -8,7 +8,7 @@ import fetch from 'got-fetch';
 import { createClient } from 'graphql-ws';
 import WebSocket from 'ws';
 import { GRAPHQL_API, WS_GRAPHQL_API } from '../configs.js';
-import { jwtStore } from '../stores/jwt.js';
+import { jwtStore } from '../store/jwt.js';
 
 export const httpLink = new HttpLink({ fetch, uri: GRAPHQL_API });
 

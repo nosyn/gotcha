@@ -1,5 +1,5 @@
 import { FetchResult } from '@apollo/client/link/core/types.js';
-import { jwtStore } from '../../stores/jwt.js';
+import { jwtStore } from '../../store/jwt.js';
 import { LoginInput, LoginMutation } from '../_generated__/graphql.js';
 import { client } from '../client.js';
 import { gql } from '../_generated__/gql.js';
